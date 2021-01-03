@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nethereum.ABI\Conflux.ABI.csproj" />
+    <ProjectReference Include="..\Nethereum.Contracts\Conflux.Contracts.csproj" />
+    <ProjectReference Include="..\Nethereum.Signer\Conflux.Signer.csproj" />
+    <ProjectReference Include="..\Conflux.Web3\Conflux.Web3.csproj" />
+  </ItemGroup>
+
+</Project>

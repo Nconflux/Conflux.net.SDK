@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+   <Version>1.0.0.66</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+<Reference Include="netstandard" />
+    <ProjectReference Include="..\Conflux.Hex\Conflux.Hex.csproj" />
+    <ProjectReference Include="..\Conflux.RLP\Conflux.RLP.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+ 
+
+</Project>

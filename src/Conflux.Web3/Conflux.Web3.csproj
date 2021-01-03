@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+   <Version>1.0.0.68</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Conflux.ABI\Conflux.ABI.csproj" />
+    <ProjectReference Include="..\Conflux.Accounts\Conflux.Accounts.csproj" />
+    <ProjectReference Include="..\Conflux.BlockchainProcessing\Conflux.BlockchainProcessing.csproj" />
+    <ProjectReference Include="..\Conflux.Contracts\Conflux.Contracts.csproj" />
+    <ProjectReference Include="..\Conflux.Hex\Conflux.Hex.csproj" />
+    <ProjectReference Include="..\Conflux.JsonRpc.Client\Conflux.JsonRpc.Client.csproj" />
+    <ProjectReference Include="..\Conflux.JsonRpc.RpcClient\Conflux.JsonRpc.RpcClient.csproj" />
+    <ProjectReference Include="..\Conflux.RPC\Conflux.RPC.csproj" />
+    <ProjectReference Include="..\Conflux.Util\Conflux.Util.csproj" />
+    <ProjectReference Include="..\Conflux.KeyStore\Conflux.KeyStore.csproj" />
+    <ProjectReference Include="..\Conflux.Signer\Conflux.Signer.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+ 
+</Project>

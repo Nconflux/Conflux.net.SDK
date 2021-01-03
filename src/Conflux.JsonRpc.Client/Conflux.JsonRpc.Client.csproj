@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+   <Version>1.0.0.66</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+<ItemGroup Condition=" '$(TargetFramework)' != 'net35'">
+  <PackageReference Include="Common.Logging.Core">
+    <Version>3.4.1</Version>
+  </PackageReference>
+</ItemGroup>
+
+<ItemGroup>
+  <Folder Include="Properties\" />
+</ItemGroup>
+
+<ItemGroup>
+  <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+</ItemGroup>
+ 
+
+
+</Project>
