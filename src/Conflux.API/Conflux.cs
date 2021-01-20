@@ -133,5 +133,12 @@ namespace Conflux.API
             return result;
         }
 
+        public static string GeneratePrivateKey()
+        {
+            var key = Conflux.Signer.EthECKey.GenerateKey();
+            return BitConverter.ToString(key.GetPrivateKeyAsBytes()).Replace("-", string.Empty);
+        }
+
     }
+
 }
