@@ -17,7 +17,7 @@ Wechat group: please join our support's wechat account 1725325128,  he will invi
 We should be able to answer there any simple queries, general comments or requests, everyone is welcome. In a similar feel free to raise any issue or pull request.
 
 ## Documentation
-The documentation and guides can be found at [Read the docs](https://xxxx/). 
+The documentation and guides can be found at [NConflux Documentation](https://www.yuque.com/docs/share/218b0c83-ab0f-4195-a23d-a559b851844a). 
 
 ## Features
 
@@ -26,37 +26,4 @@ The documentation and guides can be found at [Read the docs](https://xxxx/).
 * ABI to .Net type encoding and decoding, including attribute based for complex object deserialization.
 * Transaction, RLP and message signing, verification and recovery of accounts.
 * Code generation of smart contracts services.
-
-## Quick Installation
-
  
-To install the latest version:
-
- 
-```
-Install Visual Studio 2019
-Open Tools/Nuget Package Manager/Manager Nuget Package for Solution...
-In tab Browse, search Conflux.API
-Install it
-```
- 
-## Code Samples
-### Create an NConflux Instance
-
-NConflux conflux = new NConflux("http://test.confluxrpc.org");// no need gas 
-NConflux conflux = new NConflux("http://test.confluxrpc.org",privateKey);//need gas
-### Get Epoch Number
-var epochNumber = await conflux.GetEpochNumber();
-### Get Balance
-var balance = await conflux.GetBalance("0x1****");
-### Get Next Nonce
-var nextNonce =  await conflux.GetNextNonce("0x1****");
-### Transfer 
-await conflux.Transfer("0x1****", 1234);
-### Deploy Contract
-var contractInfo = await conflux.DeployContract("0x60**");
-### Call Contract
-await conflux.CallContract(CallType.Gas, ABI, contractInfo.ContractAddress, "set", new object[] { "user1" });
-## Thanks  
-
-* Many thanks to [Conflux Foundation ](https://confluxnetwork.org/ "Conflux Foundation ")

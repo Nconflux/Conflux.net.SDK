@@ -15,6 +15,11 @@ namespace Conflux.API
     {
         ConfluxWeb3.Web3 web3 = null;
         public string address = "";
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="privateKey"></param>
         public NConflux(string url, string privateKey = null)
         {
             if (privateKey != null)
