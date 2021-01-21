@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\Conflux.Accounts\Conflux.Accounts.csproj" />
+    <ProjectReference Include="..\src\Conflux.API\Conflux.API.csproj" />
+  </ItemGroup>
+
+</Project>
