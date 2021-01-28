@@ -103,7 +103,7 @@ namespace Conflux.Web3.Accounts
                 throw new Exception("Invalid account used signing");
 
             var ethSendTransaction = new EthSendRawTransaction(Client);
-            transaction.StorageLimit = new HexBigInteger("0x2222");
+            transaction.StorageLimit = new HexBigInteger("0x2222222");
             var signedTransaction = await SignTransactionRetrievingNextNonceAsync(transaction).ConfigureAwait(false);
             return await ethSendTransaction.SendRequestAsync(signedTransaction.EnsureHexPrefix()).ConfigureAwait(false);
         }

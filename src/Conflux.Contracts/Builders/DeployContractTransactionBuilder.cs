@@ -127,7 +127,7 @@ namespace Conflux.Contracts
             var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, value);
             transaction.Nonce = nonce;
             transaction.EpochNumber = epochNumber;
-            transaction.StorageLimit = new HexBigInteger("0x2222");
+            transaction.StorageLimit = new HexBigInteger("0x222222");
             return transaction;
         }
 

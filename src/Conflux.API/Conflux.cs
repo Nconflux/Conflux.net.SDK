@@ -89,7 +89,7 @@ namespace Conflux.API
         /// <returns></returns>
         public async Task<TransactionReceipt> DeployContract(string byteCode)
         {
-            Contract.BYTECODE = byteCode;
+            Contract.BYTECODE = byteCode.Trim();
             var deploymentMessage = new Contract
             {
                 Nonce = await web3.Cfx.GetNextNonce.SendRequestAsync(address, null),
@@ -99,6 +99,20 @@ namespace Conflux.API
 
             var deploymentHandler = web3.Cfx.GetContractDeploymentHandler<Contract>();
             return await deploymentHandler.SendRequestAndWaitForReceiptAsync(deploymentMessage);
+        }
+
+        public async Task<string> DeployContract(string abi, string byteCode)
+        {
+            //Contract.BYTECODE = byteCode;
+            //var deploymentMessage = new Contract
+            //{
+            //    Nonce = await web3.Cfx.GetNextNonce.SendRequestAsync(address, null),
+            //    EpochNumber = await web3.Cfx.GetEpochNumber.SendRequestAsync(),
+            //    StorageLimit = 2605,
+            //};
+
+            //var deploymentHandler = web3.Cfx.GetContractDeploymentHandler<Contract>();
+            return await web3.Cfx.DeployContract.SendRequestAsync(abi: abi, contractByteCode: byteCode, from: address, values: null);
         }
         /// <summary>
         /// Call Contract
@@ -118,6 +132,8 @@ namespace Conflux.API
             {
 
                 result = await function.SendTransactionAsync(address, await web3.Cfx.GetEpochNumber.SendRequestAsync(), await web3.Cfx.GetNextNonce.SendRequestAsync(address, null), parameters);
+
+
             }
             else
             {
