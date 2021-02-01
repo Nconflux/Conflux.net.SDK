@@ -287,7 +287,7 @@ SOFTWARE.
         /// </summary>
         [JsonProperty("params")]
         [JsonConverter(typeof(RpcParametersJsonConverter))]
-        public object RawParameters { get; private set; }
+        public object RawParameters { get;   set; }
 
     }
     /// <summary>

@@ -44,6 +44,16 @@ namespace Conflux.API
             var ret = await web3.Cfx.GetEpochNumber.SendRequestAsync();
             return Convert.ToInt32(ret.Value.ToString());
         }
+        public async Task<int> GetGasPrice()
+        {
+            var ret = await web3.Cfx.GasPrice.SendRequestAsync();
+            return Convert.ToInt32(ret.Value.ToString());
+        }
+        public async Task<int> GetGas()
+        {
+            var ret = await web3.Cfx.EstimateGasAndCollateral.SendRequestAsync();
+            return Convert.ToInt32(ret.Value.ToString());
+        }
         //002
         /// <summary>
         /// 
@@ -52,6 +62,7 @@ namespace Conflux.API
         /// <returns></returns>
         public async Task<decimal> GetBalance(string wallet)
         {
+            
             var ret = await web3.Cfx.GetBalance.SendRequestAsync(wallet);
             return ConfluxWeb3.Web3.Convert.FromDrip(ret.Value);
         }

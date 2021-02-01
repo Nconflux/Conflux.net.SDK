@@ -21,9 +21,9 @@ namespace Conflux.RPC.Eth
     ///     "result": "0x09184e72a000" // 10000000000000
     ///     }
     /// </Summary>
-    public class EthEstimateGasAndCollateral : GenericRpcRequestResponseHandlerNoParam<HexBigInteger>, IEthEstimateGasAndCollateral
+    public class EthGasPrice : GenericRpcRequestResponseHandlerNoParam<HexBigInteger>, IEthGasPrice
     {
-        public EthEstimateGasAndCollateral(IClient client) : base(client, ApiMethods.cfx_estimateGasAndCollateral.ToString())
+        public EthGasPrice(IClient client) : base(client, ApiMethods.cfx_gasPrice.ToString())
         {
         }
     }

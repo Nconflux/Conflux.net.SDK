@@ -15,6 +15,7 @@ namespace Conflux.RPC
         BlockParameter DefaultBlock { get; set; }
         IEthApiFilterService Filters { get; }
         IEthGasPrice GasPrice { get; }
+        IEthEstimateGasAndCollateral EstimateGasAndCollateral { get; }
         IEthGetBalance GetBalance { get; }
         IEthGetEpochNumber GetEpochNumber { get; }
         IEthGetNextNonce GetNextNonce { get; }

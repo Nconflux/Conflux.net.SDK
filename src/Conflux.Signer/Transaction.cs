@@ -69,6 +69,7 @@ namespace Conflux.Signer
         {
             this.to = to.HexToByteArray();
             this.Data = data.HexToByteArray();
+            this.Gas = gasLimit.ToBytesForRLPEncoding();
 
         }
 

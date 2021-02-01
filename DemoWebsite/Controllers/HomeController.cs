@@ -14,6 +14,10 @@ namespace DemoWebsite.Controllers
         private readonly ILogger<HomeController> _logger;
         private string url = "http://test.confluxrpc.org";
         NConflux conflux = new NConflux("http://test.confluxrpc.org");
+
+
+        //private string url = "http://gpu100.mistgpu.xyz:30214";
+        //NConflux conflux = new NConflux("http://gpu100.mistgpu.xyz:30214");
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -26,6 +30,7 @@ namespace DemoWebsite.Controllers
 
         public async Task<JsonResult> GetBalance(string wallet)
         {
+            //var xxx = await conflux.GetGasPrice();
             return Json(await conflux.GetBalance(wallet));
         }
 
@@ -46,10 +51,11 @@ namespace DemoWebsite.Controllers
 
         public async Task<JsonResult> DeployContract(string abi, string byteCode, string privateKey)
         {
+             
             conflux = new NConflux(url, privateKey.Trim());
 
             //var contractInfo = await conflux.DeployContract(abi, byteCode.Trim());
-            var c= await conflux.DeployContract(byteCode);
+            var c= await conflux.DeployContract(byteCode.Trim());
             return Json(c.ContractAddress);
         }
 

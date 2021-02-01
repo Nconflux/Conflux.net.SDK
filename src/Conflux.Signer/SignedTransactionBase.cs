@@ -103,11 +103,10 @@ namespace Conflux.Signer
 
         public string sign(byte[] privateKey,dynamic chainId)
         {
-            var xxx22 = this.GasPrice;
             this.storageLimit = BitConverter.GetBytes(10000).Clear();
 
             this.chianId = BitConverter.GetBytes((int)chainId).Clear();
-            this.Gas = BitConverter.GetBytes(2000000).Clear();
+            //this.Gas = BitConverter.GetBytes(2000000).Clear();
             List<byte[]> raw = new List<byte[]> { this._nonce,this.GasPrice,this.Gas,this.to,
             this.Value,this.storageLimit,this._epochHeight,this.chianId,this.Data};
 

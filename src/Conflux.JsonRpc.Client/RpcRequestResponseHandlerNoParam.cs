@@ -24,7 +24,7 @@ namespace Conflux.JsonRpc.Client
 
         public RpcRequest BuildRequest(object id = null)
         {
-            return RpcRequestBuilder.BuildRequest(id);
+            return RpcRequestBuilder.BuildRequest(id,id);
         }
     }
 
