@@ -54,7 +54,11 @@ namespace Conflux.RPC.TransactionManagers
             if (Client == null) throw new NullReferenceException("Client not configured");
             if (callInput == null) throw new ArgumentNullException(nameof(callInput));
             var ethEstimateGas = new EthEstimateGasAndCollateral(Client);
-            return ethEstimateGas.SendRequestAsync(callInput);
+            return ethEstimateGas.SendRequestAsync(new object[]{
+                new{            from=callInput.From ,       to=callInput.From
+                , data=callInput.Data,  gasPrice=callInput.GasPrice,   nonce="0x1000"
+                }
+                          });
             //var ethEstimateGas = new EthEstimateGas(Client);
             //return ethEstimateGas.SendRequestAsync(callInput);
         }

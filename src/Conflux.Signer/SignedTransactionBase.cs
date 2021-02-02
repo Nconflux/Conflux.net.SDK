@@ -113,8 +113,8 @@ namespace Conflux.Signer
             var x1 = rlpEncode(raw).ToHex();
             var x2 = sha3Keccack.CalculateHash(rlpEncode(raw));//sha3
             var k = new EthECKey("0x" + privateKey.ToHex());
-            var x3 = k.Sign(x2);
-            x3.V = new byte[] { 0x01 };
+            var x3 = k.SignAndCalculateV(x2);
+            //x3.V = new byte[] { 0x01 };
 
             List<object> rawWithRSV = new List<object> { raw, x3.V, x3.R, x3.S };
             var x4 = rlpEncode(rawWithRSV).ToHex();

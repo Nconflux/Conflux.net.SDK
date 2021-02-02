@@ -220,7 +220,7 @@ namespace Conflux.Signer
         {
             var signature = _ecKey.Sign(hash);
             var recId = CalculateRecId(signature, hash);
-            signature.V = new[] {(byte) (recId + 27)};
+            signature.V = new[] {(byte) (recId  )};
             return new EthECDSASignature(signature);
         }
 

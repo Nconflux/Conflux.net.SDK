@@ -76,7 +76,7 @@ namespace Conflux.Web3.Accounts
             var gasPrice = await GetGasPriceAsync(transaction).ConfigureAwait(false);
             transaction.GasPrice = gasPrice;
             //transaction.GasPrice = new HexBigInteger(new BigInteger(1000000));
-           // transaction.Gas = new HexBigInteger(new BigInteger(2000000));
+            transaction.Gas = new HexBigInteger(new BigInteger(2000000));
             return SignTransaction(transaction);
         }
 
@@ -103,7 +103,7 @@ namespace Conflux.Web3.Accounts
                 throw new Exception("Invalid account used signing");
 
             var ethSendTransaction = new EthSendRawTransaction(Client);
-            transaction.StorageLimit = new HexBigInteger("0x2222222");
+            //transaction.StorageLimit = new HexBigInteger("0x2222222");
             var signedTransaction = await SignTransactionRetrievingNextNonceAsync(transaction).ConfigureAwait(false);
             return await ethSendTransaction.SendRequestAsync(signedTransaction.EnsureHexPrefix()).ConfigureAwait(false);
         }

@@ -19,7 +19,7 @@ namespace Conflux.Contracts
 
         public static HexBigInteger GetHexGasPrice(this ContractMessageBase contractMessage)
         {
-            return new HexBigInteger("0x9999999");
+            //return new HexBigInteger("0x9999999");
             return GetDefaultValue(contractMessage.GasPrice);
         }
 
