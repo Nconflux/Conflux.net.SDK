@@ -103,19 +103,18 @@ namespace Conflux.Signer
 
         public string sign(byte[] privateKey,dynamic chainId)
         {
-            var xxx22 = this.GasPrice;
-            this.storageLimit = BitConverter.GetBytes(10).Clear();
+            this.storageLimit = BitConverter.GetBytes(10000).Clear();
 
             this.chianId = BitConverter.GetBytes((int)chainId).Clear();
-            this.Gas = BitConverter.GetBytes(2000000).Clear();
+            //this.Gas = BitConverter.GetBytes(2000000).Clear();
             List<byte[]> raw = new List<byte[]> { this._nonce,this.GasPrice,this.Gas,this.to,
             this.Value,this.storageLimit,this._epochHeight,this.chianId,this.Data};
 
             var x1 = rlpEncode(raw).ToHex();
             var x2 = sha3Keccack.CalculateHash(rlpEncode(raw));//sha3
             var k = new EthECKey("0x" + privateKey.ToHex());
-            var x3 = k.Sign(x2);
-            x3.V = new byte[] { 0x01 };
+            var x3 = k.SignAndCalculateV(x2);
+            //x3.V = new byte[] { 0x01 };
 
             List<object> rawWithRSV = new List<object> { raw, x3.V, x3.R, x3.S };
             var x4 = rlpEncode(rawWithRSV).ToHex();

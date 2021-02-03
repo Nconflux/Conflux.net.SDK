@@ -1,0 +1,540 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<h1>
+    Demo
+</h1>
+<div class="form-group">
+    <label>            私钥:6B616116762AE9FE57DBD11B971D62F74ECD2BAF8B2633658BB85F691B6D4E43 地址：0x1a4149e2ed6aceadd375f946ebee64c71724e01b</label>
+    <input value="6B616116762AE9FE57DBD11B971D62F74ECD2BAF8B2633658BB85F691B6D4E43" type="password" id="privateKey" style=" width: 400px;" class="form-control" />
+    <a href="https://testnet.confluxscan.io/address/0x1a4149e2ed6aceadd375f946ebee64c71724e01b?accountAddress=0x1a4149e2ed6aceadd375f946ebee64c71724e01b"  target="_blank">
+        https://testnet.confluxscan.io/address/0x1a4149e2ed6aceadd375f946ebee64c71724e01b?accountAddress=0x1a4149e2ed6aceadd375f946ebee64c71724e01b
+    </a>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="jarviswidget jarviswidget-sortable" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-collapsed="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" role="widget">
+            <!-- widget options:
+            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+            data-widget-colorbutton="false"
+            data-widget-editbutton="false"
+            data-widget-togglebutton="false"
+            data-widget-deletebutton="false"
+            data-widget-fullscreenbutton="false"
+            data-widget-custombutton="false"
+            data-widget-collapsed="true"
+            data-widget-sortable="false"
+
+            -->
+            <header role="heading">
+                <div class="jarviswidget-ctrls" role="menu">   <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-resize-full "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-delete-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-times"></i></a></div>
+                <span class="widget-icon"> <i class="fa fa-eye"></i> </span>
+                <h2>查询余额</h2>
+                <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+            </header>
+
+            <!-- widget div-->
+            <div role="content">
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+
+                    <form>
+
+                        <fieldset>
+                            <input name="authenticity_token" type="hidden">
+                            <div class="form-group">
+                                <label>地址</label>
+                                <input value="0x1a4149E2ED6aCeAdD375f946Ebee64c71724e01b" id="wallet" style=" width: 400px;" class="form-control  " />
+                            </div>
+                            <div class="form-group">
+                                <label>            余额</label>
+                                <span class="form-control"><span id="balance"></span></span>
+                            </div>
+                        </fieldset>
+                        <div class="form-actions">
+                            <div class="btn btn-primary btn-lg" id="checkBalance">
+                                查询
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="jarviswidget jarviswidget-sortable" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-collapsed="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" role="widget">
+            <!-- widget options:
+            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+            data-widget-colorbutton="false"
+            data-widget-editbutton="false"
+            data-widget-togglebutton="false"
+            data-widget-deletebutton="false"
+            data-widget-fullscreenbutton="false"
+            data-widget-custombutton="false"
+            data-widget-collapsed="true"
+            data-widget-sortable="false"
+
+            -->
+            <header role="heading">
+                <div class="jarviswidget-ctrls" role="menu">   <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-resize-full "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-delete-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-times"></i></a></div>
+                <span class="widget-icon"> <i class="fa fa-eye"></i> </span>
+                <h2>转账</h2>
+                <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+            </header>
+
+            <!-- widget div-->
+            <div role="content">
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+
+                    <form>
+
+                        <fieldset>
+                          
+                            <div class="form-group">
+                                <label>            接受地址</label>
+                                <input value="0x129Ba07FD62F3e50e727566311B447D3E19A3E7D" id="acceptWallet" style=" width: 400px;" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>            金额</label>
+                                <input value="1" id="amount" style=" width: 400px;" class="form-control" />
+                            </div>
+                        </fieldset>
+                        <div class="form-actions">
+                            <div class="btn btn-primary btn-lg" id="transfer">
+                                开始转账
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="jarviswidget jarviswidget-sortable" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-collapsed="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" role="widget">
+            <!-- widget options:
+            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+            data-widget-colorbutton="false"
+            data-widget-editbutton="false"
+            data-widget-togglebutton="false"
+
+
+            data-widget-custombutton="false"
+
+            data-widget-sortable="false"
+
+            -->
+            <header role="heading">
+                <div class="jarviswidget-ctrls" role="menu">   <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-resize-full "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-delete-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-times"></i></a></div>
+                <span class="widget-icon"> <i class="fa fa-eye"></i> </span>
+                <h2>部署智能合约</h2>
+                <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+            </header>
+
+            <!-- widget div-->
+            <div role="content">
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+
+                    <form>
+
+                        <fieldset>
+                            eg. Contract1.sol
+                            <code class=" ">
+
+                                <pre>
+                                    pragma solidity >=0.4.23;
+                                    contract Contract1{
+                                    string _field;
+                                    function get()public view returns (string memory){
+                                    return _field;
+                                    }
+                                    function set(string memory field)public{
+                                    _field=field;
+                                    }
+                                    }
+                                </pre>
+
+                            </code>
+
+                            字节码
+                            <div class="alert alert-success fade in">
+
+                                <i class="fa-fw fa fa-check"></i>
+                                608060405234801561001057600080fd5b506102d7806100206000396000f30060806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634ed3885e146100515780636d4ce63c146100ba575b600080fd5b34801561005d57600080fd5b506100b8600480360381019080803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919291929050505061014a565b005b3480156100c657600080fd5b506100cf610164565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561010f5780820151818401526020810190506100f4565b50505050905090810190601f16801561013c5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b8060009080519060200190610160929190610206565b5050565b606060008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101fc5780601f106101d1576101008083540402835291602001916101fc565b820191906000526020600020905b8154815290600101906020018083116101df57829003601f168201915b5050505050905090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061024757805160ff1916838001178555610275565b82800160010185558215610275579182015b82811115610274578251825591602001919060010190610259565b5b5090506102829190610286565b5090565b6102a891905b808211156102a457600081600090555060010161028c565b5090565b905600a165627a7a7230582059693bf86b17e86ee8a4642d91c7e648e799745cd855b24d1b12cde75e3c5dfc0029
+                            </div>
+                            ABI
+                            <div class="alert alert-success fade in">
+
+                                <i class="fa-fw fa fa-check"></i>
+                                [
+                                {
+                                "constant": false,
+                                "inputs": [
+                                {
+                                "name": "field",
+                                "type": "string"
+                                }
+                                ],
+                                "name": "set",
+                                "outputs": [],
+                                "payable": false,
+                                "stateMutability": "nonpayable",
+                                "type": "function"
+                                },
+                                {
+                                "constant": true,
+                                "inputs": [],
+                                "name": "get",
+                                "outputs": [
+                                {
+                                "name": "",
+                                "type": "string"
+                                }
+                                ],
+                                "payable": false,
+                                "stateMutability": "view",
+                                "type": "function"
+                                }
+                                ]
+                            </div>
+
+                            <div class="form-group">
+                                <label>字节码</label>
+                                <textarea id="byteCode" style="margin-top: 0px; margin-bottom: 0px; height: 233px;width:400px;">  608060405234801561001057600080fd5b506102d7806100206000396000f30060806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634ed3885e146100515780636d4ce63c146100ba575b600080fd5b34801561005d57600080fd5b506100b8600480360381019080803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919291929050505061014a565b005b3480156100c657600080fd5b506100cf610164565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561010f5780820151818401526020810190506100f4565b50505050905090810190601f16801561013c5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b8060009080519060200190610160929190610206565b5050565b606060008054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101fc5780601f106101d1576101008083540402835291602001916101fc565b820191906000526020600020905b8154815290600101906020018083116101df57829003601f168201915b5050505050905090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061024757805160ff1916838001178555610275565b82800160010185558215610275579182015b82811115610274578251825591602001919060010190610259565b5b5090506102829190610286565b5090565b6102a891905b808211156102a457600081600090555060010161028c565b5090565b905600a165627a7a7230582059693bf86b17e86ee8a4642d91c7e648e799745cd855b24d1b12cde75e3c5dfc0029</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>            已部署的智能合约地址</label>
+                                <span id="contractAddress"></span>
+                            </div>
+                        </fieldset>
+                        <div class="form-actions">
+                            <div class="btn btn-primary btn-lg" id="deployContract">
+                                部署
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+        </div>
+    </div>
+
+    @*call set*@
+    <div class="col-md-6">
+        <div class="jarviswidget jarviswidget-sortable" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-collapsed="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false" role="widget">
+            <!-- widget options:
+            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+            data-widget-colorbutton="false"
+            data-widget-editbutton="false"
+            data-widget-togglebutton="false"
+            data-widget-deletebutton="false"
+            data-widget-fullscreenbutton="false"
+            data-widget-custombutton="false"
+            data-widget-collapsed="true"
+            data-widget-sortable="false"
+
+            -->
+            <header role="heading">
+                <div class="jarviswidget-ctrls" role="menu">   <a href="#" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-resize-full "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-delete-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-times"></i></a></div>
+                <span class="widget-icon"> <i class="fa fa-eye"></i> </span>
+                <h2>调用智能合约 </h2>
+                <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+            </header>
+
+            <!-- widget div-->
+            <div role="content">
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+
+                    <form>
+
+                        <fieldset>
+                            <input name="authenticity_token" type="hidden">
+                            <div class="form-group">
+                                <label>            智能合约地址</label>
+                                <input value="" id="contractSetAddress" style=" width: 400px;" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>ABI</label>
+                                <input value=' [ { "constant": false, "inputs": [ { "name": "field", "type": "string" } ], "name": "set", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "get", "outputs": [ { "name": "", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" } ]' id="abi" style=" width: 400px;" class="form-control  " />
+                            </div>
+                            <hr />
+                            <div class="form-group">
+                                <label>值</label>
+                                <input value="conflux is very good" id="contractSetValue" style=" width: 400px;" class="form-control  " />
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-primary" id="applyContractSetValue"> 设置</a>
+                            </div>
+                            <hr />
+                            <div class="form-group">
+                                <a class="btn btn-primary" id="applyContractGetValue"> 获取值</a>
+                            </div>
+                            <div class="form-group">
+                                <label>新值为</label>
+                                <span class="form-control  " id="contractGetValue" />
+                            </div>
+                        </fieldset>
+                        <div class="form-actions">
+                          
+                        </div>
+                    </form>
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+        </div>
+    </div>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(() => {
+        $('#checkBalance').click(() => {
+
+            let wallet = $('#wallet').val();
+            $('body').addClass('widget-body-ajax-loading');
+            $.ajax({
+                type: "post",
+                url: "/home/GetBalance",
+                data: {
+                    wallet: wallet
+                },
+                success: function (ret) {
+                    $('body').removeClass('widget-body-ajax-loading');
+                    $.smallBox({
+                        title: "Success",
+                        content: "操作成功.",
+                        color: "#739E73",
+                        timeout: 5000,
+                        icon: "fa fa-check",
+                    });
+
+                    $('#balance').html(ret);
+                }, fail: () => {
+                    $('body').removeClass('widget-body-ajax-loading');
+                    $.smallBox({
+                        title: "Failed",
+                        content: " 异常，请重试",
+                        color: "#C46A69",
+
+                        icon: "fa fa-warning shake animated",
+                    });
+                }
+            });
+        })
+
+        $('#transfer').click(() => {
+            $('body').addClass('widget-body-ajax-loading');
+            let privateKey = $('#privateKey').val();
+            let acceptWallet = $('#acceptWallet').val();
+            let amount = $('#amount').val();
+            $.ajax({
+  
+                type: "post",
+                url: "/home/Transfer",
+                data: {
+                    privateKey: privateKey,
+                    acceptWallet: acceptWallet,
+                    amount: amount
+                },
+                success: function (ret) {
+                    $('body').removeClass('widget-body-ajax-loading');
+
+                    if (ret == 'ok') {
+                        $.smallBox({
+                            title: "Success",
+                            content: "操作成功.",
+                            color: "#739E73",
+                            timeout: 5000,
+                            icon: "fa fa-check",
+                        });
+                    } else {
+                        $.smallBox({
+                            title: "Failed",
+                            content: "转账异常，请重试",
+                            color: "#C46A69",
+
+                            icon: "fa fa-warning shake animated",
+                        });
+
+                    }
+                }, fail: () => {
+                    $('body').removeClass('widget-body-ajax-loading');
+                    $.smallBox({
+                        title: "Failed",
+                        content: " 异常，请重试",
+                        color: "#C46A69",
+
+                        icon: "fa fa-warning shake animated",
+                    });
+                }
+            });
+        })
+
+        $('#deployContract').click(() => {
+            $('body').addClass('widget-body-ajax-loading');
+            let byteCode = $('#byteCode').val();
+            let privateKey = $('#privateKey').val();
+            let abi = $('#abi').val();
+            $.ajax({
+ 
+                type: "post",
+                url: "/home/DeployContract",
+                data: {
+                    byteCode: byteCode,
+                    privateKey: privateKey,
+                    abi:abi
+                },
+                success: function (ret) {
+                    $('body').removeClass('widget-body-ajax-loading');
+                    $.smallBox({
+                        title: "Success",
+                        content: "操作成功.",
+                        color: "#739E73",
+                        timeout: 5000,
+                        icon: "fa fa-check",
+                    });
+                    var url = 'https://testnet.confluxscan.io/address/' + ret + '?accountAddress=' + ret;
+                    $('#contractAddress').html("<a target='_blank' href='" + url + "'>" + url + "</a>")
+                    $('#contractSetAddress').val(ret)
+                }, fail: () => {
+                    $('body').removeClass('widget-body-ajax-loading');
+                    $.smallBox({
+                        title: "Failed",
+                        content: " 异常，请重试",
+                        color: "#C46A69",
+
+                        icon: "fa fa-warning shake animated",
+                    });
+                }
+            });
+        })
+
+        $('#applyContractSetValue').click(() => {
+            $('body').addClass('widget-body-ajax-loading');
+            let value = $('#contractSetValue').val();
+            let privateKey = $('#privateKey').val();
+            let contractSetAddress = $('#contractSetAddress').val();
+            let abi = $('#abi').val();
+            $.ajax({
+     
+                type: "post",
+                url: "/home/ApplyContractSetValue",
+                data: {
+                    value: value,
+                    privateKey: privateKey,
+                    contractAddress: contractSetAddress,
+                    abi: abi
+                },
+                success: function (ret) {
+                    $.smallBox({
+                        title: "Success",
+                        content: "操作成功.",
+                        color: "#739E73",
+                        timeout: 5000,
+                        icon: "fa fa-check",
+                    });
+                    $('body').removeClass('widget-body-ajax-loading');
+                }, fail: () => {
+                    $('body').removeClass('widget-body-ajax-loading');
+                    $.smallBox({
+                        title: "Failed",
+                        content: " 异常，请重试",
+                        color: "#C46A69",
+
+                        icon: "fa fa-warning shake animated",
+                    });
+                }
+            });
+        })
+
+        $('#applyContractGetValue').click(() => {
+            $('body').addClass('widget-body-ajax-loading');
+            let contractSetAddress = $('#contractSetAddress').val();
+            let abi = $('#abi').val();
+            $.ajax({
+    
+                type: "post",
+                url: "/home/ApplyContractGetValue",
+                data: {
+                    contractAddress: contractSetAddress,
+                    abi: abi
+                },
+                success: function (ret) {
+                    $.smallBox({
+                        title: "Success",
+                        content: "操作成功.",
+                        color: "#739E73",
+                        timeout: 5000,
+                        icon: "fa fa-check",
+                    });
+                    $('body').removeClass('widget-body-ajax-loading');
+                    $('#contractGetValue').html(ret);
+                }, fail: () => {
+                    $('body').removeClass('widget-body-ajax-loading');
+                    $.smallBox({
+                        title: "Failed",
+                        content: " 异常，请重试",
+                        color: "#C46A69",
+
+                        icon: "fa fa-warning shake animated",
+                    });
+                }
+            });
+        })
+
+    })
+</script>

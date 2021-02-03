@@ -25,6 +25,7 @@ namespace Conflux.RPC
             Accounts = new EthAccounts(client);
             CoinBase = new EthCoinBase(client);
             GasPrice = new EthGasPrice(client);
+            EstimateGasAndCollateral = new EthEstimateGasAndCollateral(client);
             GetBalance = new EthGetBalance(client);
             GetEpochNumber = new EthGetEpochNumber(client);
             GetNextNonce = new EthGetNextNonce(client);
@@ -62,6 +63,7 @@ namespace Conflux.RPC
         public IEthCoinBase CoinBase { get; private set; }
 
         public IEthGasPrice GasPrice { get; private set; }
+        public IEthEstimateGasAndCollateral EstimateGasAndCollateral { get; private set; }
         public IEthGetBalance GetBalance { get; }
         public IEthGetEpochNumber GetEpochNumber { get; }
         public IEthGetNextNonce GetNextNonce { get; }

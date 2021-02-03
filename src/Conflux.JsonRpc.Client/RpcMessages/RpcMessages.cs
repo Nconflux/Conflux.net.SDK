@@ -271,7 +271,7 @@ SOFTWARE.
         /// Request Id (Optional)
         /// </summary>
         [JsonProperty("id")]
-        public object Id { get; private set; }
+        public object Id { get;   set; }
         /// <summary>
         /// Version of the JsonRpc to be used (Required)
         /// </summary>
@@ -287,7 +287,7 @@ SOFTWARE.
         /// </summary>
         [JsonProperty("params")]
         [JsonConverter(typeof(RpcParametersJsonConverter))]
-        public object RawParameters { get; private set; }
+        public object RawParameters { get;   set; }
 
     }
     /// <summary>

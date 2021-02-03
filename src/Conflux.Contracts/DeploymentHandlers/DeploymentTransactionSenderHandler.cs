@@ -19,9 +19,12 @@ namespace Conflux.Contracts.DeploymentHandlers
         public async Task<string> SendTransactionAsync(TContractDeploymentMessage deploymentMessage = null)
         {
             if(deploymentMessage == null) deploymentMessage = new TContractDeploymentMessage();
-            deploymentMessage.Gas = new System.Numerics.BigInteger(1159914);// await GetOrEstimateMaximumGasAsync(deploymentMessage).ConfigureAwait(false);
-            deploymentMessage.GasPrice= new System.Numerics.BigInteger(1000000000);
+             
+            //deploymentMessage.Gas = new System.Numerics.BigInteger(1159914);// await GetOrEstimateMaximumGasAsync(deploymentMessage).ConfigureAwait(false);
+            deploymentMessage.GasPrice= new System.Numerics.BigInteger(10);
             var transactionInput = DeploymentMessageEncodingService.CreateTransactionInput(deploymentMessage);
+            transactionInput.Gas =new HexBigInteger(15000000);
+            //deploymentMessage.Gas = await GetOrEstimateMaximumGasAsync(deploymentMessage);
             return await TransactionManager.SendTransactionAsync(transactionInput).ConfigureAwait(false);
         }
 

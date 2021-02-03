@@ -6,7 +6,17 @@
         {
             Id = id;
             Method = method;
-            RawParameters = parameterList;
+            try
+            {
+                //existed embeded.
+                var x = ((object[])parameterList[0]);
+
+                RawParameters = (object[])parameterList[0];
+            }
+            catch (System.Exception ex)
+            {
+                RawParameters = parameterList;
+            }
         }
 
         public object Id { get; set; }
