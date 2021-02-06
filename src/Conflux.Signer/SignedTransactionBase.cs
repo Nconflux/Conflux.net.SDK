@@ -103,7 +103,7 @@ namespace Conflux.Signer
 
         public string sign(byte[] privateKey,dynamic chainId)
         {
-            this.storageLimit = BitConverter.GetBytes(10000).Clear();
+            this.storageLimit = BitConverter.GetBytes(100000).Clear();
 
             this.chianId = BitConverter.GetBytes((int)chainId).Clear();
             //this.Gas = BitConverter.GetBytes(2000000).Clear();
