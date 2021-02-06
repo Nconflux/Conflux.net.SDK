@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Conflux.Accounts\Conflux.Accounts.csproj" />
-    <ProjectReference Include="..\src\Conflux.API\Conflux.API.csproj" />
+    <PackageReference Include="Conflux.API" Version="1.0.0.94" />
   </ItemGroup>
 
 </Project>

@@ -51,11 +51,11 @@ namespace DemoWebsite.Controllers
 
         public async Task<JsonResult> DeployContract(string abi, string byteCode, string privateKey)
         {
-             
+
             conflux = new NConflux(url, privateKey.Trim());
 
             //var contractInfo = await conflux.DeployContract(abi, byteCode.Trim());
-            var c= await conflux.DeployContract(byteCode.Trim());
+            var c = await conflux.DeployContract(byteCode.Trim());
             return Json(c.ContractAddress);
         }
 
@@ -72,6 +72,31 @@ namespace DemoWebsite.Controllers
             return Json(getValue);
         }
 
+        public JsonResult Random()
+        {
+            Random random = new Random();
+            List<int> sumResult = new List<int>();
+            for (int j = 0; j < 100; j++)
+            {
+                List<int> result = new List<int>();
+                for (int i = 0; i < 540; i++)
+                {
+                    var x = random.Next(1, 55);
+                    if (!result.Contains(x))
+                    {
+                        result.Add(x);
+                    }
+                    if (x == 54)
+                    {
+                        break;
+                    }
+                }
+                sumResult.AddRange(result);
+            }
+          
+
+            return Json(sumResult);
+        }
 
     }
 }
