@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Conflux.API;
+using Conflux.Web3.Accounts;
+using Conflux.Address;
+
 namespace DemoApp
 {
     class Program
@@ -10,16 +13,18 @@ namespace DemoApp
         static NConflux conflux = new NConflux(url);
         static void Main(string[] args)
         {
+            var privateKey =  NConflux.GeneratePrivateKey();
+            var account = new Account(privateKey);
+            Base32.Encode(account.Address, "cfx");
+            //Console.WriteLine($@"Get Epoch Number:{ GetEpochNumber().Result}");
+            //Console.WriteLine($@"Get Balance:{ GetBalance().Result}");
+            //Transfer();
+            //Console.WriteLine($@"Transfer Completed");
+            //var contractAddress = DeployContract().Result.ContractAddress;
 
-            Console.WriteLine($@"Get Epoch Number:{ GetEpochNumber().Result}");
-            Console.WriteLine($@"Get Balance:{ GetBalance().Result}");
-            Transfer();
-            Console.WriteLine($@"Transfer Completed");
-            var contractAddress = DeployContract().Result.ContractAddress;
-
-            Console.WriteLine($@"Deploy Contract:{contractAddress}"); ;
-            CallContract(contractAddress);
-            Console.WriteLine($@"Called Contract"); ;
+            //Console.WriteLine($@"Deploy Contract:{contractAddress}"); ;
+            //CallContract(contractAddress);
+            //Console.WriteLine($@"Called Contract"); ;
             Console.ReadLine();
         }
         public static async Task<dynamic> GetEpochNumber()

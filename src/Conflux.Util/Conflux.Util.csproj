@@ -7,6 +7,7 @@
 
   <ItemGroup>
 <Reference Include="netstandard" />
+<ProjectReference Include="..\Conflux.Address\Conflux.Address.csproj" />
     <ProjectReference Include="..\Conflux.Hex\Conflux.Hex.csproj" />
     <ProjectReference Include="..\Conflux.RLP\Conflux.RLP.csproj" />
   </ItemGroup>

@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>1.0.0.94</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RootNamespace>Conflux.Address</RootNamespace>
+    <AssemblyName>Conflux.Address</AssemblyName>
+    <Copyright>Copyright 2014-2019 Sedat Kapanoglu</Copyright>
+    <Authors>Sedat Kapanoglu</Authors>
+    <Description>Base16, Base32, Base58, Base85 encoding/decoding library</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <SignAssembly>true</SignAssembly>
+   
+    <DelaySign>false</DelaySign>
+
+    <PackageVersion>3.0.2</PackageVersion>
+    <DocumentationFile>SimpleBase.xml</DocumentationFile>
+      <RepositoryUrl>https://github.com/ssg/SimpleBase</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ssg/SimpleBase</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageTags>base16 base32 base58 base85 ascii85 z85 hexadecimal bitcoin ripple flickr crockford extended hex rfc4648 z-base-32 geohash</PackageTags>
+    <PackageReleaseNotes>
+<![CDATA[
+# Fixes 
+- Fixed output buffer was too small error for certain Base58 cases.
+- Avoid redundant memory copy operations
+]]></PackageReleaseNotes>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="SimpleBase.net45.v3.ncrunchproject" />
+    <None Remove="SimpleBase.netstandard1.3.v3.ncrunchproject" />
+    <None Remove="SimpleBase.xml" />
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+  </ItemGroup>
+</Project>

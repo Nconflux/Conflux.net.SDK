@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Conflux.API\Conflux.API.csproj" />
+    <ProjectReference Include="..\..\src\Conflux.API\Conflux.API.csproj" />
   </ItemGroup>
 
 </Project>

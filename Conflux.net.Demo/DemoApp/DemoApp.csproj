@@ -9,4 +9,9 @@
     <PackageReference Include="Conflux.API" Version="1.0.0.94" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Conflux.Address\Conflux.Address.csproj" />
+    <ProjectReference Include="..\..\src\Conflux.API\Conflux.API.csproj" />
+  </ItemGroup>
+
 </Project>
