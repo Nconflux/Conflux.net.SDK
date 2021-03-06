@@ -76,7 +76,7 @@ namespace Conflux.Web3.Accounts
             var gasPrice = await GetGasPriceAsync(transaction).ConfigureAwait(false);
             transaction.GasPrice = gasPrice;
             //transaction.GasPrice = new HexBigInteger(new BigInteger(1000000));
-            transaction.Gas = new HexBigInteger(new BigInteger(2000000));
+            transaction.Gas = new HexBigInteger(new BigInteger(8000000));
             return SignTransaction(transaction);
         }
 
