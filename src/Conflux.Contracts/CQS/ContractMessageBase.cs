@@ -22,7 +22,11 @@ namespace Conflux.Contracts.CQS
         /// <summary>
         /// The Gas price per unit of Gas
         /// </summary>
-        public BigInteger? GasPrice { get; set; }
+        public BigInteger? GasPrice { get; set; } 
+        /// <summary>
+        /// The Maximum Storage to use for the transaction
+        /// </summary>
+        public BigInteger? Storage { get; set; }
         /// <summary>
         /// The address of the sender
         /// </summary>

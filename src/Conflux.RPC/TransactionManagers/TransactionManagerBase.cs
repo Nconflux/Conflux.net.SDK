@@ -31,7 +31,8 @@ namespace Conflux.RPC.TransactionManagers
         }
 
         private ITransactionReceiptService _transactionReceiptService;
-        public ITransactionReceiptService TransactionReceiptService {
+        public ITransactionReceiptService TransactionReceiptService
+        {
             get
             {
                 if (_transactionReceiptService == null) return TransactionReceiptServiceFactory.GetDefaultransactionReceiptService(this);
@@ -47,20 +48,20 @@ namespace Conflux.RPC.TransactionManagers
         {
             return TransactionReceiptService.SendRequestAndWaitForReceiptAsync(transactionInput, tokenSource);
         }
-               
-        public virtual Task<HexBigInteger> EstimateGasAsync(CallInput callInput)
+
+        public virtual Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync(CallInput callInput)
         {
             if (Client == null) throw new NullReferenceException("Client not configured");
             if (callInput == null) throw new ArgumentNullException(nameof(callInput));
-            var ethEstimateGas = new EthEstimateGas(Client);
+            var ethEstimateGas = new EthEstimatedGasAndCollateral(Client);
             return ethEstimateGas.SendRequestAsync(callInput);
         }
 
         public abstract Task<string> SendTransactionAsync(TransactionInput transactionInput);
-        
+
         public virtual Task<string> SendTransactionAsync(string from, string to, HexBigInteger amount)
-        {  
-            return SendTransactionAsync(new TransactionInput() { From = from, To = to, Value = amount});
+        {
+            return SendTransactionAsync(new TransactionInput() { From = from, To = to, Value = amount });
         }
 
         public async Task<HexBigInteger> GetGasPriceAsync(TransactionInput transactionInput)

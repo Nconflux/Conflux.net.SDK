@@ -34,14 +34,14 @@ namespace Conflux.Contracts
             params object[] values)
         {
             var callInput = _deployContractTransactionBuilder.BuildTransaction(abi, contractByteCode, from, values);
-            return TransactionManager.EstimateGasAsync(callInput);
+            return TransactionManager.EstimatedGasAndCollateralAsync(callInput);
         }
 
         public Task<HexBigInteger> EstimateGasAsync<TConstructorParams>(string contractByteCode, string from,
             TConstructorParams inputParams)
         {
             var callInput = _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, inputParams);
-            return TransactionManager.EstimateGasAsync(callInput);
+            return TransactionManager.EstimatedGasAndCollateralAsync(callInput);
         }
 
         public Task<HexBigInteger> EstimateGasAsync<TConstructorParams>(string contractByteCode, string from,
@@ -50,7 +50,7 @@ namespace Conflux.Contracts
         {
             var callInput =
                 _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, gas, inputParams);
-            return TransactionManager.EstimateGasAsync(callInput);
+            return TransactionManager.EstimatedGasAndCollateralAsync(callInput);
         }
 
         public Task<HexBigInteger> EstimateGasAsync<TConstructorParams>(string contractByteCode, string from,
@@ -60,7 +60,7 @@ namespace Conflux.Contracts
             var callInput =
                 _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, gas, null, value,
                     inputParams);
-            return TransactionManager.EstimateGasAsync(callInput);
+            return TransactionManager.EstimatedGasAndCollateralAsync(callInput);
         }
 
         public Task<string> SendRequestAsync(string abi, string contractByteCode, string from, HexBigInteger gas,

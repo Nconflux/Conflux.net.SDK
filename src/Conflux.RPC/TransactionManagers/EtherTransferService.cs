@@ -45,12 +45,12 @@ namespace Conflux.RPC.TransactionManagers
             return UnitConversion.Convert.FromDrip(totalAmount);
         }
 
-        public async Task<BigInteger> EstimateGasAsync(string toAddress, decimal etherAmount)
+        public async Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync(string toAddress, decimal etherAmount)
         {
             var fromAddress = _transactionManager?.Account?.Address;
             var callInput = (CallInput)EtherTransferTransactionInputBuilder.CreateTransactionInput(fromAddress, toAddress, etherAmount);
-            var hexEstimate = await _transactionManager.EstimateGasAsync(callInput);
-            return hexEstimate.Value;
+            var hexEstimate = await _transactionManager.EstimatedGasAndCollateralAsync(callInput);
+            return hexEstimate;
         }
     }
 #endif

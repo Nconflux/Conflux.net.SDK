@@ -6,7 +6,7 @@ namespace Conflux.RPC.Eth.Services
     public interface IEthApiTransactionsService
     {
         IEthCall Call { get; }
-        IEthEstimateGas EstimateGas { get; }
+        IEthEstimatedGasAndCollateral EstimateGasAndCollateral { get; }
         IEthGetTransactionByBlockHashAndIndex GetTransactionByBlockHashAndIndex { get; }
         IEthGetTransactionByBlockNumberAndIndex GetTransactionByBlockNumberAndIndex { get; }
         IEthGetTransactionByHash GetTransactionByHash { get; }

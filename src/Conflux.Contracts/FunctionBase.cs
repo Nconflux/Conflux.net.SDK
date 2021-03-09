@@ -134,7 +134,7 @@ namespace Conflux.Contracts
             {
                 return
                     await
-                        TransactionManager.EstimateGasAsync(callInput)
+                        TransactionManager.EstimatedGasAndCollateralAsync(callInput)
                             .ConfigureAwait(false);
             }
             catch

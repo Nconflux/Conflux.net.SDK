@@ -25,7 +25,7 @@ namespace Conflux.Contracts.TransactionHandlers
             var callInput = FunctionMessageEncodingService.CreateCallInput(functionMessage);
             try
             {
-                return await TransactionManager.EstimateGasAsync(callInput).ConfigureAwait(false);
+                return await TransactionManager.EstimatedGasAndCollateralAsync(callInput).ConfigureAwait(false);
             }
             catch(Exception)
             {

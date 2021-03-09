@@ -18,7 +18,7 @@ namespace Conflux.Contracts.DeploymentHandlers
         {
             if(deploymentMessage == null) deploymentMessage = new TContractDeploymentMessage();
             var callInput = DeploymentMessageEncodingService.CreateCallInput(deploymentMessage);
-            return TransactionManager.EstimateGasAsync(callInput);
+            return TransactionManager.EstimatedGasAndCollateralAsync(callInput);
         }
     }
 #endif

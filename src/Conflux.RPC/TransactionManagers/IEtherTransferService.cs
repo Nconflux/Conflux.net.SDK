@@ -11,6 +11,6 @@ namespace Conflux.RPC.TransactionManagers
         Task<TransactionReceipt> TransferEtherAndWaitForReceiptAsync(string toAddress, decimal etherAmount, decimal? gasPriceGwei = null, HexBigInteger epochNumber=null, HexBigInteger nextNonce = null, BigInteger? gas = null, CancellationTokenSource tokenSource = null, BigInteger? nonce = null);
         Task<string> TransferEtherAsync(string toAddress, decimal etherAmount, decimal? gasPriceGwei = null, BigInteger? gas = null, BigInteger? nonce = null);
         Task<decimal> CalculateTotalAmountToTransferWholeBalanceInEther(string address, decimal gasPriceGwei, BigInteger? gas = null);
-        Task<BigInteger> EstimateGasAsync(string toAddress, decimal etherAmount);
+        Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync(string toAddress, decimal etherAmount);
     }
 }
