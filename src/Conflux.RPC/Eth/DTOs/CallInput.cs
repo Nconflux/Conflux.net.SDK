@@ -1,6 +1,8 @@
 using Conflux.Hex.HexConvertors.Extensions;
 using Conflux.Hex.HexTypes;
+using Conflux.Util;
 using Newtonsoft.Json;
+using System;
 
 namespace Conflux.RPC.Eth.DTOs
 {
@@ -64,8 +66,8 @@ namespace Conflux.RPC.Eth.DTOs
         [JsonProperty(PropertyName = "from")]
         public string From
         {
-            get { return _from.EnsureHexPrefix(); }
-            set { _from = value; }
+            get { return _from; }
+            set { _from = EnsureCIP37Address(value); }
         }
 
         /// <summary>
@@ -74,10 +76,17 @@ namespace Conflux.RPC.Eth.DTOs
         [JsonProperty(PropertyName = "to")]
         public string To
         {
-            get { return _to.EnsureHexPrefix(); }
-            set { _to = value; }
+            get { return _to; }
+            set { _to = EnsureCIP37Address(value); }
         }
-
+        /// <summary>
+        ///  storageLimit: QUANTITY - (optional, default: 0) Integer of the storage collateral
+        /// </summary>
+        [JsonProperty(PropertyName = "storageLimit")]
+        public HexBigInteger StorageLimit
+        {
+            get; set;
+        }
         /// <summary>
         ///     QUANTITY - (optional, default: 90000) Integer of the gas provided for the transaction execution.It will return
         ///     unused gas.
@@ -106,6 +115,7 @@ namespace Conflux.RPC.Eth.DTOs
             get { return _data.EnsureHexPrefix(); }
             set { _data = value; }
         }
+ 
         [JsonProperty(PropertyName = "epochNumber")]
         public HexBigInteger EpochNumber
         {
@@ -116,10 +126,16 @@ namespace Conflux.RPC.Eth.DTOs
         {
             get; set;
         }
-        [JsonProperty(PropertyName = "storageLimit")]
-        public HexBigInteger StorageLimit
+
+
+        private static string EnsureCIP37Address(string address)
         {
-            get; set;
+            if (!string.IsNullOrWhiteSpace(address))
+            {
+                if (CIP37.IsHex40Address(address))
+                    throw new Exception("Hex40 address is obslete, using CIP37 standard address.");
+            }
+            return address;
         }
     }
 }

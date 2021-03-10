@@ -36,7 +36,7 @@ namespace Conflux.Contracts
         {
             return TransactionManager.SendTransactionAsync(transactionInput);
         }
-   
+
 
         protected Task<TransactionReceipt> SendTransactionAndWaitForReceiptAsync(TransactionInput transactionInput,
             CancellationTokenSource receiptRequestCancellationToken = null)
@@ -68,10 +68,10 @@ namespace Conflux.Contracts
 
         public async Task<List<ParameterOutput>> CallDecodingToDefaultAsync(CallInput callInput, BlockParameter block)
         {
-                var result =
-                await
-                    EthCall.SendRequestAsync(callInput, block)
-                        .ConfigureAwait(false);
+            var result =
+            await
+                EthCall.SendRequestAsync(callInput, block)
+                    .ConfigureAwait(false);
 
             return FunctionBuilderBase.DecodeOutput(result);
         }
@@ -128,21 +128,18 @@ namespace Conflux.Contracts
             return FunctionBuilderBase.DecodeDTOTypeOutput(functionOuput, result);
         }
 
-        protected async Task<HexBigInteger> EstimateGasFromEncAsync(CallInput callInput)
+        protected async Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralFromEncAsync(CallInput callInput)
         {
             try
             {
-                return
-                    await
-                        TransactionManager.EstimatedGasAndCollateralAsync(callInput)
-                            .ConfigureAwait(false);
+                return await TransactionManager.EstimatedGasAndCollateralAsync(callInput).ConfigureAwait(false);
             }
             catch
             {
                 var result = await EthCall.SendRequestAsync(callInput).ConfigureAwait(false);
                 new FunctionCallDecoder().ThrowIfErrorOnOutput(result);
                 throw;
-                
+
             }
         }
 #endif

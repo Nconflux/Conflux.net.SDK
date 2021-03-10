@@ -23,8 +23,8 @@ namespace Conflux.RPC.Eth.DTOs
 
         public TransactionInput(string data, string addressTo, string addressFrom, HexBigInteger gas,
             HexBigInteger value,
-            HexBigInteger  epochNumber=null,
-            HexBigInteger nonce=null) : base(data, addressTo, addressFrom, gas, value,epochNumber,nonce)
+            HexBigInteger epochNumber = null,
+            HexBigInteger nonce = null) : base(data, addressTo, addressFrom, gas, value, epochNumber, nonce)
         {
         }
 

@@ -121,13 +121,13 @@ namespace Conflux.Contracts
         }
 
         public TransactionInput BuildTransaction<TConstructorParams>(string contractByteCode, string from,
-            HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, HexBigInteger nonce, HexBigInteger epochNumber, TConstructorParams inputParams)
+            HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storageLimit, HexBigInteger value, HexBigInteger nonce, HexBigInteger epochNumber, TConstructorParams inputParams)
         {
             var encodedData = _constructorCallEncoder.EncodeRequest(inputParams, contractByteCode);
             var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, value);
             transaction.Nonce = nonce;
             transaction.EpochNumber = epochNumber;
-            transaction.StorageLimit = new HexBigInteger("0x2222");
+            transaction.StorageLimit = storageLimit;
             return transaction;
         }
 

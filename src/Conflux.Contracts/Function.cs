@@ -119,15 +119,15 @@ namespace Conflux.Contracts
             return base.CallAsync(new TReturn(), CreateCallInput(functionInput), blockParameter);
         }
 
-        public Task<HexBigInteger> EstimateGasAsync(params object[] functionInput)
+        public Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync(params object[] functionInput)
         {
-            return EstimateGasFromEncAsync(CreateCallInput(functionInput));
+            return EstimateGasAndCollateralAsync(CreateCallInput(functionInput));
         }
 
-        public Task<HexBigInteger> EstimateGasAsync(string from, HexBigInteger gas,
+        public Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync(string from, HexBigInteger gas,
             HexBigInteger value, params object[] functionInput)
         {
-            return EstimateGasFromEncAsync(CreateCallInput(from, gas, value, functionInput));
+            return EstimateGasAndCollateralAsync(CreateCallInput(from, gas, value, functionInput));
         }
 
         public Task<string> SendTransactionAsync(string from, HexBigInteger epochNumber = null, HexBigInteger nonce = null, params object[] functionInput)

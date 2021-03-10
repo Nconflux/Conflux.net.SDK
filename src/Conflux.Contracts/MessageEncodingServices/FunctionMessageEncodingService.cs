@@ -26,7 +26,7 @@ namespace Conflux.Contracts.MessageEncodingServices
             DefaultAddressFrom = defaultAddressFrom;
         }
 
-        public byte[] GetCallData(TContractFunction contractMessage) 
+        public byte[] GetCallData(TContractFunction contractMessage)
         {
             return FunctionBuilder.GetDataAsBytes(contractMessage);
         }
@@ -39,17 +39,19 @@ namespace Conflux.Contracts.MessageEncodingServices
         public CallInput CreateCallInput(TContractFunction contractMessage)
         {
             return FunctionBuilder.CreateCallInput(contractMessage,
-                contractMessage.SetDefaultFromAddressIfNotSet(DefaultAddressFrom), contractMessage.GetHexMaximumGas(), contractMessage.GetHexValue());
+                contractMessage.SetDefaultFromAddressIfNotSet(DefaultAddressFrom),
+                contractMessage.Gas.ToHexBigInteger(),
+                contractMessage.AmountToSend.ToHexBigInteger());
         }
 
         public TransactionInput CreateTransactionInput(TContractFunction contractMessage)
         {
             var transactionInput = FunctionBuilder.CreateTransactionInput(contractMessage,
                 contractMessage.SetDefaultFromAddressIfNotSet(DefaultAddressFrom),
-                contractMessage.GetHexMaximumGas(),
-                contractMessage.GetHexGasPrice(),
-                contractMessage.GetHexValue());
-            transactionInput.Nonce = contractMessage.GetHexNonce();
+                contractMessage.Gas.ToHexBigInteger(),
+                contractMessage.GasPrice.ToHexBigInteger(),
+                contractMessage.AmountToSend.ToHexBigInteger());
+            transactionInput.Nonce = contractMessage.Nonce.ToHexBigInteger();
             return transactionInput;
         }
 
@@ -85,7 +87,7 @@ namespace Conflux.Contracts.MessageEncodingServices
 
         public TContractFunction DecodeInput(TContractFunction function, string data)
         {
-            
+
             return FunctionBuilder.DecodeFunctionInput(function, data);
         }
 

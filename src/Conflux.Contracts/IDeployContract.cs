@@ -13,10 +13,10 @@ namespace Conflux.Contracts
         string GetData<TConstructorParams>(string contractByteCode, TConstructorParams inputParams);
 
 #if !DOTNET35
-        Task<HexBigInteger> EstimateGasAsync(string abi, string contractByteCode, string from, params object[] values);
-        Task<HexBigInteger> EstimateGasAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, HexBigInteger value, TConstructorParams inputParams);
-        Task<HexBigInteger> EstimateGasAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, TConstructorParams inputParams);
-        Task<HexBigInteger> EstimateGasAsync<TConstructorParams>(string contractByteCode, string from, TConstructorParams inputParams);
+        Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync(string abi, string contractByteCode, string from, params object[] values);
+        Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, HexBigInteger value, TConstructorParams inputParams);
+        Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, TConstructorParams inputParams);
+        Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync<TConstructorParams>(string contractByteCode, string from, TConstructorParams inputParams);
         Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync(string contractByteCode, string from, CancellationTokenSource receiptRequestCancellationToken = null);
         Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync(string contractByteCode, string from, HexBigInteger gas, CancellationTokenSource receiptRequestCancellationToken = null);
         Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync(string contractByteCode, string from, HexBigInteger gas, HexBigInteger value, CancellationTokenSource receiptRequestCancellationToken = null);
@@ -25,7 +25,7 @@ namespace Conflux.Contracts
         Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync(string abi, string contractByteCode, string from, HexBigInteger gas, CancellationTokenSource receiptRequestCancellationToken = null, params object[] values);
         Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync(string abi, string contractByteCode, string from, HexBigInteger gas, HexBigInteger value, CancellationTokenSource receiptRequestCancellationToken = null, params object[] values);
         Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync(string abi, string contractByteCode, string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, CancellationTokenSource receiptRequestCancellationToken = null, params object[] values);
-        Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, HexBigInteger nonce, TConstructorParams inputParams, CancellationTokenSource receiptRequestCancellationToken = null);
+        Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage, HexBigInteger value, HexBigInteger nonce, TConstructorParams inputParams, CancellationTokenSource receiptRequestCancellationToken = null);
         Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, TConstructorParams inputParams, CancellationTokenSource receiptRequestCancellationToken = null);
         Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, TConstructorParams inputParams, CancellationTokenSource receiptRequestCancellationToken = null);
         Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync<TConstructorParams>(string contractByteCode, string from, TConstructorParams inputParams, CancellationTokenSource receiptRequestCancellationToken = null);
@@ -38,7 +38,7 @@ namespace Conflux.Contracts
         Task<string> SendRequestAsync(string abi, string contractByteCode, string from, HexBigInteger gas, HexBigInteger value, params object[] values);
         Task<string> SendRequestAsync(string abi, string contractByteCode, string from, HexBigInteger gas, params object[] values);
         Task<string> SendRequestAsync(string abi, string contractByteCode, string from, params object[] values);
-        Task<string> SendRequestAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, HexBigInteger nonce, TConstructorParams inputParams);
+        Task<string> SendRequestAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage, HexBigInteger value, HexBigInteger nonce, TConstructorParams inputParams);
         Task<string> SendRequestAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, TConstructorParams inputParams);
         Task<string> SendRequestAsync<TConstructorParams>(string contractByteCode, string from, HexBigInteger gas, TConstructorParams inputParams);
         Task<string> SendRequestAsync<TConstructorParams>(string contractByteCode, string from, TConstructorParams inputParams);

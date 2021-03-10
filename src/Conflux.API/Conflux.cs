@@ -93,8 +93,7 @@ namespace Conflux.API
             var deploymentMessage = new Contract
             {
                 Nonce = await web3.Cfx.GetNextNonce.SendRequestAsync(address, null),
-                EpochNumber = await web3.Cfx.GetEpochNumber.SendRequestAsync(),
-                StorageLimit = 2605,
+                EpochNumber = await web3.Cfx.GetEpochNumber.SendRequestAsync()  
             };
 
             var deploymentHandler = web3.Cfx.GetContractDeploymentHandler<Contract>();

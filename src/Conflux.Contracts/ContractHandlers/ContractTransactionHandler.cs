@@ -59,14 +59,15 @@ namespace Conflux.Contracts.ContractHandlers
         public async Task<TransactionInput> CreateTransactionInputEstimatingGasAsync(
             string contractAddress, TContractMessage functionMessage = null)
         {
-            var gasEstimate = await EstimateGasAsync(contractAddress, functionMessage).ConfigureAwait(false);
-            functionMessage.Gas = gasEstimate;
+            var gasAndCollateralEstimate = await EstimateGasAndCollateralAsync(contractAddress, functionMessage).ConfigureAwait(false);
+            functionMessage.Gas = gasAndCollateralEstimate.GasUsed;
+            functionMessage.Storage = gasAndCollateralEstimate.StorageCollateralized;
             return functionMessage.CreateTransactionInput(contractAddress);
         }
 
-        public Task<HexBigInteger> EstimateGasAsync(string contractAddress, TContractMessage functionMessage = null)
+        public Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync(string contractAddress, TContractMessage functionMessage = null)
         {
-            return _estimatorHandler.EstimateGasAsync(contractAddress, functionMessage);
+            return _estimatorHandler.EstimateGasAndCollateralAsync(contractAddress, functionMessage);
         }
     }
 #endif

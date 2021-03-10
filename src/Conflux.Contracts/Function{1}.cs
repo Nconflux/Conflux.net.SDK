@@ -129,28 +129,28 @@ namespace Conflux.Contracts
             return base.CallAsync(new TReturn(), CreateCallInput(functionInput, from, gas, value), block);
         }
 
-        public Task<HexBigInteger> EstimateGasAsync()
+        public Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync()
         {
-            return EstimateGasFromEncAsync(CreateCallInputParameterless());
+            return EstimatedGasAndCollateralFromEncAsync(CreateCallInputParameterless());
         }
 
-        public Task<HexBigInteger> EstimateGasAsync(TFunctionInput functionInput)
+        public Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync(TFunctionInput functionInput)
         {
-            return EstimateGasFromEncAsync(CreateCallInput(functionInput));
+            return EstimatedGasAndCollateralFromEncAsync(CreateCallInput(functionInput));
         }
 
-        public Task<HexBigInteger> EstimateGasAsync(TFunctionInput functionInput, string from, HexBigInteger gas,
+        public Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync(TFunctionInput functionInput, string from, HexBigInteger gas,
             HexBigInteger value)
         {
-            return EstimateGasFromEncAsync(CreateCallInput(functionInput, from, gas, value));
+            return EstimatedGasAndCollateralFromEncAsync(CreateCallInput(functionInput, from, gas, value));
         }
 
-        public Task<HexBigInteger> EstimateGasAsync(TFunctionInput functionInput,
+        public Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync(TFunctionInput functionInput,
             CallInput callInput)
         {
             var encodedInput = GetData(functionInput);
             callInput.Data = encodedInput;
-            return EstimateGasFromEncAsync(callInput);
+            return EstimatedGasAndCollateralFromEncAsync(callInput);
         }
 
 

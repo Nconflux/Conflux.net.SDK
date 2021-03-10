@@ -6,7 +6,7 @@ namespace Conflux.Contracts
     public class ContractDeploymentMessage : ContractMessageBase
     {
 
-        public ContractDeploymentMessage(string byteCode,Conflux.Hex.HexTypes.HexBigInteger hexBigInteger=null)
+        public ContractDeploymentMessage(string byteCode)
         {
             ByteCode = byteCode;
         }

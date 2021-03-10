@@ -39,7 +39,6 @@ namespace Conflux.Contracts.CQS
         /// so the next nonce for the next transaction will be the total number of transactions for that account
         /// </remarks>
         public BigInteger? Nonce { get; set; }
-        public HexBigInteger EpochNumber { get; set; }
-        public int StorageLimit { get; set; }
+        public BigInteger? EpochNumber { get; set; } 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Conflux.Hex.HexTypes;
+using Conflux.RPC.Eth.DTOs;
 using Conflux.RPC.TransactionManagers;
 
 namespace Conflux.Contracts.DeploymentHandlers
@@ -14,7 +15,7 @@ namespace Conflux.Contracts.DeploymentHandlers
         }
 
 
-        public Task<HexBigInteger> EstimateGasAsync(TContractDeploymentMessage deploymentMessage = null)
+        public Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync(TContractDeploymentMessage deploymentMessage = null)
         {
             if(deploymentMessage == null) deploymentMessage = new TContractDeploymentMessage();
             var callInput = DeploymentMessageEncodingService.CreateCallInput(deploymentMessage);
