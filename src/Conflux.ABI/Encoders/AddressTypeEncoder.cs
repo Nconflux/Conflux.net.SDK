@@ -1,5 +1,6 @@
 using System;
 using Conflux.Hex.HexConvertors.Extensions;
+using Conflux.Util;
 
 namespace Conflux.ABI.Encoders
 {
@@ -20,31 +21,44 @@ namespace Conflux.ABI.Encoders
                 && !strValue.StartsWith("0x", StringComparison.Ordinal))
                 value = "0x" + value;
 
-            var addr = _intTypeEncoder.Encode(value);
-
-            for (var i = 0; i < 12; i++)
+            if (CIP37.IsHex40Address(strValue))
             {
-                if ((addr[i] != 0) && (addr[i] != 0xFF))
-                    throw new Exception("Invalid address (should be 20 bytes length): " + addr.ToHex());
+                var addr = _intTypeEncoder.Encode(value);
+                for (var i = 0; i < 12; i++)
+                {
+                    if ((addr[i] != 0) && (addr[i] != 0xFF))
+                        throw new Exception("Invalid address (should be 20 bytes length): " + addr.ToHex());
 
-                if (addr[i] == 0xFF) addr[i] = 0;
+                    if (addr[i] == 0xFF) addr[i] = 0;
+                }
+                return addr;
             }
-            return addr;
+            else return CIP37.CIP37ToBytes(strValue);
         }
 
         public byte[] EncodePacked(object value)
         {
             var strValue = value as string;
 
-            if(strValue == null) throw new Exception("Invalid type for address expected as string");
+            if (strValue == null) throw new Exception("Invalid type for address expected as string");
 
             if ((strValue != null)
                 && !strValue.StartsWith("0x", StringComparison.Ordinal))
                 value = "0x" + value;
 
-            if (strValue.Length == 42) return strValue.HexToByteArray();
+            if (CIP37.IsHex40Address(strValue))
+            {
+                var addr = _intTypeEncoder.Encode(value);
+                for (var i = 0; i < 12; i++)
+                {
+                    if ((addr[i] != 0) && (addr[i] != 0xFF))
+                        throw new Exception("Invalid address (should be 20 bytes length): " + addr.ToHex());
 
-            throw new Exception("Invalid address (should be 20 bytes length): " + strValue);
+                    if (addr[i] == 0xFF) addr[i] = 0;
+                }
+                return addr;
+            }
+            else return CIP37.CIP37ToBytes(strValue);
         }
     }
 }
