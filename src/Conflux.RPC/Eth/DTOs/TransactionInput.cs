@@ -22,9 +22,7 @@ namespace Conflux.RPC.Eth.DTOs
         }
 
         public TransactionInput(string data, string addressTo, string addressFrom, HexBigInteger gas,
-            HexBigInteger value,
-            HexBigInteger epochNumber = null,
-            HexBigInteger nonce = null) : base(data, addressTo, addressFrom, gas, value, epochNumber, nonce)
+            HexBigInteger value) : base(data, addressTo, addressFrom, gas, value )
         {
         }
 
@@ -33,8 +31,9 @@ namespace Conflux.RPC.Eth.DTOs
         {
         }
 
-        public TransactionInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger gasPrice,
-          HexBigInteger value) : base(data, addressTo, addressFrom, gas, gasPrice, value)
+        public TransactionInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
+             HexBigInteger value, HexBigInteger epochNumber = null, HexBigInteger nonce = null) 
+            : base(data, addressTo, addressFrom, gas, gasPrice, storage, value, epochNumber, nonce)
         {
         }
 

@@ -60,7 +60,7 @@ namespace Conflux.Signer
 
         //Number of encoding elements (output for transaction)
         public const int NUMBER_ENCODING_ELEMENTS = 6;
-        public static readonly BigInteger DEFAULT_GAS_PRICE = BigInteger.Parse("20000000000");
+        public static readonly BigInteger DEFAULT_GAS_PRICE = BigInteger.Parse("1");
         public static readonly BigInteger DEFAULT_GAS_LIMIT = BigInteger.Parse("21000");
 
 

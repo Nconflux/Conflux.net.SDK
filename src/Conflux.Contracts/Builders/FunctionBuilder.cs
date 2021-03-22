@@ -16,11 +16,7 @@ namespace Conflux.Contracts
         public CallInput CreateCallInput(params object[] functionInput)
         {
             var encodedInput = GetData(functionInput);
-            var input = base.CreateCallInput(encodedInput);
-            input.From = "0x14a540499c6e0a98eac18d4c195e59fb75e8d824";
-            input.GasPrice = new HexBigInteger("0x2540be400");
-            input.Nonce = new HexBigInteger("0x21");
-            return input;
+            return base.CreateCallInput(encodedInput);
         }
 
         public CallInput CreateCallInput(string from, HexBigInteger gas,
@@ -36,20 +32,19 @@ namespace Conflux.Contracts
                 functionInput);
         }
 
-        public TransactionInput CreateTransactionInput(string from, HexBigInteger epochNumber = null, HexBigInteger nonce = null, params object[] functionInput)
-        {
-            var encodedInput = GetData(functionInput);
-            return base.CreateTransactionInput(encodedInput, from,null,null, epochNumber, nonce);
-        }
-
-
-        public TransactionInput CreateTransactionInput(string from, HexBigInteger gas, HexBigInteger gasPrice,
+        public TransactionInput CreateTransactionInput(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
             HexBigInteger value, params object[] functionInput)
         {
             var encodedInput = GetData(functionInput);
-            return base.CreateTransactionInput(encodedInput, from, gas, gasPrice, value);
+            return base.CreateTransactionInput(encodedInput, from, gas, gasPrice, storage, value, null, null);
         }
 
+        public TransactionInput CreateTransactionInput(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
+          HexBigInteger value, HexBigInteger epochNumber, HexBigInteger nonce, params object[] functionInput)
+        {
+            var encodedInput = GetData(functionInput);
+            return base.CreateTransactionInput(encodedInput, from, gas, gasPrice, storage, value, epochNumber, nonce);
+        }
 
         public TransactionInput CreateTransactionInput(TransactionInput input, params object[] functionInput)
         {
@@ -117,17 +112,17 @@ namespace Conflux.Contracts
         }
 
         public TransactionInput CreateTransactionInput(TFunctionInput functionInput, string from, HexBigInteger gas,
-            HexBigInteger value)
+           HexBigInteger storage, HexBigInteger value)
         {
             var encodedInput = GetData(functionInput);
-            return base.CreateTransactionInput(encodedInput, from, gas, value);
+            return base.CreateTransactionInput(encodedInput, from, gas, storage, value);
         }
 
         public TransactionInput CreateTransactionInput(TFunctionInput functionInput, string from, HexBigInteger gas,
-            HexBigInteger gasPrice, HexBigInteger value)
+            HexBigInteger gasPrice, HexBigInteger storage, HexBigInteger value)
         {
             var encodedInput = GetData(functionInput);
-            return base.CreateTransactionInput(encodedInput, from, gas, gasPrice, value);
+            return base.CreateTransactionInput(encodedInput, from, gas, gasPrice, storage, value, null, null);
         }
     }
 }

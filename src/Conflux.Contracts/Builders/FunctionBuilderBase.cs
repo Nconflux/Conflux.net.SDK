@@ -8,9 +8,9 @@ namespace Conflux.Contracts
 {
     public abstract class FunctionBuilderBase
     {
-        protected FunctionBuilderBase(string contractAddress, FunctionABI functionAbi):this(contractAddress)
+        protected FunctionBuilderBase(string contractAddress, FunctionABI functionAbi) : this(contractAddress)
         {
-            FunctionABI = functionAbi;   
+            FunctionABI = functionAbi;
         }
 
         protected FunctionBuilderBase(string contractAddress)
@@ -19,7 +19,7 @@ namespace Conflux.Contracts
             FunctionCallDecoder = new FunctionCallDecoder();
             FunctionCallEncoder = new FunctionCallEncoder();
         }
-    
+
 
         public string ContractAddress { get; set; }
 
@@ -81,21 +81,24 @@ namespace Conflux.Contracts
 
         protected TransactionInput CreateTransactionInput(string encodedFunctionCall, string from)
         {
-            var tx = new TransactionInput(encodedFunctionCall, ContractAddress) {From = from};
+            var tx = new TransactionInput(encodedFunctionCall, ContractAddress) { From = from };
             return tx;
         }
 
         protected TransactionInput CreateTransactionInput(string encodedFunctionCall, string from, HexBigInteger gas,
-            HexBigInteger value, HexBigInteger epochNumber = null, HexBigInteger nonce = null)
+            HexBigInteger storage, HexBigInteger value)
         {
-            return new TransactionInput(encodedFunctionCall, ContractAddress, from, gas, value,epochNumber,nonce);
+            return new TransactionInput(encodedFunctionCall, ContractAddress, from, gas, null, storage, value);
         }
 
         protected TransactionInput CreateTransactionInput(string encodedFunctionCall, string from, HexBigInteger gas,
             HexBigInteger gasPrice,
-            HexBigInteger value)
+            HexBigInteger storage,
+            HexBigInteger value,
+            HexBigInteger epochNumber,
+            HexBigInteger nonce)
         {
-            return new TransactionInput(encodedFunctionCall, ContractAddress, from, gas, gasPrice, value);
+            return new TransactionInput(encodedFunctionCall, ContractAddress, from, gas, gasPrice, storage, value, epochNumber, nonce);
         }
 
         protected TransactionInput CreateTransactionInput(string encodedFunctionCall,

@@ -55,13 +55,13 @@ namespace Conflux.Contracts
         public TransactionInput CreateTransactionInput(TFunctionInput functionInput, string from, HexBigInteger gas,
             HexBigInteger value)
         {
-            return FunctionBuilder.CreateTransactionInput(functionInput, from, gas, value);
+            return FunctionBuilder.CreateTransactionInput(functionInput, from, gas, null, null, value);
         }
 
         public TransactionInput CreateTransactionInput(TFunctionInput functionInput, string from, HexBigInteger gas,
             HexBigInteger gasPrice, HexBigInteger value)
         {
-            return FunctionBuilder.CreateTransactionInput(functionInput, from, gas, gasPrice, value);
+            return FunctionBuilder.CreateTransactionInput(functionInput, from, gas, null, gasPrice, value);
         }
 
 #if !DOTNET35

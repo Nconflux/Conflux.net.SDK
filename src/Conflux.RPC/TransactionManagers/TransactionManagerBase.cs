@@ -64,13 +64,13 @@ namespace Conflux.RPC.TransactionManagers
             return SendTransactionAsync(new TransactionInput() { From = from, To = to, Value = amount });
         }
 
-        public async Task<HexBigInteger> GetGasPriceAsync(TransactionInput transactionInput)
-        {
-            if (transactionInput.GasPrice != null) return transactionInput.GasPrice;
-            if (DefaultGasPrice >= 0) return new HexBigInteger(DefaultGasPrice);
-            var ethGetGasPrice = new EthGasPrice(Client);
-            return await ethGetGasPrice.SendRequestAsync().ConfigureAwait(false);
-        }
+        //public async Task<HexBigInteger> GetGasPriceAsync(TransactionInput transactionInput)
+        //{
+        //    if (transactionInput.GasPrice != null) return transactionInput.GasPrice;
+        //    if (DefaultGasPrice >= 0) return new HexBigInteger(DefaultGasPrice);
+        //    var ethGetGasPrice = new EthGasPrice(Client);
+        //    return await ethGetGasPrice.SendRequestAsync().ConfigureAwait(false);
+        //}
 
         protected void SetDefaultGasPriceAndCostIfNotSet(TransactionInput transactionInput)
         {

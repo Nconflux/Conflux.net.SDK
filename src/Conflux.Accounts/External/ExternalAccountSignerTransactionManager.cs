@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Conflux.Hex.HexConvertors.Extensions;
 using Conflux.Hex.HexTypes;
 using Conflux.JsonRpc.Client;
+using Conflux.RPC.Eth;
 using Conflux.RPC.Eth.DTOs;
 using Conflux.RPC.Eth.Transactions;
 using Conflux.RPC.NonceServices;
@@ -89,10 +90,20 @@ namespace Conflux.Web3.Accounts
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             if (!transaction.From.IsTheSameAddress(Account.Address))
                 throw new Exception("Invalid account used signing");
-            var nonce = await GetNonceAsync(transaction).ConfigureAwait(false);
-            transaction.Nonce = nonce;
-            var gasPrice = await GetGasPriceAsync(transaction).ConfigureAwait(false);
-            transaction.GasPrice = gasPrice;
+            if (transaction.Nonce is null)
+                transaction.Nonce = await GetNonceAsync(transaction).ConfigureAwait(false);
+            if (transaction.EpochNumber is null)
+                transaction.EpochNumber = await (new EthGetNextNonce(Client)).SendRequestAsync(Account.Address).ConfigureAwait(false); 
+            if (transaction.Gas is null || transaction.StorageLimit is null)
+            {
+                EstimatedGasAndCollateral estimatedGasAndCollateral = await this.EstimatedGasAndCollateralAsync(transaction).ConfigureAwait(false); ;
+                if (transaction.Gas is null)
+                    transaction.Gas = estimatedGasAndCollateral.GasUsed;
+                if (transaction.StorageLimit is null)
+                    transaction.StorageLimit = estimatedGasAndCollateral.StorageCollateralized;
+            }
+            if (transaction.GasPrice is null)
+                transaction.GasPrice = new HexBigInteger(Transaction.DEFAULT_GAS_PRICE); 
             return await SignTransactionExternallyAsync(transaction).ConfigureAwait(false);
         }
 

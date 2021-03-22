@@ -119,7 +119,7 @@ namespace Conflux.Contracts
             HexBigInteger gasPrice, HexBigInteger value)
         {
             return TransactionManager.SendTransactionAsync(new TransactionInput(contractByteCode, null, from, gas,
-                gasPrice, value));
+                gasPrice, null, value, null, null));
         }
 
         public Task<string> SendRequestAsync(string contractByteCode, string from, HexBigInteger gas,
@@ -163,7 +163,7 @@ namespace Conflux.Contracts
         {
             var transaction =
                 _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, gas, gasPrice, storage, value, nonce,
-                  null,  inputParams);
+                  null, inputParams);
             return TransactionManager.SendTransactionAsync(transaction);
         }
 
@@ -224,7 +224,7 @@ namespace Conflux.Contracts
         {
             _deployContractTransactionBuilder.EnsureByteCodeDoesNotContainPlaceholders(contractByteCode);
             return TransactionManager.TransactionReceiptService.DeployContractAndWaitForReceiptAsync(
-                new TransactionInput(contractByteCode, null, from, gas, gasPrice, value),
+                new TransactionInput(contractByteCode, null, from, gas, gasPrice, null, value),
                 receiptRequestCancellationToken);
         }
 

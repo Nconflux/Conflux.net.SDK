@@ -9,6 +9,7 @@ using Conflux.RPC.NonceServices;
 using Conflux.RPC.Personal;
 using Conflux.RPC.TransactionManagers;
 using Conflux.Signer;
+using Conflux.Util;
 using Conflux.Web3.Accounts.Managed;
 using Transaction = Conflux.Signer.Transaction;
 
@@ -17,19 +18,20 @@ namespace Conflux.Web3.Accounts
     public class ExternalAccount : IAccount
     {
         public IEthExternalSigner ExternalSigner { get; }
-        public BigInteger? ChainId { get; }
+        public uint? ChainId { get; } 
+        public string Hex40Address { get; }
 
-
-        public ExternalAccount(IEthExternalSigner externalSigner, BigInteger? chainId = null)
+        public ExternalAccount(IEthExternalSigner externalSigner, uint? chainId = null)
         {
             ExternalSigner = externalSigner;
             ChainId = chainId;
         }
 
-        public ExternalAccount(string address, IEthExternalSigner externalSigner, BigInteger? chainId = null)
+        public ExternalAccount(string address, IEthExternalSigner externalSigner, uint? chainId = null)
         {
             ChainId = chainId;
             Address = address;
+            Hex40Address = CIP37.CIP37ToHex40(address);
             ExternalSigner = externalSigner;
         }
 
@@ -46,5 +48,6 @@ namespace Conflux.Web3.Accounts
         public string Address { get; protected set; }
         public ITransactionManager TransactionManager { get; protected set; }
         public INonceService NonceService { get; set; }
+
     }
 }

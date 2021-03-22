@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -16,6 +17,8 @@ namespace Conflux.Util
         {
             return address.Length == (address.StartsWith("0x") ? 42 : 40);
         }
+
+        public static string Hex40ToCIP37(string hex40Addr, uint? chainId = null) => Hex40ToCIP37(hex40Addr, GetPrefixByChainId(chainId));
 
         public static string Hex40ToCIP37(string hex40Addr, string networkPrefix, bool withAddressType = false)
         {
@@ -64,9 +67,18 @@ namespace Conflux.Util
 
         private static Regex regexNetN = new Regex("^net(\\d+)$");
 
+        public static string GetPrefixByChainId(BigInteger? chainId)
+        {
+            if (!chainId.HasValue || chainId == 1029)
+                return "cfx";
+            if (chainId == 1)
+                return "cfxtest";
+            return $"net{chainId}";
+        }
+
         private static byte[] GetPrefixBytes(string prefix)
         {
-            uint ret = 0;
+            uint ret;
             if (string.Equals("cfx", prefix))
                 ret = 1029;
             else if (string.Equals("cfxtest", prefix))

@@ -31,19 +31,30 @@ namespace Conflux.RPC.Eth.DTOs
             Value = value;
         }
 
-        public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger value, HexBigInteger epochNumber = null, HexBigInteger nonce = null)
+        public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger value)
             : this(data, addressTo, value)
         {
             From = addressFrom;
             Gas = gas;
-            EpochNumber = epochNumber;
-            Nonce = nonce;
         }
 
         public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value)
             : this(data, addressTo, addressFrom, gas, value)
         {
             GasPrice = gasPrice;
+        }
+
+        public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage, HexBigInteger value)
+         : this(data, addressTo, addressFrom, gas, gasPrice, value)
+        {
+            StorageLimit = storage;
+        }
+
+        public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage, HexBigInteger value, HexBigInteger epochNumber, HexBigInteger nonce)
+         : this(data, addressTo, addressFrom, gas, gasPrice, storage, value)
+        {
+            EpochNumber = epochNumber;
+            Nonce = nonce;
         }
 
         public CallInput(string data, string addressFrom, HexBigInteger gas, HexBigInteger value)
@@ -115,7 +126,7 @@ namespace Conflux.RPC.Eth.DTOs
             get { return _data.EnsureHexPrefix(); }
             set { _data = value; }
         }
- 
+
         [JsonProperty(PropertyName = "epochNumber")]
         public HexBigInteger EpochNumber
         {
