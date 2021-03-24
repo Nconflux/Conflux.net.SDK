@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Conflux.Hex.HexTypes;
 using Conflux.JsonRpc.Client;
+using Conflux.RPC.Eth;
 using Conflux.RPC.Eth.DTOs;
 using Conflux.RPC.Eth.Transactions;
 
@@ -27,11 +28,11 @@ namespace Conflux.RPC.NonceServices
         {
 
             if (Client == null) throw new NullReferenceException("Client not configured");
-            var ethGetTransactionCount = new EthGetTransactionCount(Client);
+            var ethEthGetNextNonce = new EthGetNextNonce(Client);
             await _semaphoreSlim.WaitAsync();
             try
             {
-                var nonce = await ethGetTransactionCount.SendRequestAsync(_account, BlockParameter.CreatePending())
+                var nonce = await ethEthGetNextNonce.SendRequestAsync(_account, BlockParameter.CreatePending())
                     .ConfigureAwait(false);
                 if (nonce.Value <= CurrentNonce)
                 {
@@ -40,7 +41,7 @@ namespace Conflux.RPC.NonceServices
                 }
                 else
                 {
-                    CurrentNonce = nonce.Value;
+                    CurrentNonce = nonce.Value - 1;
                 }
                 return nonce;
             }

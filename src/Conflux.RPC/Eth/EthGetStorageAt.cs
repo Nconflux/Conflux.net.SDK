@@ -50,14 +50,14 @@ namespace Conflux.RPC.Eth
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (position == null) throw new ArgumentNullException(nameof(position));
             if (block == null) throw new ArgumentNullException(nameof(block));
-            return base.SendRequestAsync(id, address.EnsureHexPrefix(), position, block);
+            return base.SendRequestAsync(id, address, position, block);
         }
 
         public Task<string> SendRequestAsync(string address, HexBigInteger position, object id = null)
         {
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (position == null) throw new ArgumentNullException(nameof(position));
-            return base.SendRequestAsync(id, address.EnsureHexPrefix(), position, DefaultBlock);
+            return base.SendRequestAsync(id, address, position, DefaultBlock);
         }
 
         public RpcRequest BuildRequest(string address, HexBigInteger position, BlockParameter block, object id = null)
@@ -65,7 +65,7 @@ namespace Conflux.RPC.Eth
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (position == null) throw new ArgumentNullException(nameof(position));
             if (block == null) throw new ArgumentNullException(nameof(block));
-            return base.BuildRequest(id, address.EnsureHexPrefix(), position, block);
+            return base.BuildRequest(id, address, position, block);
         }
     }
 }

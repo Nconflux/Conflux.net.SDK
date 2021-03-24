@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Conflux.Util;
-
+using Conflux.RLP;
 
 namespace Conflux.Signer
 {
@@ -59,9 +59,10 @@ namespace Conflux.Signer
         }
 
         //Number of encoding elements (output for transaction)
-        public const int NUMBER_ENCODING_ELEMENTS = 6;
+        public const int NUMBER_ENCODING_ELEMENTS = 9;
         public static readonly BigInteger DEFAULT_GAS_PRICE = BigInteger.Parse("1");
         public static readonly BigInteger DEFAULT_GAS_LIMIT = BigInteger.Parse("21000");
+        public static readonly BigInteger DEFAULT_STORAGE_LIMIT = BigInteger.Parse("0");
 
 
         protected RLPSigner SimpleRlpSigner { get; set; }
@@ -82,6 +83,8 @@ namespace Conflux.Signer
 
         public byte[] Gas { get; set; }
 
+        public byte[] Storage { get; set; }
+
         public byte[] Data { set; get; }
 
         public EthECDSASignature Signature => SimpleRlpSigner.Signature;
@@ -101,15 +104,48 @@ namespace Conflux.Signer
         public byte[] _nonce { get; set; }
         public byte[] chianId { get; set; }
 
-        public string sign(byte[] privateKey,dynamic chainId)
+
+        protected BigInteger __amount;
+        protected BigInteger __nonce;
+        protected BigInteger __gasPrice;
+        protected BigInteger __gasLimit;
+        protected BigInteger __storageLimit;
+        protected BigInteger __epoch;
+        protected BigInteger __chainId;
+
+        public string signV2(byte[] privateKey)
+        {
+
+            this.chianId = __chainId.ToBytesForRLPEncoding();
+            this.Gas = __gasLimit.ToByteArray();
+            this._nonce = __nonce.ToByteArray();
+
+            List<byte[]> raw = new List<byte[]> { this.__nonce.ToBytesForRLPEncoding(),this.__gasPrice.ToBytesForRLPEncoding(),this.__gasLimit.ToBytesForRLPEncoding(),this.to,
+            this.Value,this.__storageLimit.ToBytesForRLPEncoding(),this.__epoch.ToBytesForRLPEncoding(),this.__chainId.ToBytesForRLPEncoding(),this.Data};
+
+            var x1 = rlpEncode(raw).ToHex();
+            var x2 = sha3Keccack.CalculateHash(rlpEncode(raw));//sha3
+            var k = new EthECKey(privateKey, true);
+            var x3 = k.SignAndCalculateV(x2);
+
+        //   x3.V = new byte[] { 0x00 };
+
+
+            List<object> rawWithRSV = new List<object> { raw, x3.V, x3.R, x3.S };
+            var x4 = rlpEncode(rawWithRSV).ToHex();
+            return "0x" + x4;
+        }
+
+        public string sign(byte[] privateKey, dynamic chainId)
         {
             var xxx22 = this.GasPrice;
-            this.storageLimit = BitConverter.GetBytes(10).Clear();
+            this.storageLimit = BitConverter.GetBytes(1).Clear();
 
-            this.chianId = BitConverter.GetBytes((int)chainId).Clear();
-            this.Gas = BitConverter.GetBytes(2000000).Clear();
-            List<byte[]> raw = new List<byte[]> { this._nonce,this.GasPrice,this.Gas,this.to,
-            this.Value,this.storageLimit,this._epochHeight,this.chianId,this.Data};
+            this.chianId = BitConverter.GetBytes(1).Clear();
+            this.Gas = BitConverter.GetBytes(42035).Clear();
+
+            List<byte[]> raw = new List<byte[]> { this.__nonce.ToBytesForRLPEncoding(),this.GasPrice,this.Gas,this.to,
+            this.Value,this.storageLimit,this.__epoch.ToBytesForRLPEncoding(),this.chianId,this.Data};
 
             var x1 = rlpEncode(raw).ToHex();
             var x2 = sha3Keccack.CalculateHash(rlpEncode(raw));//sha3
@@ -119,7 +155,7 @@ namespace Conflux.Signer
 
             List<object> rawWithRSV = new List<object> { raw, x3.V, x3.R, x3.S };
             var x4 = rlpEncode(rawWithRSV).ToHex();
-            return "0x"+x4;
+            return "0x" + x4;
         }
 
         public object encode(bool includeSignature)

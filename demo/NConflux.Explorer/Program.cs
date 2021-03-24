@@ -9,6 +9,7 @@ using Conflux.ABI.FunctionEncoding;
 using NConflux.Explorer.DemoContract.Hina.ContractDefinition;
 using Conflux.Contracts.ContractHandlers;
 using Conflux.Web3.Accounts;
+using Conflux.Hex.HexTypes;
 
 namespace NConflux.Explorer
 {
@@ -47,7 +48,7 @@ namespace NConflux.Explorer
 
             AddressesOutputDTO addressesOutputDTO = await contractHandler.QueryAsync<AddressesFunction, AddressesOutputDTO>();
             List<string> addressesOutputListString = await contractHandler.QueryAsync<AddressesFunction, List<string>>();
-            string transaction = await contractHandler.SendRequestAsync(new LeaveMessageFunction { Message = "Second" });
+            string transaction = await contractHandler.SendRequestAsync(new LeaveMessageFunction { Message = "" });
 
             //call by func name
             //      Function func00 = contract.GetFunction("addresses");
@@ -63,7 +64,7 @@ namespace NConflux.Explorer
 
             Contract contract = web3.Cfx.GetContract(abi, ContractAddress);
             Function funcLeaveMsg = contract.GetFunction("leaveMessage");
-            string transaction = await funcLeaveMsg.SendTransactionAsync(account.Address, "Second");
+            string transaction = await funcLeaveMsg.SendTransactionAsync(account.Address,   "third");
 
             //call by func name
             //      Function func00 = contract.GetFunction("addresses");
@@ -77,7 +78,7 @@ namespace NConflux.Explorer
 
             AddressesOutputDTO addressesOutputDTO = await contractHandler.QueryAsync<AddressesFunction, AddressesOutputDTO>();
             List<string> addressesOutputListString = await contractHandler.QueryAsync<AddressesFunction, List<string>>();
-            transaction = await contractHandler.SendRequestAsync(new LeaveMessageFunction { Message = "Second" });
+            transaction = await contractHandler.SendRequestAsync(new LeaveMessageFunction { Message = "" });
 
             //call by func name
             //      Function func00 = contract.GetFunction("addresses");

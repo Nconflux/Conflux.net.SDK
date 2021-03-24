@@ -53,28 +53,10 @@ namespace Conflux.Web3.Accounts
             var nonce = transaction.Nonce;
             if (nonce == null) throw new ArgumentNullException(nameof(transaction), "Transaction nonce has not been set");
 
-            var gasPrice = transaction.GasPrice;
-            var gasLimit = transaction.Gas;
-
-            var value = transaction.Value ?? new HexBigInteger(0);
-
-            string signedTransaction;
-
-            var externalSigner = ((ExternalAccount) Account).ExternalSigner;
-            if (ChainId == null)
-            {
-                signedTransaction = await _transactionSigner.SignTransactionAsync(externalSigner,
-                    transaction.To,
-                    value.Value, nonce,
-                    gasPrice.Value, gasLimit.Value, transaction.Data).ConfigureAwait(false);
-            }
-            else
-            {
-                signedTransaction = await _transactionSigner.SignTransactionAsync(externalSigner, ChainId.Value,
-                    transaction.To,
-                    value.Value, nonce,
-                    gasPrice.Value, gasLimit.Value, transaction.Data);
-            }
+            var externalSigner = ((ExternalAccount)Account).ExternalSigner;
+            string signedTransaction = await _transactionSigner.SignTransactionAsync(externalSigner, transaction.To,
+                transaction.Value, transaction.Nonce, transaction.GasPrice, transaction.Gas,
+                transaction.StorageLimit, transaction.Data, transaction.EpochNumber, ChainId.Value);
 
             return signedTransaction;
         }
@@ -93,7 +75,7 @@ namespace Conflux.Web3.Accounts
             if (transaction.Nonce is null)
                 transaction.Nonce = await GetNonceAsync(transaction).ConfigureAwait(false);
             if (transaction.EpochNumber is null)
-                transaction.EpochNumber = await (new EthGetNextNonce(Client)).SendRequestAsync(Account.Address).ConfigureAwait(false); 
+                transaction.EpochNumber = await (new EthGetNextNonce(Client)).SendRequestAsync(Account.Address).ConfigureAwait(false);
             if (transaction.Gas is null || transaction.StorageLimit is null)
             {
                 EstimatedGasAndCollateral estimatedGasAndCollateral = await this.EstimatedGasAndCollateralAsync(transaction).ConfigureAwait(false); ;
@@ -103,7 +85,7 @@ namespace Conflux.Web3.Accounts
                     transaction.StorageLimit = estimatedGasAndCollateral.StorageCollateralized;
             }
             if (transaction.GasPrice is null)
-                transaction.GasPrice = new HexBigInteger(Transaction.DEFAULT_GAS_PRICE); 
+                transaction.GasPrice = new HexBigInteger(Transaction.DEFAULT_GAS_PRICE);
             return await SignTransactionExternallyAsync(transaction).ConfigureAwait(false);
         }
 

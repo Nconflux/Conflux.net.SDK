@@ -33,7 +33,7 @@ namespace Conflux.Signer
 
         public EthECKey(byte[] vch, bool isPrivate, byte prefix)
         {
-            _ecKey = new ECKey(ByteUtil.Merge(new[] {prefix}, vch), isPrivate);
+            _ecKey = new ECKey(ByteUtil.Merge(new[] { prefix }, vch), isPrivate);
         }
 
         internal EthECKey(ECKey ecKey)
@@ -103,7 +103,7 @@ namespace Conflux.Signer
             var keyGenParam = new KeyGenerationParameters(SecureRandom, 256);
             gen.Init(keyGenParam);
             var keyPair = gen.GenerateKeyPair();
-            var privateBytes = ((ECPrivateKeyParameters) keyPair.Private).D.ToByteArray();
+            var privateBytes = ((ECPrivateKeyParameters)keyPair.Private).D.ToByteArray();
             if (privateBytes.Length != 32)
                 return GenerateKey();
             return new EthECKey(privateBytes, true);
@@ -169,7 +169,7 @@ namespace Conflux.Signer
 
         public static int GetRecIdFromVChain(BigInteger vChain, BigInteger chainId)
         {
-            return (int) (vChain - chainId * 2 - 35);
+            return (int)(vChain - chainId * 2 - 35);
         }
 
         public static BigInteger GetChainFromVChain(BigInteger vChain)
@@ -220,7 +220,8 @@ namespace Conflux.Signer
         {
             var signature = _ecKey.Sign(hash);
             var recId = CalculateRecId(signature, hash);
-            signature.V = new[] {(byte) (recId + 27)};
+   //         signature.V = new[] { (byte)(recId + 27) };
+            signature.V = new[] { (byte)(recId) };
             return new EthECDSASignature(signature);
         }
 

@@ -60,60 +60,54 @@ namespace Conflux.Signer
             return transaction.Key.VerifyAllowingOnlyLowS(transaction.RawHash, transaction.Signature);
         }
 
-        public string SignTransaction(string privateKey, string to, BigInteger amount, BigInteger nonce)
-        {
-            return SignTransaction(privateKey.HexToByteArray(), to, amount, nonce);
-        }
+        //public string SignTransaction(string privateKey, string to, BigInteger amount, BigInteger nonce)
+        //{
+        //    return SignTransaction(privateKey.HexToByteArray(), to, amount, nonce);
+        //}
 
-        public string SignTransaction(string privateKey, string to, BigInteger amount, BigInteger nonce, string data)
-        {
-            return SignTransaction(privateKey.HexToByteArray(), to, amount, nonce, data);
-        }
+        //public string SignTransaction(string privateKey, string to, BigInteger amount, BigInteger nonce, string data)
+        //{
+        //    return SignTransaction(privateKey.HexToByteArray(), to, amount, nonce, data);
+        //}
+
+        //public string SignTransaction(string privateKey, string to, BigInteger amount, BigInteger nonce,
+        //    BigInteger gasPrice,
+        //    BigInteger gasLimit)
+        //{
+        //    return SignTransaction(privateKey.HexToByteArray(), to, amount, nonce, gasPrice, gasLimit);
+        //}
 
         public string SignTransaction(string privateKey, string to, BigInteger amount, BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimit)
+               BigInteger gasPrice, BigInteger gasLimit, BigInteger storageLimit, string data, BigInteger epochNumber, BigInteger chainId)
         {
-            return SignTransaction(privateKey.HexToByteArray(), to, amount, nonce, gasPrice, gasLimit);
+            var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit, storageLimit+1, epochNumber, chainId, data);
+            return SignTransaction(privateKey.HexToByteArray(), transaction);
         }
 
-        public string SignTransaction(string privateKey, string to, BigInteger amount, BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimit, string data, HexBigInteger epochNumber, HexBigInteger nextNonce,BigInteger? chainId)
-        {
-            return SignTransaction(privateKey.HexToByteArray(), to, amount, nonce, gasPrice, gasLimit, data, epochNumber, nextNonce,chainId);
-        }
+        //public string SignTransaction(byte[] privateKey, string to, BigInteger amount, BigInteger nonce)
+        //{
+        //    var transaction = new Transaction(to, amount, nonce);
+        //    return SignTransaction(privateKey, transaction);
+        //}
 
-        public string SignTransaction(byte[] privateKey, string to, BigInteger amount, BigInteger nonce)
-        {
-            var transaction = new Transaction(to, amount, nonce);
-            return SignTransaction(privateKey, transaction);
-        }
+        //public string SignTransaction(byte[] privateKey, string to, BigInteger amount, BigInteger nonce, string data)
+        //{
+        //    var transaction = new Transaction(to, amount, nonce, data);
+        //    return SignTransaction(privateKey, transaction);
+        //}
 
-        public string SignTransaction(byte[] privateKey, string to, BigInteger amount, BigInteger nonce, string data)
-        {
-            var transaction = new Transaction(to, amount, nonce, data);
-            return SignTransaction(privateKey, transaction);
-        }
-
-        public string SignTransaction(byte[] privateKey, string to, BigInteger amount, BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimit)
-        {
-            var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit);
-            return SignTransaction(privateKey, transaction);
-        }
+        //public string SignTransaction(byte[] privateKey, string to, BigInteger amount, BigInteger nonce,
+        //    BigInteger gasPrice,
+        //    BigInteger gasLimit)
+        //{
+        //    var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit);
+        //    return SignTransaction(privateKey, transaction);
+        //}
 
         public string SignTransaction(byte[] privateKey, string to, BigInteger amount, BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimit, string data, HexBigInteger epochNumber, HexBigInteger nextNonce,BigInteger? chainId)
+            BigInteger gasPrice, BigInteger gasLimit, BigInteger storageLimit, string data, BigInteger epochNumber, BigInteger chainId)
         {
-            var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit, data);
-           
-            transaction._epochHeight = epochNumber.ToHexByteArray();
-            transaction._nonce = nextNonce.ToHexByteArray();
-            transaction.storageLimit = 2605;
-            transaction.chainId = chainId;
+            var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit, storageLimit+1, epochNumber, chainId, data);
             return SignTransaction(privateKey, transaction);
         }
 
@@ -227,10 +221,15 @@ namespace Conflux.Signer
 
         private string SignTransaction(byte[] privateKey, Transaction transaction)
         {
-            return transaction.sign(privateKey, transaction.chainId);
+            string s0 = transaction.sign(privateKey, transaction.chainId);
+            string s1 = transaction.signV2(privateKey);
             transaction.Sign(new EthECKey(privateKey, true));
-            return transaction.GetRLPEncoded().ToHex();
+            string s2 = transaction.GetRLPEncoded().ToHex();
 
+         string s3 = string.Join("\n\n\n", s0, s1, s2);
+            return s1;
+            //    transaction.Sign(new EthECKey(privateKey, true));
+            //  return transaction.GetRLPEncoded().ToHex(); 
         }
 
         private string SignTransaction(byte[] privateKey, TransactionChainId transaction)
@@ -253,33 +252,33 @@ namespace Conflux.Signer
         }
 
 
-        public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, string to, BigInteger amount, BigInteger nonce)
-        {
-            var transaction = new Transaction(to, amount, nonce);
-            return SignTransactionAsync(externalSigner, transaction);
-        }
+        //public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, string to, BigInteger amount, BigInteger nonce)
+        //{
+        //    var transaction = new Transaction(to, amount, nonce);
+        //    return SignTransactionAsync(externalSigner, transaction);
+        //}
 
-        public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, string to, BigInteger amount, BigInteger nonce, string data)
-        {
-            var transaction = new Transaction(to, amount, nonce, data);
-            return SignTransactionAsync(externalSigner, transaction);
-        }
+        //public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, string to, BigInteger amount, BigInteger nonce, string data)
+        //{
+        //    var transaction = new Transaction(to, amount, nonce, data);
+        //    return SignTransactionAsync(externalSigner, transaction);
+        //}
 
-        public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, string to, BigInteger amount, BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimit)
-        {
-            var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit);
-            return SignTransactionAsync(externalSigner, transaction);
-        }
+        //public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, string to, BigInteger amount, BigInteger nonce,
+        //    BigInteger gasPrice,
+        //    BigInteger gasLimit)
+        //{
+        //    var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit);
+        //    return SignTransactionAsync(externalSigner, transaction);
+        //}
 
-        public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, string to, BigInteger amount, BigInteger nonce,
-            BigInteger gasPrice,
-            BigInteger gasLimit, string data)
-        {
-            var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit, data);
-            return SignTransactionAsync(externalSigner, transaction);
-        }
+        //public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, string to, BigInteger amount, BigInteger nonce,
+        //    BigInteger gasPrice,
+        //    BigInteger gasLimit, string data)
+        //{
+        //    var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit, data);
+        //    return SignTransactionAsync(externalSigner, transaction);
+        //}
 
         public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, Chain chain, string to, BigInteger amount,
              BigInteger nonce)
@@ -322,18 +321,19 @@ namespace Conflux.Signer
             return SignTransactionAsync(externalSigner, transaction);
         }
 
-        public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, Chain chain, string to, BigInteger amount,
-            BigInteger nonce, BigInteger gasPrice,
-            BigInteger gasLimit, string data)
+
+
+        public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, Chain chain, string to, BigInteger amount, BigInteger nonce,
+               BigInteger gasPrice, BigInteger gasLimit, BigInteger storageLimit, string data, BigInteger epochNumber)
         {
-            return SignTransactionAsync(externalSigner, (int)chain, to, amount, nonce, gasPrice, gasLimit, data);
+            return SignTransactionAsync(externalSigner, to, amount, nonce, gasPrice, gasLimit, storageLimit, data, epochNumber, (int)chain);
         }
 
-        public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, BigInteger chainId, string to, BigInteger amount,
-            BigInteger nonce, BigInteger gasPrice,
-            BigInteger gasLimit, string data)
+
+        public Task<string> SignTransactionAsync(IEthExternalSigner externalSigner, string to, BigInteger amount, BigInteger nonce,
+           BigInteger gasPrice, BigInteger gasLimit, BigInteger storageLimit, string data, BigInteger epochNumber, BigInteger chainId)
         {
-            var transaction = new TransactionChainId(to, amount, nonce, gasPrice, gasLimit, data, chainId);
+            var transaction = new Transaction(to, amount, nonce, gasPrice, gasLimit, storageLimit, epochNumber, chainId, data);
             return SignTransactionAsync(externalSigner, transaction);
         }
 #endif

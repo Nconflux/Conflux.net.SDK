@@ -51,7 +51,7 @@ namespace Conflux.RPC.Eth
             //if (address == null) throw new ArgumentNullException(nameof(address));
             //if (block == null) throw new ArgumentNullException(nameof(block));
             //DefaultBlock.WalletAddress = address;
-            return base.SendRequestAsync(id, address.EnsureHexPrefix(), "latest_state");
+            return base.SendRequestAsync(id, address, "latest_state");
         }
 
         public Task<HexBigInteger> SendRequestAsync(object id = null)
@@ -63,7 +63,7 @@ namespace Conflux.RPC.Eth
         {
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (block == null) throw new ArgumentNullException(nameof(block));
-            return base.BuildRequest(id, address.EnsureHexPrefix(), block);
+            return base.BuildRequest(id, address, block);
         }
     }
 }

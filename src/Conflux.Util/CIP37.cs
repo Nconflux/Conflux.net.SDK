@@ -62,7 +62,10 @@ namespace Conflux.Util
 
         public static string CIP37ToHex40(string cip37Addr)
         {
-            return $"0x{BytesToString(CIP37ToBytes(cip37Addr))}";
+            byte[] hex32 = CIP37ToBytes(cip37Addr);
+            byte[] hex20 = new byte[20];
+            Array.Copy(hex32, 12, hex20, 0, 20);
+            return $"0x{BytesToString(hex20)}";
         }
 
         private static Regex regexNetN = new Regex("^net(\\d+)$");

@@ -75,8 +75,9 @@ namespace Conflux.Web3.Accounts
             if (transaction.Nonce is null)
                 transaction.Nonce = await GetNonceAsync(transaction).ConfigureAwait(false);
             if (transaction.EpochNumber is null)
-                transaction.EpochNumber = await (new EthGetNextNonce(Client)).SendRequestAsync(Account.Address).ConfigureAwait(false);
-            //transaction.Nonce = nonce;
+                transaction.EpochNumber = await (new EthGetEpochNumber(Client)).SendRequestAsync(Account.Address).ConfigureAwait(false);
+            if (transaction.Value is null)
+                transaction.Value = HexBigInteger.Zero;
             if (transaction.Gas is null || transaction.StorageLimit is null)
             {
                 EstimatedGasAndCollateral estimatedGasAndCollateral = await this.EstimatedGasAndCollateralAsync(transaction).ConfigureAwait(false); ;

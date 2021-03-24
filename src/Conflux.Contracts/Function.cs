@@ -133,12 +133,17 @@ namespace Conflux.Contracts
             return base.SendTransactionAsync(CreateTransactionInput(from, null, null, functionInput));
         }
 
+        public Task<string> SendTransactionAsync(string from, HexBigInteger gasPrice, params object[] functionInput)
+        {
+            return base.SendTransactionAsync(CreateTransactionInput(from, null, gasPrice, null, null, functionInput));
+        }
+
         public Task<string> SendTransactionAsync(string from, HexBigInteger epochNumber, HexBigInteger nonce, params object[] functionInput)
         {
             return base.SendTransactionAsync(CreateTransactionInput(from, epochNumber, nonce, functionInput));
         }
 
-
+         
 
         public Task<string> SendTransactionAsync(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
             HexBigInteger value, params object[] functionInput)

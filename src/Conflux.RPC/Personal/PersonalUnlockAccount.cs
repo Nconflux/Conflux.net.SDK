@@ -36,7 +36,7 @@ namespace Conflux.RPC.Personal
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (passPhrase == null) throw new ArgumentNullException(nameof(passPhrase));
 
-            return base.SendRequestAsync(id, address.EnsureHexPrefix(), passPhrase, durationInSeconds);
+            return base.SendRequestAsync(id, address, passPhrase, durationInSeconds);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Conflux.RPC.Personal
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (passPhrase == null) throw new ArgumentNullException(nameof(passPhrase));
 
-            return base.SendRequestAsync(id, address.EnsureHexPrefix(), passPhrase, durationInSeconds);
+            return base.SendRequestAsync(id, address, passPhrase, durationInSeconds);
         }
 
 #if !DOTNET35
@@ -69,7 +69,7 @@ namespace Conflux.RPC.Personal
         {
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (passPhrase == null) throw new ArgumentNullException(nameof(passPhrase));
-            return base.BuildRequest(id, address.EnsureHexPrefix(), passPhrase, durationInSeconds);
+            return base.BuildRequest(id, address, passPhrase, durationInSeconds);
         }
     }
 }

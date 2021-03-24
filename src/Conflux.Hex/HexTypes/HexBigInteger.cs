@@ -16,7 +16,8 @@ namespace Conflux.Hex.HexTypes
         {
         }
 
-        
+        public static HexBigInteger Zero { get; } = new HexBigInteger(0);
+
         public override string ToString()
         {
             return Value.ToString();

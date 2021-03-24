@@ -1,6 +1,7 @@
 ﻿using Conflux.Hex.HexConvertors.Extensions;
 using Conflux.RLP;
 using System.Numerics;
+using System;
 
 namespace Conflux.Signer
 {
@@ -15,30 +16,36 @@ namespace Conflux.Signer
         {
             var rlpSigner = SignedTransactionBase.CreateDefaultRLPSigner(rlp);
             return rlpSigner.IsVSignatureForChain()
-                ? (SignedTransactionBase) new TransactionChainId(rlpSigner)
+                ? (SignedTransactionBase)new TransactionChainId(rlpSigner)
                 : new Transaction(rlpSigner);
         }
 
-        public static SignedTransactionBase CreateTransaction(string to, BigInteger gas, BigInteger gasPrice, BigInteger amount, string data, BigInteger nonce, string r, string s, string v)
+
+        public static SignedTransactionBase CreateTransaction(string to, BigInteger amount, BigInteger nonce,
+           BigInteger gasPrice, BigInteger gasLimit, BigInteger storageLimit, string data, BigInteger epochNumber, BigInteger chainId, string r, string s, string v)
         {
-            var rBytes = r.HexToByteArray();
-            var sBytes = s.HexToByteArray();
-            var vBytes = v.HexToByteArray();
-            
-            var signature = EthECDSASignatureFactory.FromComponents(rBytes, sBytes, vBytes);
-            if (signature.IsVSignedForChain())
-            {
-                var vBigInteger = vBytes.ToBigIntegerFromRLPDecoded();
-                var chainId = EthECKey.GetChainFromVChain(vBigInteger);
-                return new TransactionChainId(nonce.ToBytesForRLPEncoding(), gasPrice.ToBytesForRLPEncoding(), gas.ToBytesForRLPEncoding(),
-                    to.HexToByteArray(), amount.ToBytesForRLPEncoding(), data.HexToByteArray(), chainId.ToBytesForRLPEncoding(), rBytes, sBytes, vBytes);
-            }
-            else
-            {
-                return new Transaction(nonce.ToBytesForRLPEncoding(), gasPrice.ToBytesForRLPEncoding(), gas.ToBytesForRLPEncoding(),
-                    to.HexToByteArray(), amount.ToBytesForRLPEncoding(), data.HexToByteArray(), rBytes, sBytes, vBytes[0]);
-            }
+            throw new NotImplementedException();
+            //var rBytes = r.HexToByteArray();
+            //var sBytes = s.HexToByteArray();
+            //var vBytes = v.HexToByteArray();
+
+
+            //  var signature = EthECDSASignatureFactory.FromComponents(rBytes, sBytes, vBytes);
+            //if (signature.IsVSignedForChain())
+            //{
+            //    var vBigInteger = vBytes.ToBigIntegerFromRLPDecoded();
+            //    var chainId = EthECKey.GetChainFromVChain(vBigInteger);
+            //    return new TransactionChainId(nonce.ToBytesForRLPEncoding(), gasPrice.ToBytesForRLPEncoding(), gas.ToBytesForRLPEncoding(),
+            //        to.HexToByteArray(), amount.ToBytesForRLPEncoding(), data.HexToByteArray(), chainId.ToBytesForRLPEncoding(), rBytes, sBytes, vBytes);
+            //}
+            //else
+            //{
+            //    return new Transaction(nonce.ToBytesForRLPEncoding(), gasPrice.ToBytesForRLPEncoding(), gas.ToBytesForRLPEncoding(),
+            //        to.HexToByteArray(), amount.ToBytesForRLPEncoding(), data.HexToByteArray(), rBytes, sBytes, vBytes[0]);
+            //}
+
+            return new Transaction(to, amount, nonce, gasPrice, gasLimit, storageLimit, epochNumber, chainId, data);
         }
-        
+
     }
 }
