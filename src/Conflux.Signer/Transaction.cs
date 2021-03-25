@@ -93,7 +93,7 @@ namespace Conflux.Signer
             return new[] { nonce, gasPrice, gasLimit, receiveAddress, value, data };
         }
 
-        public override EthECKey Key => EthECKey.RecoverFromSignature(SimpleRlpSigner.Signature, SimpleRlpSigner.RawHash);
+        public override CfxECKey Key => CfxECKey.RecoverFromSignature(SimpleRlpSigner.Signature, SimpleRlpSigner.RawHash);
 
 #if !DOTNET35
         public override async Task SignExternallyAsync(IEthExternalSigner externalSigner)

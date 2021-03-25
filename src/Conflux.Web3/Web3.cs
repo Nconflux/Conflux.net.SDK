@@ -70,7 +70,7 @@ namespace Conflux.Web3
 
         public static string GetAddressFromPrivateKey(string privateKey)
         {
-            return EthECKey.GetPublicAddress(privateKey);
+            return CfxECKey.GetPublicAddress(privateKey);
         }
 
         public static bool IsChecksumAddress(string address)

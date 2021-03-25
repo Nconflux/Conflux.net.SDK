@@ -16,7 +16,7 @@ namespace Conflux.Signer
             return HashPrefixedMessage(Hash(message));
         }
 
-        public override string HashAndSign(byte[] plainMessage, EthECKey key)
+        public override string HashAndSign(byte[] plainMessage, CfxECKey key)
         {
             return base.Sign(HashAndHashPrefixedMessage(plainMessage), key);
         }
@@ -33,12 +33,12 @@ namespace Conflux.Signer
             return Hash(byteList.ToArray());
         }
 
-        public override string Sign(byte[] message, EthECKey key)
+        public override string Sign(byte[] message, CfxECKey key)
         {
             return base.Sign(HashPrefixedMessage(message), key);
         }
 
-        public string EncodeUTF8AndSign(string message, EthECKey key)
+        public string EncodeUTF8AndSign(string message, CfxECKey key)
         {
             return base.Sign(HashPrefixedMessage(Encoding.UTF8.GetBytes(message)), key);
         }

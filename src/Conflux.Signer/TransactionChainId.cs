@@ -57,7 +57,7 @@ namespace Conflux.Signer
 
         private BigInteger GetChainFromVChain()
         {
-            return EthECKey.GetChainFromVChain(Signature.V.ToBigIntegerFromRLPDecoded());
+            return CfxECKey.GetChainFromVChain(Signature.V.ToBigIntegerFromRLPDecoded());
         }
 
         public TransactionChainId(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] receiveAddress, byte[] value,
@@ -115,7 +115,7 @@ namespace Conflux.Signer
         /// <summary>
         /// Recovered Key from Signature
         /// </summary>
-        public override EthECKey Key => EthECKey.RecoverFromSignature(SimpleRlpSigner.Signature,
+        public override CfxECKey Key => CfxECKey.RecoverFromSignature(SimpleRlpSigner.Signature,
             SimpleRlpSigner.RawHash,
             ChainId.ToBigIntegerFromRLPDecoded());
 
@@ -129,7 +129,7 @@ namespace Conflux.Signer
             return data + "]";
         }
 
-        public override void Sign(EthECKey key)
+        public override void Sign(CfxECKey key)
         {
             SimpleRlpSigner.Sign(key, GetChainIdAsBigInteger());
         }

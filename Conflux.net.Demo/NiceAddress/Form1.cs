@@ -29,55 +29,55 @@ namespace NiceAddress
         {
             var result = "";
             var count = 0;
-            while (count < 1)
-            {
-                var prefix = txtPrefix.Text.Trim();
-                var suffix = txtSuffix.Text.Trim();
+            //while (count < 1)
+            //{
+            //    var prefix = txtPrefix.Text.Trim();
+            //    var suffix = txtSuffix.Text.Trim();
 
-                if (prefix.Contains("o") || prefix.Contains("i") || prefix.Contains("l") || prefix.Contains("q")
-                    || suffix.Contains("o") || suffix.Contains("i") || suffix.Contains("l") || suffix.Contains("q")
-                    )
-                {
-                    MessageBox.Show("不能含有oilq");
-                }
-                var privateKey = NConflux.GeneratePrivateKey();
-                var account = new Account(privateKey);
-                var newAddress = Base32.Encode(account.Address, "cfx");
-                var newAddressRemoveCFX = newAddress.Replace("cfx:aa", "");
-                if (prefix != string.Empty)
-                {
-                    if (suffix != string.Empty)
-                    {
-                        if (newAddressRemoveCFX.StartsWith(prefix) && newAddressRemoveCFX.EndsWith(suffix))
-                        {
-                            result += $@"Address: {newAddress} , Key:{account.PrivateKey}";
-                            count++;
-                        }
-                    }
-                    else
-                    {
-                        if (newAddressRemoveCFX.StartsWith(prefix))
-                        {
-                            result += $@"Address: {newAddress} , Key:{account.PrivateKey}";
-                            count++;
-                        }
-                    }
-                }
-                else
-                {
-                    if (suffix != string.Empty)
-                    {
-                        if (newAddressRemoveCFX.EndsWith(suffix))
-                        {
-                            result += $@"Address: {newAddress} , Key:{account.PrivateKey}";
-                            count++;
-                        }
-                    }
-                    else
-                    {
-                    }
-                }
-            }
+            //    if (prefix.Contains("o") || prefix.Contains("i") || prefix.Contains("l") || prefix.Contains("q")
+            //        || suffix.Contains("o") || suffix.Contains("i") || suffix.Contains("l") || suffix.Contains("q")
+            //        )
+            //    {
+            //        MessageBox.Show("不能含有oilq");
+            //    }
+            //    var privateKey = NConflux.GeneratePrivateKey();
+            //    var account = new Account(privateKey);
+            //    //var newAddress = Base32.Encode(account.Address, "cfx");
+            //    var newAddressRemoveCFX = newAddress.Replace("cfx:aa", "");
+            //    if (prefix != string.Empty)
+            //    {
+            //        if (suffix != string.Empty)
+            //        {
+            //            if (newAddressRemoveCFX.StartsWith(prefix) && newAddressRemoveCFX.EndsWith(suffix))
+            //            {
+            //                result += $@"Address: {newAddress} , Key:{account.PrivateKey}";
+            //                count++;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            if (newAddressRemoveCFX.StartsWith(prefix))
+            //            {
+            //                result += $@"Address: {newAddress} , Key:{account.PrivateKey}";
+            //                count++;
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (suffix != string.Empty)
+            //        {
+            //            if (newAddressRemoveCFX.EndsWith(suffix))
+            //            {
+            //                result += $@"Address: {newAddress} , Key:{account.PrivateKey}";
+            //                count++;
+            //            }
+            //        }
+            //        else
+            //        {
+            //        }
+            //    }
+            //}
             return result;
 
         }

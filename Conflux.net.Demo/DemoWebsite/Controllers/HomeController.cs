@@ -12,8 +12,8 @@ namespace DemoWebsite.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private string url = "http://test.confluxrpc.org";
-        NConflux conflux = new NConflux("http://test.confluxrpc.org");
+        private string url = "http://main.confluxrpc.org";
+        NConflux conflux = new NConflux("http://main.confluxrpc.org");
 
 
         //private string url = "http://gpu100.mistgpu.xyz:30214";

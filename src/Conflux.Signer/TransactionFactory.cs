@@ -29,7 +29,7 @@ namespace Conflux.Signer
             if (signature.IsVSignedForChain())
             {
                 var vBigInteger = vBytes.ToBigIntegerFromRLPDecoded();
-                var chainId = EthECKey.GetChainFromVChain(vBigInteger);
+                var chainId = CfxECKey.GetChainFromVChain(vBigInteger);
                 return new TransactionChainId(nonce.ToBytesForRLPEncoding(), gasPrice.ToBytesForRLPEncoding(), gas.ToBytesForRLPEncoding(),
                     to.HexToByteArray(), amount.ToBytesForRLPEncoding(), data.HexToByteArray(), chainId.ToBytesForRLPEncoding(), rBytes, sBytes, vBytes);
             }
