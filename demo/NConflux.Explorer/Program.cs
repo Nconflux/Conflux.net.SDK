@@ -64,7 +64,7 @@ namespace NConflux.Explorer
 
             Contract contract = web3.Cfx.GetContract(abi, ContractAddress);
             Function funcLeaveMsg = contract.GetFunction("leaveMessage");
-            string transaction = await funcLeaveMsg.SendTransactionAsync(account.Address,   "third");
+            string transaction = await funcLeaveMsg.SendTransactionAsync(account.Address, "third");
 
             //call by func name
             //      Function func00 = contract.GetFunction("addresses");

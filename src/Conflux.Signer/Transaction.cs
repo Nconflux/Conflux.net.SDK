@@ -36,40 +36,60 @@ namespace Conflux.Signer
 
         public Transaction(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] receiveAddress, byte[] value, byte[] storage, byte[] epoch, byte[] chainId, byte[] data)
         {
-            SimpleRlpSigner = new RLPSigner(GetElementsInOrder(nonce, gasPrice, gasLimit, receiveAddress, value, storage, epoch, chainId, data));
+            this.Nonce = nonce;
+            this.Value = value;
+            this.To = receiveAddress;
+            this.GasPrice = gasPrice;
+            this.Gas = gasLimit;
+            this.Storage = storage;
+            this.Data = data;
+            this.Epoch = epoch;
+            this.ChainId = chainId;
         }
 
-        public Transaction(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] receiveAddress, byte[] value, byte[] storage, byte[] epoch, byte[] chainId,
-            byte[] data, byte[] r, byte[] s, byte v)
+        public Transaction(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] receiveAddress, byte[] value, byte[] storage, byte[] epoch, byte[] chainId, byte[] data,
+            byte[] r, byte[] s, byte v) : this(nonce, gasPrice, gasLimit, receiveAddress, value, storage, epoch, chainId, data)
         {
-            SimpleRlpSigner = new RLPSigner(GetElementsInOrder(nonce, gasPrice, gasLimit, receiveAddress, value, storage, epoch, chainId, data),
-                r, s, v);
         }
 
         public Transaction(string to, BigInteger amount, BigInteger nonce, BigInteger gasPrice,
-            BigInteger gasLimit, BigInteger storageLimit, BigInteger epoch, BigInteger chainId, string data) : this(nonce.ToBytesForRLPEncoding(), gasPrice.ToBytesForRLPEncoding(),
-            gasLimit.ToBytesForRLPEncoding(), CIP37.CIP37ToHex40(to).HexToByteArray(), amount.ToBytesForRLPEncoding(), storageLimit.ToBytesForRLPEncoding(), epoch.ToBytesForRLPEncoding(), chainId.ToBytesForRLPEncoding(), data.HexToByteArray()
-        )
+            BigInteger gasLimit, BigInteger storageLimit, BigInteger epoch, BigInteger chainId, string data)
         {
-            __amount = amount;
-            __chainId = chainId;
-            __epoch = epoch;
-            __gasLimit = gasLimit;
-            __gasPrice = gasPrice;
-            __nonce = nonce;
-            __storageLimit = storageLimit;
-
-            var d = CIP37.CIP37ToHex40(to);
-           this.to = d.HexToByteArray();
-            this.Data = data.HexToByteArray();
+            this.Nonce = nonce.ToBytesForRLPEncoding();
+            this.Value = amount.ToBytesForRLPEncoding();
+            this.To = CIP37.CIP37ToRawBytes(to);
+            this.GasPrice = gasPrice.ToBytesForRLPEncoding();
+            this.Gas = gasLimit.ToBytesForRLPEncoding();
             this.Storage = storageLimit.ToBytesForRLPEncoding();
+            this.Data = data.HexToByteArray();
+            this.Epoch = epoch.ToBytesForRLPEncoding();
+            this.ChainId = chainId.ToBytesForRLPEncoding();
         }
+
+        //public Transaction(string to, BigInteger amount, BigInteger nonce, BigInteger gasPrice,
+        //    BigInteger gasLimit, BigInteger storageLimit, BigInteger epoch, BigInteger chainId, string data) : this(nonce.ToBytesForRLPEncoding(), gasPrice.ToBytesForRLPEncoding(),
+        //    gasLimit.ToBytesForRLPEncoding(), CIP37.CIP37ToHex40(to).HexToByteArray(), amount.ToBytesForRLPEncoding(), storageLimit.ToBytesForRLPEncoding(), epoch.ToBytesForRLPEncoding(), chainId.ToBytesForRLPEncoding(), data.HexToByteArray()
+        //)
+        //{
+        //    __amount = amount;
+        //    __chainId = chainId;
+        //    __epoch = epoch;
+        //    __gasLimit = gasLimit;
+        //    __gasPrice = gasPrice;
+        //    __nonce = nonce;
+        //    __storageLimit = storageLimit;
+
+        //    var d = CIP37.CIP37ToHex40(to);
+        //   this.To = d.HexToByteArray();
+        //    this.Data = data.HexToByteArray();
+        //    this.Storage = storageLimit.ToBytesForRLPEncoding();
+        //}
 
         public string ToJsonHex()
         {
             var s = "['{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}']";
             return string.Format(s, Nonce.ToHex(),
-                GasPrice.ToHex(), Gas.ToHex(), to.ToHex(), Value.ToHex(), ToHex(Data),
+                GasPrice.ToHex(), Gas.ToHex(), To.ToHex(), Value.ToHex(), ToHex(Data),
                 Signature.V.ToHex(),
                 Signature.R.ToHex(),
                 Signature.S.ToHex());

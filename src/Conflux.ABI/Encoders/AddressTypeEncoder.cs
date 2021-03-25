@@ -33,7 +33,7 @@ namespace Conflux.ABI.Encoders
                 }
                 return addr;
             }
-            else return CIP37.CIP37ToBytes(strValue);
+            else return CIP37.CIP37ToEncodedBytes(strValue);
         }
 
         public byte[] EncodePacked(object value)
@@ -58,7 +58,7 @@ namespace Conflux.ABI.Encoders
                 }
                 return addr;
             }
-            else return CIP37.CIP37ToBytes(strValue);
+            else return CIP37.CIP37ToEncodedBytes(strValue);
         }
     }
 }

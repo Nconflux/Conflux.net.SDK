@@ -13,6 +13,17 @@ namespace Conflux.Signer
 {
     public static class Tool
     {
+        public static byte[] Combine(params byte[][] arrays)
+        {
+            byte[] bytes = new byte[arrays.Sum(a => a.Length)];
+            int offset = 0;
+            foreach (byte[] array in arrays)
+            {
+                Buffer.BlockCopy(array, 0, bytes, offset, array.Length);
+                offset += array.Length;
+            }
+            return bytes;
+        }
         public static List<string> ToHex(this List<byte[]> raw)
         {
             List<string> resultList = new List<string>();
@@ -75,17 +86,22 @@ namespace Conflux.Signer
         /// </summary>
         public byte[] Nonce { get; set; }
 
-        public byte[] Value => SimpleRlpSigner.Data[4] ?? DefaultValues.ZERO_BYTE_ARRAY;
+        public byte[] Value { get; set; }
 
-        public byte[] to { get; set; }
+        public byte[] To { get; set; }
 
-        public byte[] GasPrice => SimpleRlpSigner.Data[1] ?? DefaultValues.ZERO_BYTE_ARRAY;
+        public byte[] GasPrice { get; set; }
 
         public byte[] Gas { get; set; }
 
         public byte[] Storage { get; set; }
 
         public byte[] Data { set; get; }
+
+        public byte[] Epoch { get; set; }
+        public byte[] ChainId { get; set; }
+
+
 
         public EthECDSASignature Signature => SimpleRlpSigner.Signature;
 
@@ -96,105 +112,52 @@ namespace Conflux.Signer
         {
             return SimpleRlpSigner.GetRLPEncoded();
         }
-        #region conflux code
 
-        #endregion
-        public byte[] storageLimit { get; set; }
-        public byte[] _epochHeight { get; set; }
-        public byte[] _nonce { get; set; }
-        public byte[] chianId { get; set; }
-
-
-        protected BigInteger __amount;
-        protected BigInteger __nonce;
-        protected BigInteger __gasPrice;
-        protected BigInteger __gasLimit;
-        protected BigInteger __storageLimit;
-        protected BigInteger __epoch;
-        protected BigInteger __chainId;
 
         public string signV2(byte[] privateKey)
         {
 
-            this.chianId = __chainId.ToBytesForRLPEncoding();
-            this.Gas = __gasLimit.ToByteArray();
-            this._nonce = __nonce.ToByteArray();
 
-            List<byte[]> raw = new List<byte[]> { this.__nonce.ToBytesForRLPEncoding(),this.__gasPrice.ToBytesForRLPEncoding(),this.__gasLimit.ToBytesForRLPEncoding(),this.to,
-            this.Value,this.__storageLimit.ToBytesForRLPEncoding(),this.__epoch.ToBytesForRLPEncoding(),this.__chainId.ToBytesForRLPEncoding(),this.Data};
+            byte[][] raw = {this.Nonce,
+                this.GasPrice,
+                this.Gas,
+                this.To,
+                this.Value,
+                this.Storage,
+                this.Epoch,
+                this.ChainId,
+                this.Data };
 
-            var x1 = rlpEncode(raw).ToHex();
-            var x2 = sha3Keccack.CalculateHash(rlpEncode(raw));//sha3
-            var k = new EthECKey(privateKey, true);
-            var x3 = k.SignAndCalculateV(x2);
-
-        //   x3.V = new byte[] { 0x00 };
-
-
-            List<object> rawWithRSV = new List<object> { raw, x3.V, x3.R, x3.S };
-            var x4 = rlpEncode(rawWithRSV).ToHex();
-            return "0x" + x4;
+            byte[] rlpRaw = rlpEncode(raw);
+            byte[] rlpRawHash = sha3Keccack.CalculateHash(rlpRaw);      //sha3
+            EthECKey ethECKey = new EthECKey(privateKey, true);
+            EthECDSASignature signature = ethECKey.SignAndCalculateV(rlpRawHash);
+            string dataWithSign = rlpEncode(rlpRaw, signature).ToHex(true);
+            return dataWithSign;
         }
 
-        public string sign(byte[] privateKey, dynamic chainId)
+        public byte[] rlpEncode(byte[] bytes) => encodeBuffer(bytes);
+        public byte[] rlpEncode(params byte[][] byteArray) => encodeArray(byteArray);
+
+        public byte[] rlpEncode(byte[] rlpRaw, EthECDSASignature signature)
         {
-            var xxx22 = this.GasPrice;
-            this.storageLimit = BitConverter.GetBytes(1).Clear();
-
-            this.chianId = BitConverter.GetBytes(1).Clear();
-            this.Gas = BitConverter.GetBytes(42035).Clear();
-
-            List<byte[]> raw = new List<byte[]> { this.__nonce.ToBytesForRLPEncoding(),this.GasPrice,this.Gas,this.to,
-            this.Value,this.storageLimit,this.__epoch.ToBytesForRLPEncoding(),this.chianId,this.Data};
-
-            var x1 = rlpEncode(raw).ToHex();
-            var x2 = sha3Keccack.CalculateHash(rlpEncode(raw));//sha3
-            var k = new EthECKey("0x" + privateKey.ToHex());
-            var x3 = k.Sign(x2);
-            x3.V = new byte[] { 0x01 };
-
-            List<object> rawWithRSV = new List<object> { raw, x3.V, x3.R, x3.S };
-            var x4 = rlpEncode(rawWithRSV).ToHex();
-            return "0x" + x4;
+            byte[] byteMerged = Tool.Combine(rlpRaw, rlpEncode(signature.V), rlpEncode(signature.R), rlpEncode(signature.S));
+            return Tool.Combine(encodeLength(byteMerged.Length, ARRAY_OFFSET), byteMerged);
         }
 
-        public object encode(bool includeSignature)
+        public byte[] encodeArray(byte[][] array)
         {
-            return rlpEncode(this);
-        }
-        public byte[] rlpEncode(object value)
-        {
-            //Array
-            if (value.GetType().Name.Contains("List"))
-            {
-                return encodeArray((IEnumerable<object>)value);
-            }
-            else
-            {
-                return encodeBuffer((byte[])value);
-            }
+            byte[] byteMerged = Tool.Combine(array.Select(p => rlpEncode(p)).ToArray());
+            return Tool.Combine(encodeLength(byteMerged.Length, ARRAY_OFFSET), byteMerged);
         }
 
-        //List<byte[]>   List<byte[]>,,
-        public byte[] encodeArray(IEnumerable<object> array)
-        {
-            List<byte> byteMerged = new List<byte>();
-            foreach (var a in array)
-            {
-                byteMerged.AddRange(rlpEncode(a));
-            }
-            return encodeLength(byteMerged.Count, ARRAY_OFFSET).Add(byteMerged.ToArray()).ToArray();
-        }
         public byte[] encodeBuffer(byte[] buffer)
         {
             if (buffer.Length == 1 && buffer[0] == 0)
-            {
-                buffer = new byte[] { };
-            }
+                buffer = Array.Empty<byte>();
             return buffer.Length == 1 && buffer[0] < BUFFER_OFFSET ? buffer :
                 encodeLength(buffer.Length, BUFFER_OFFSET).Add(buffer);
         }
-
 
         public byte[] encodeLength(int length, int offset)
         {
@@ -204,10 +167,9 @@ namespace Conflux.Signer
             }
             else
             {
-                var lengthBuffer = BitConverter.GetBytes(length).Clear();
-                var firstPart = BitConverter.GetBytes(offset + SHORT_RANGE + lengthBuffer.Length).Clear().ToList();
-                firstPart.AddRange(lengthBuffer.ToList());
-                return firstPart.ToArray();
+                byte[] lengthBuffer = length.ToBytesForRLPEncoding();
+                byte[] firstPart = (offset + SHORT_RANGE + lengthBuffer.Length).ToBytesForRLPEncoding();
+                return Tool.Combine(firstPart, lengthBuffer);
             }
         }
 

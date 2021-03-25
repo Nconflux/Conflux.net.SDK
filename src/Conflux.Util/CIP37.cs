@@ -39,7 +39,7 @@ namespace Conflux.Util
             return withAddressType ? $"{networkPrefix}:{addrType}:{B32AddressString}" : $"{networkPrefix}:{B32AddressString}";
         }
 
-        public static byte[] CIP37ToBytes(string cip37Addr)
+        public static byte[] CIP37ToRawBytes(string cip37Addr)
         {
             string[] parts = cip37Addr.ToLower().Split(":");
             if (parts.Length < 2)
@@ -55,17 +55,23 @@ namespace Conflux.Util
             byte[] addressB32 = new byte[34];
             Array.Copy(bytePayload, addressB32, addressB32.Length);
             byte[] address = B32BytesToBytes(addressB32);
-            byte[] addressByte = new byte[32];
-            Array.Copy(address, 1, addressByte, 12, 20);
+            byte[] addressByte = new byte[20];
+            Buffer.BlockCopy(address, 1, addressByte, 0, 20);
             return addressByte;
         }
 
+        public static byte[] CIP37ToEncodedBytes(string cip37Addr)
+        {
+            byte[] address = CIP37ToRawBytes(cip37Addr);
+            byte[] addressByte = new byte[32];
+            Buffer.BlockCopy(address, 0, addressByte, 12, 20);
+            return addressByte;
+        } 
+
         public static string CIP37ToHex40(string cip37Addr)
         {
-            byte[] hex32 = CIP37ToBytes(cip37Addr);
-            byte[] hex20 = new byte[20];
-            Array.Copy(hex32, 12, hex20, 0, 20);
-            return $"0x{BytesToString(hex20)}";
+            byte[] hex40 = CIP37ToRawBytes(cip37Addr); 
+            return $"0x{BytesToString(hex40)}";
         }
 
         private static Regex regexNetN = new Regex("^net(\\d+)$");
