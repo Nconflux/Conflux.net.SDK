@@ -9,10 +9,31 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Conflux.Address
 {
+    public class OldAddress
+    {
+        /// <summary>
+        /// Address
+        /// </summary>
+        public string Address { get; set; }
+        /// <summary>
+        /// Network ID
+        /// </summary>
+        public string NetworkID { get; set; }
+        /// <summary>
+        /// Is Valid
+        /// </summary>
+        public bool IsValid { get; set; }
+    }
+    public enum NetworkType
+    {
+        cfx,
+        cfxtest,
+    }
     /// <summary>
     /// Base32 encoding/decoding functions.
     /// </summary>
@@ -471,7 +492,7 @@ namespace Conflux.Address
         }
         public static List<byte> StringToByteArray(string hex)
         {
-            if (hex.Length%2==1)
+            if (hex.Length % 2 == 1)
             {
                 hex = hex + "0";
             }
@@ -480,7 +501,71 @@ namespace Conflux.Address
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                              .ToList();
         }
-       public static string Encode(string address, string type)
+        public static string ByteArrayToString(Span<byte> bytes)
+        {
+            var afterBytes = new List<byte>();
+            foreach (var b in bytes)
+            {
+                afterBytes.Add(b);
+            }
+            var str = BitConverter.ToString(afterBytes.ToArray()).Replace("-", "");
+            return $@"0x{str.Substring(2, 40)}".ToLower();
+        }
+
+        //refer https://forum.conflux.fun/t/topic/4745
+        public static OldAddress Decode(string address)
+        {
+            //remove description
+            var tmpAddressList=address.ToLower().Split(":");
+            if (tmpAddressList.Length>=2)
+            {
+                address = tmpAddressList[0] + ":" + address.ToLower().Split(":")[tmpAddressList.Length - 1];
+            }
+            OldAddress oldAddress = new OldAddress { IsValid = true };
+            if (Regex.IsMatch(address, "[A-Z]") && Regex.IsMatch(address, "[a-z]"))
+            {
+                oldAddress.IsValid = false;
+                //return oldAddress;
+            }
+
+            var arrAddress = address.Split(":");
+            if (arrAddress.Length < 2)
+            {
+                oldAddress.IsValid = false;
+                //return oldAddress;
+            }
+
+            switch (arrAddress[0].ToLower())
+            {
+                case "cfx":
+                    oldAddress.NetworkID = "1029";
+                    break;
+                case "cfxtest":
+                    oldAddress.NetworkID = "1";
+                    break;
+                default:
+                    oldAddress.IsValid = false;
+                    break;
+            }
+            var decodedBytes = Base32.Rfc4648.Decode(arrAddress[1].ToLower());
+            List<byte> decodedByteList = new List<byte>();
+            foreach (var decodedByte in decodedBytes)
+            {
+                decodedByteList.Add(decodedByte);
+            }
+            var str = ByteArrayToString(decodedBytes);
+            if (Encode(str, oldAddress.NetworkID == "1" ? NetworkType.cfxtest : NetworkType.cfx) == address)
+            {
+                oldAddress.Address = str;
+            }
+            else
+            {
+                oldAddress.IsValid = false;
+            }
+            return oldAddress;
+        }
+
+        public static string Encode(string address, NetworkType type)
         {
             List<byte> sum = new List<byte> { 0 };
 
@@ -489,7 +574,7 @@ namespace Conflux.Address
             string firstPart = Base32.Rfc4648.Encode(sum.ToArray(), padding: false);
             var secondPartBytes = Base32.Rfc4648.EncodeWithBytes(sum.ToArray(), padding: false);
             var secondPart = Base32.Rfc4648.Encode(StringToByteArray(PolyMode(secondPartBytes, type).ToString("X")).ToArray(), padding: false);
-            if (type == "cfx")
+            if (type == NetworkType.cfx)
             {
                 return "cfx:" + firstPart + secondPart;
             }
@@ -497,24 +582,47 @@ namespace Conflux.Address
             {
                 return "cfxtest:" + firstPart + secondPart;
             }
-
         }
-        static long PolyMode(List<byte> input, string type)
+
+        static long PolyMode(List<byte> input, NetworkType type)
         {
             //createa checksum input
             List<byte> inputSum = new List<byte>();
-            if (type == "cfx")
+            if (type == NetworkType.cfx)
             {
                 inputSum = new List<byte> { 0x03, 0x06, 0x18, 0x00, };
                 inputSum.AddRange(input);
                 inputSum.AddRange(new List<byte> { 0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, });
             }
-            else if (type == "cfxtest")
+            else if (type == NetworkType.cfxtest)
             {
                 inputSum = new List<byte> { 0x03, 0x06, 0x18, 0x14, 0x05, 0x13, 0x14, 0x00 };
                 inputSum.AddRange(input);
                 inputSum.AddRange(new List<byte> { 0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, });
             }
+
+            long c = 1;
+            long zero = 0;
+            foreach (var d in inputSum)
+            {
+                long c0 = c >> 35;
+                c = ((c & 0x07ffffffff) << 5) ^ d;
+
+                if ((c0 & 0x01) != zero) c ^= 0x98f2bc8e61;
+                if ((c0 & 0x02) != zero) c ^= 0x79b76d99e2;
+                if ((c0 & 0x04) != zero) c ^= 0xf33e5fb3c4;
+                if ((c0 & 0x08) != zero) c ^= 0xae2eabe2a8;
+                if ((c0 & 0x10) != zero) c ^= 0x1e4f43e470;
+            }
+            return c ^ 1;
+        }
+        static long PolyMode(List<byte> input)
+        {
+            //createa checksum input
+            List<byte> inputSum = new List<byte>();
+
+            inputSum.AddRange(input);
+
 
             long c = 1;
             long zero = 0;

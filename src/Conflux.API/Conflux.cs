@@ -162,7 +162,7 @@ namespace Conflux.API
 
         public static string GeneratePrivateKey()
         {
-            var key = Conflux.Signer.EthECKey.GenerateKey();
+            var key = Conflux.Signer.CfxECKey.GenerateKey();
             return BitConverter.ToString(key.GetPrivateKeyAsBytes()).Replace("-", string.Empty);
         }
 

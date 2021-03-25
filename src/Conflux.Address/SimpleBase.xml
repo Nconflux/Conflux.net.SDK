@@ -192,6 +192,21 @@
             The default is false.
             </summary>
         </member>
+        <member name="P:Conflux.Address.OldAddress.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:Conflux.Address.OldAddress.NetworkID">
+            <summary>
+            Network ID
+            </summary>
+        </member>
+        <member name="P:Conflux.Address.OldAddress.IsValid">
+            <summary>
+            Is Valid
+            </summary>
+        </member>
         <member name="T:Conflux.Address.Base32">
             <summary>
             Base32 encoding/decoding functions.

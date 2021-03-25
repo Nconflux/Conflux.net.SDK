@@ -4,6 +4,7 @@ using Conflux.RPC.Accounts;
 using Conflux.RPC.NonceServices;
 using Conflux.RPC.TransactionManagers;
 using Conflux.Signer;
+using Conflux.Address;
 
 namespace Conflux.Web3.Accounts
 {
@@ -28,7 +29,7 @@ namespace Conflux.Web3.Accounts
 
         public string PrivateKey { get; private set; }
 
-        public Account(EthECKey key, BigInteger? chainId = null)
+        public Account(CfxECKey key, BigInteger? chainId = null)
         {
             ChainId = chainId;
             Initialise(key);
@@ -37,31 +38,32 @@ namespace Conflux.Web3.Accounts
         public Account(string privateKey, BigInteger? chainId = null)
         {
             ChainId = chainId;
-            Initialise(new EthECKey(privateKey));
+            Initialise(new CfxECKey(privateKey));
         }
 
         public Account(byte[] privateKey, BigInteger? chainId = null)
         {
             ChainId = chainId;
-            Initialise(new EthECKey(privateKey, true));
+            Initialise(new CfxECKey(privateKey, true));
         }
 
-        public Account(EthECKey key, Chain chain) : this(key, (int) chain)
+        public Account(CfxECKey key, Chain chain) : this(key, (int)chain)
         {
         }
 
-        public Account(string privateKey, Chain chain) : this(privateKey, (int) chain)
+        public Account(string privateKey, Chain chain) : this(privateKey, (int)chain)
         {
         }
 
-        public Account(byte[] privateKey, Chain chain) : this(privateKey, (int) chain)
+        public Account(byte[] privateKey, Chain chain) : this(privateKey, (int)chain)
         {
         }
 
-        private void Initialise(EthECKey key)
+        private void Initialise(CfxECKey key)
         {
             PrivateKey = key.GetPrivateKey();
             Address = key.GetPublicAddress();
+            Address = Base32.Encode(Address, NetworkType.cfxtest);
             InitialiseDefaultTransactionManager();
         }
 

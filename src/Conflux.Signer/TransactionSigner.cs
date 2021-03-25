@@ -228,14 +228,14 @@ namespace Conflux.Signer
         private string SignTransaction(byte[] privateKey, Transaction transaction)
         {
             return transaction.sign(privateKey, transaction.chainId);
-            transaction.Sign(new EthECKey(privateKey, true));
+            transaction.Sign(new CfxECKey(privateKey, true));
             return transaction.GetRLPEncoded().ToHex();
 
         }
 
         private string SignTransaction(byte[] privateKey, TransactionChainId transaction)
         {
-            transaction.Sign(new EthECKey(privateKey, true));
+            transaction.Sign(new CfxECKey(privateKey, true));
             return transaction.GetRLPEncoded().ToHex();
         }
 

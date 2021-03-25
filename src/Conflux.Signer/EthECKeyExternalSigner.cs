@@ -20,7 +20,7 @@ namespace Conflux.Signer
         public virtual async Task<string> GetAddressAsync()
         {
             var publicKey = await GetPublicKeyAsync();
-            return new EthECKey(publicKey, false).GetPublicAddress();
+            return new CfxECKey(publicKey, false).GetPublicAddress();
         }
 
         public async Task<EthECDSASignature> SignAsync(byte[] rawBytes, BigInteger chainId)
@@ -29,8 +29,8 @@ namespace Conflux.Signer
             if (CalculatesV) return new EthECDSASignature(signature);
 
             var publicKey = await GetPublicKeyAsync();
-            var recId = EthECKey.CalculateRecId(signature, rawBytes, publicKey);
-            var vChain = EthECKey.CalculateV(chainId, recId);
+            var recId = CfxECKey.CalculateRecId(signature, rawBytes, publicKey);
+            var vChain = CfxECKey.CalculateV(chainId, recId);
             signature.V = vChain.ToBytesForRLPEncoding();
             return new EthECDSASignature(signature);
         }
@@ -41,7 +41,7 @@ namespace Conflux.Signer
             if (CalculatesV) return new EthECDSASignature(signature);
 
             var publicKey = await GetPublicKeyAsync();
-            var recId = EthECKey.CalculateRecId(signature, rawBytes, publicKey);
+            var recId = CfxECKey.CalculateRecId(signature, rawBytes, publicKey);
             signature.V = new[] {(byte) (recId + 27)};
             return new EthECDSASignature(signature);
         }

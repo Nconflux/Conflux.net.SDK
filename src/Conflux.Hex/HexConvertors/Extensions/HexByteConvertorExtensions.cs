@@ -1,3 +1,4 @@
+using Conflux.Address;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,8 +51,8 @@ namespace Conflux.Hex.HexConvertors.Extensions
         public static string EnsureHexPrefix(this string value)
         {
             if (value == null) return null;
-            if (!value.HasHexPrefix())
-                return "0x" + value;
+            //if (!value.HasHexPrefix())
+            //    return "0x" + value;
             return value;
         }
 
@@ -70,6 +71,11 @@ namespace Conflux.Hex.HexConvertors.Extensions
 
         private static byte[] HexToByteArrayInternal(string value)
         {
+            if (value != null && value.ToLower().StartsWith("cfx"))
+            {
+                var oldAddress = Base32.Decode(value);
+                value = oldAddress.Address;
+            }
             byte[] bytes = null;
             if (string.IsNullOrEmpty(value))
             {
@@ -104,7 +110,7 @@ namespace Conflux.Hex.HexConvertors.Extensions
                     var upper = FromCharacterToByte(value[read_index], read_index, 4);
                     var lower = FromCharacterToByte(value[read_index + 1], read_index + 1);
 
-                    bytes[write_index++] = (byte) (upper | lower);
+                    bytes[write_index++] = (byte)(upper | lower);
                 }
             }
 
@@ -113,7 +119,8 @@ namespace Conflux.Hex.HexConvertors.Extensions
 
         public static byte[] HexToByteArray(this string value)
         {
-            try {
+            try
+            {
                 return HexToByteArrayInternal(value);
             }
             catch (FormatException ex)
@@ -125,18 +132,18 @@ namespace Conflux.Hex.HexConvertors.Extensions
 
         private static byte FromCharacterToByte(char character, int index, int shift = 0)
         {
-            var value = (byte) character;
+            var value = (byte)character;
             if (0x40 < value && 0x47 > value || 0x60 < value && 0x67 > value)
             {
                 if (0x40 == (0x40 & value))
                     if (0x20 == (0x20 & value))
-                        value = (byte) ((value + 0xA - 0x61) << shift);
+                        value = (byte)((value + 0xA - 0x61) << shift);
                     else
-                        value = (byte) ((value + 0xA - 0x41) << shift);
+                        value = (byte)((value + 0xA - 0x41) << shift);
             }
             else if (0x29 < value && 0x40 > value)
             {
-                value = (byte) ((value - 0x30) << shift);
+                value = (byte)((value - 0x30) << shift);
             }
             else
             {
