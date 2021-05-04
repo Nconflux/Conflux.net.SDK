@@ -43,6 +43,7 @@ namespace Conflux.JsonRpc.Client
         private async Task<T> SendInnerRequestAsync<T>(RpcRequestMessage reqMsg,
                                                        string route = null)
         {
+            reqMsg.Id = 1;
             var response = await SendAsync(reqMsg, route).ConfigureAwait(false);
             HandleRpcError(response);
             try

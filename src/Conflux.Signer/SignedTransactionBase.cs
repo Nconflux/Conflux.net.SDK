@@ -105,7 +105,7 @@ namespace Conflux.Signer
 
         public EthECDSASignature Signature => SimpleRlpSigner.Signature;
 
-        public abstract EthECKey Key { get; }
+        public abstract CfxECKey Key { get; }
 
 
         public byte[] GetRLPEncoded()
@@ -116,6 +116,7 @@ namespace Conflux.Signer
 
         public string signV2(byte[] privateKey)
         {
+ 
 
 
             byte[][] raw = {this.Nonce,
@@ -181,7 +182,7 @@ namespace Conflux.Signer
             return SimpleRlpSigner.GetRLPEncodedRaw();
         }
 
-        public virtual void Sign(EthECKey key)
+        public virtual void Sign(CfxECKey key)
         {
             SimpleRlpSigner.Sign(key);
         }

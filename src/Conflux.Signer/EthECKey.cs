@@ -14,35 +14,35 @@ using Org.BouncyCastle.Utilities;
 
 namespace Conflux.Signer
 {
-    public class EthECKey
+    public class CfxECKey
     {
         private static readonly SecureRandom SecureRandom = new SecureRandom();
         public static byte DEFAULT_PREFIX = 0x04;
         private readonly ECKey _ecKey;
 
-        public EthECKey(string privateKey)
+        public CfxECKey(string privateKey)
         {
             _ecKey = new ECKey(privateKey.HexToByteArray(), true);
         }
 
 
-        public EthECKey(byte[] vch, bool isPrivate)
+        public CfxECKey(byte[] vch, bool isPrivate)
         {
             _ecKey = new ECKey(vch, isPrivate);
         }
 
-        public EthECKey(byte[] vch, bool isPrivate, byte prefix)
+        public CfxECKey(byte[] vch, bool isPrivate, byte prefix)
         {
             _ecKey = new ECKey(ByteUtil.Merge(new[] { prefix }, vch), isPrivate);
         }
 
-        internal EthECKey(ECKey ecKey)
+        internal CfxECKey(ECKey ecKey)
         {
             _ecKey = ecKey;
         }
 
 
-        public byte[] CalculateCommonSecret(EthECKey publicKey)
+        public byte[] CalculateCommonSecret(CfxECKey publicKey)
         {
             var agreement = new ECDHBasicAgreement();
             agreement.Init(_ecKey.PrivateKey);
@@ -80,7 +80,7 @@ namespace Conflux.Signer
             return recId;
         }
 
-        public static EthECKey GenerateKey()
+        public static CfxECKey GenerateKey()
         {
             var gen = new ECKeyPairGenerator("EC");
             var keyGenParam = new KeyGenerationParameters(SecureRandom, 256);
@@ -89,7 +89,7 @@ namespace Conflux.Signer
             var privateBytes = ((ECPrivateKeyParameters)keyPair.Private).D.ToByteArray();
             if (privateBytes.Length != 32)
                 return GenerateKey();
-            return new EthECKey(privateBytes, true);
+            return new CfxECKey(privateBytes, true);
         }
 
         public byte[] GetPrivateKeyAsBytes()
@@ -128,7 +128,7 @@ namespace Conflux.Signer
 
         public static string GetPublicAddress(string privateKey)
         {
-            var key = new EthECKey(privateKey.HexToByteArray(), true);
+            var key = new CfxECKey(privateKey.HexToByteArray(), true);
             return key.GetPublicAddress();
         }
 
@@ -168,20 +168,20 @@ namespace Conflux.Signer
             return GetRecIdFromVChain(vChain.ToBigIntegerFromRLPDecoded(), chainId);
         }
 
-        public static EthECKey RecoverFromSignature(EthECDSASignature signature, byte[] hash)
+        public static CfxECKey RecoverFromSignature(EthECDSASignature signature, byte[] hash)
         {
-            return new EthECKey(ECKey.RecoverFromSignature(GetRecIdFromV(signature.V), signature.ECDSASignature, hash,
+            return new CfxECKey(ECKey.RecoverFromSignature(GetRecIdFromV(signature.V), signature.ECDSASignature, hash,
                 false));
         }
 
-        public static EthECKey RecoverFromSignature(EthECDSASignature signature, int recId, byte[] hash)
+        public static CfxECKey RecoverFromSignature(EthECDSASignature signature, int recId, byte[] hash)
         {
-            return new EthECKey(ECKey.RecoverFromSignature(recId, signature.ECDSASignature, hash, false));
+            return new CfxECKey(ECKey.RecoverFromSignature(recId, signature.ECDSASignature, hash, false));
         }
 
-        public static EthECKey RecoverFromSignature(EthECDSASignature signature, byte[] hash, BigInteger chainId)
+        public static CfxECKey RecoverFromSignature(EthECDSASignature signature, byte[] hash, BigInteger chainId)
         {
-            return new EthECKey(ECKey.RecoverFromSignature(GetRecIdFromVChain(signature.V, chainId),
+            return new CfxECKey(ECKey.RecoverFromSignature(GetRecIdFromVChain(signature.V, chainId),
                 signature.ECDSASignature, hash, false));
         }
 
@@ -202,8 +202,10 @@ namespace Conflux.Signer
         public EthECDSASignature SignAndCalculateV(byte[] hash)
         {
             var signature = _ecKey.Sign(hash);
+ 
             var recId = CalculateRecId(signature, hash); 
             signature.V = new[] { (byte)(recId) };
+ 
             return new EthECDSASignature(signature);
         }
 

@@ -72,6 +72,7 @@ namespace Conflux.Web3.Accounts
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             if (!transaction.From.IsTheSameAddress(Account.Address))
                 throw new Exception("Invalid account used signing");
+ 
             if (transaction.Nonce is null)
                 transaction.Nonce = await GetNonceAsync(transaction).ConfigureAwait(false);
             if (transaction.EpochNumber is null)
@@ -88,6 +89,7 @@ namespace Conflux.Web3.Accounts
             }
             if (transaction.GasPrice is null)
                 transaction.GasPrice = new HexBigInteger(Transaction.DEFAULT_GAS_PRICE);
+ 
             return SignTransaction(transaction);
         }
 
@@ -114,6 +116,7 @@ namespace Conflux.Web3.Accounts
                 throw new Exception("Invalid account used signing");
 
             var ethSendTransaction = new EthSendRawTransaction(Client);
+ 
             var signedTransaction = await SignTransactionRetrievingNextNonceAsync(transaction).ConfigureAwait(false);
             return await ethSendTransaction.SendRequestAsync(signedTransaction.EnsureHexPrefix()).ConfigureAwait(false);
         }

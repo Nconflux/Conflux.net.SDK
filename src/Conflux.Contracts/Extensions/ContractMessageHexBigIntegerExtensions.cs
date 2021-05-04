@@ -7,6 +7,7 @@ namespace Conflux.Contracts
 {
     public static class ContractMessageHexBigIntegerExtensions
     {
+ 
         /// <summary>
         /// Convert BigInteger to HexBigInteger, if input is null, return null;
         /// </summary>
@@ -20,6 +21,7 @@ namespace Conflux.Contracts
         /// <param name="source"></param>
         /// <returns></returns>
         public static HexBigInteger ToHexBigInteger(this BigInteger input) => new HexBigInteger(input);
+ 
 
         public static string SetDefaultFromAddressIfNotSet(this ContractMessageBase contractMessage, string defaultFromAdddress)
         {

@@ -19,6 +19,7 @@ namespace Conflux.Contracts.DeploymentHandlers
 
         public async Task<string> SendTransactionAsync(TContractDeploymentMessage deploymentMessage = null)
         {
+
             if (deploymentMessage == null)
                 deploymentMessage = new TContractDeploymentMessage();
             if (deploymentMessage.Storage == null || deploymentMessage.Gas == null)
@@ -29,7 +30,10 @@ namespace Conflux.Contracts.DeploymentHandlers
                 if (deploymentMessage.Storage == null)
                     deploymentMessage.Storage = estimatedGasAndCollateral.StorageCollateralized;
             }
+
             var transactionInput = DeploymentMessageEncodingService.CreateTransactionInput(deploymentMessage);
+            transactionInput.Gas =new HexBigInteger(15000000);
+            //deploymentMessage.Gas = await GetOrEstimateMaximumGasAsync(deploymentMessage);
             return await TransactionManager.SendTransactionAsync(transactionInput).ConfigureAwait(false);
         }
     }

@@ -94,13 +94,13 @@ namespace Conflux.Signer
             Data = fullData.ToArray();
         }
 
-        public void Sign(EthECKey key)
+        public void Sign(CfxECKey key)
         {
             Signature = key.SignAndCalculateV(RawHash);
             rlpSignedEncoded = null;
         }
 
-        public void Sign(EthECKey key, BigInteger chainId)
+        public void Sign(CfxECKey key, BigInteger chainId)
         {
             Signature = key.SignAndCalculateV(RawHash, chainId);
             rlpSignedEncoded = null;

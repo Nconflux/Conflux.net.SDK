@@ -10,7 +10,7 @@ namespace Conflux.Signer
         public virtual string EcRecover(byte[] hashMessage, string signature)
         {
             var ecdaSignature = ExtractEcdsaSignature(signature);
-            return EthECKey.RecoverFromSignature(ecdaSignature, hashMessage).GetPublicAddress();
+            return CfxECKey.RecoverFromSignature(ecdaSignature, hashMessage).GetPublicAddress();
         }
 
         public byte[] Hash(byte[] plainMessage)
@@ -26,15 +26,15 @@ namespace Conflux.Signer
 
         public string HashAndSign(string plainMessage, string privateKey)
         {
-            return HashAndSign(Encoding.UTF8.GetBytes(plainMessage), new EthECKey(privateKey.HexToByteArray(), true));
+            return HashAndSign(Encoding.UTF8.GetBytes(plainMessage), new CfxECKey(privateKey.HexToByteArray(), true));
         }
 
         public string HashAndSign(byte[] plainMessage, string privateKey)
         {
-            return HashAndSign(plainMessage, new EthECKey(privateKey.HexToByteArray(), true));
+            return HashAndSign(plainMessage, new CfxECKey(privateKey.HexToByteArray(), true));
         }
 
-        public virtual string HashAndSign(byte[] plainMessage, EthECKey key)
+        public virtual string HashAndSign(byte[] plainMessage, CfxECKey key)
         {
             var hash = Hash(plainMessage);
             var signature = key.SignAndCalculateV(hash);
@@ -43,10 +43,10 @@ namespace Conflux.Signer
 
         public string Sign(byte[] message, string privateKey)
         {
-            return Sign(message, new EthECKey(privateKey.HexToByteArray(), true));
+            return Sign(message, new CfxECKey(privateKey.HexToByteArray(), true));
         }
 
-        public virtual string Sign(byte[] message, EthECKey key)
+        public virtual string Sign(byte[] message, CfxECKey key)
         {
             var signature = key.SignAndCalculateV(message);
             return CreateStringSignature(signature);
@@ -54,7 +54,7 @@ namespace Conflux.Signer
 
         public virtual EthECDSASignature SignAndCalculateV(byte[] message, string privateKey)
         {
-            return new EthECKey(privateKey.HexToByteArray(), true).SignAndCalculateV(message);
+            return new CfxECKey(privateKey.HexToByteArray(), true).SignAndCalculateV(message);
         }
 
         private static string CreateStringSignature(EthECDSASignature signature)

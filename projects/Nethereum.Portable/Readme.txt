@@ -1,1 +1,0 @@
-This uses nuget 3.5 to do the packing. It needs to be built before hand.

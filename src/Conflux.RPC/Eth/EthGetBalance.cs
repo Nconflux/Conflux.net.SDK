@@ -56,7 +56,9 @@ namespace Conflux.RPC.Eth
         public Task<HexBigInteger> SendRequestAsync(string address, object id = null)
         {
             if (address == null) throw new ArgumentNullException(nameof(address));
+ 
             return base.SendRequestAsync(id, address, DefaultBlock);
+ 
         }
 
         public RpcRequest BuildRequest(string address, BlockParameter block, object id = null)

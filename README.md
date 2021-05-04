@@ -17,7 +17,7 @@ Wechat group: please join our support's wechat account 1725325128,  he will invi
 We should be able to answer there any simple queries, general comments or requests, everyone is welcome. In a similar feel free to raise any issue or pull request.
 
 ## Documentation
-The documentation and guides can be found at [NConflux Documentation](https://www.yuque.com/docs/share/218b0c83-ab0f-4195-a23d-a559b851844a). 
+The documentation and guides can be found at [NConflux Documentation](https://www.yuque.com/frankjin-mw8zm/hnpg8o/kxbtp4). 
 
 ## Features
 

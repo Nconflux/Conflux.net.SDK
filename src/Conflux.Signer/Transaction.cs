@@ -61,9 +61,9 @@ namespace Conflux.Signer
             this.GasPrice = gasPrice.ToBytesForRLPEncoding();
             this.Gas = gasLimit.ToBytesForRLPEncoding();
             this.Storage = storageLimit.ToBytesForRLPEncoding();
-            this.Data = data.HexToByteArray();
+            this.Data = data.HexToByteArray(); 
             this.Epoch = epoch.ToBytesForRLPEncoding();
-            this.ChainId = chainId.ToBytesForRLPEncoding();
+            this.ChainId = chainId.ToBytesForRLPEncoding(); 
         }
 
         //public Transaction(string to, BigInteger amount, BigInteger nonce, BigInteger gasPrice,
@@ -109,7 +109,7 @@ namespace Conflux.Signer
             SimpleRlpSigner.Sign(key);
         }
 
-        public override EthECKey Key => EthECKey.RecoverFromSignature(SimpleRlpSigner.Signature, SimpleRlpSigner.RawHash);
+        public override CfxECKey Key => CfxECKey.RecoverFromSignature(SimpleRlpSigner.Signature, SimpleRlpSigner.RawHash);
 
 #if !DOTNET35
         public override async Task SignExternallyAsync(IEthExternalSigner externalSigner)

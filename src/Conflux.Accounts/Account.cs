@@ -4,7 +4,9 @@ using Conflux.RPC.Accounts;
 using Conflux.RPC.NonceServices;
 using Conflux.RPC.TransactionManagers;
 using Conflux.Signer;
+
 using Conflux.Util;
+ 
 
 namespace Conflux.Web3.Accounts
 {
@@ -29,7 +31,9 @@ namespace Conflux.Web3.Accounts
 
         public string PrivateKey { get; private set; }
 
+ 
         public Account(EthECKey key, uint? chainId = null)
+ 
         {
             ChainId = chainId;
             Initialise(key);
@@ -38,15 +42,16 @@ namespace Conflux.Web3.Accounts
         public Account(string privateKey, uint? chainId = null)
         {
             ChainId = chainId;
-            Initialise(new EthECKey(privateKey));
+            Initialise(new CfxECKey(privateKey));
         }
 
         public Account(byte[] privateKey, uint? chainId = null)
         {
             ChainId = chainId;
-            Initialise(new EthECKey(privateKey, true));
+            Initialise(new CfxECKey(privateKey, true));
         }
 
+ 
         public Account(EthECKey key, Chain chain) : this(key, (uint)chain)
         {
         }
@@ -56,14 +61,17 @@ namespace Conflux.Web3.Accounts
         }
 
         public Account(byte[] privateKey, Chain chain) : this(privateKey, (uint)chain)
+ 
         {
         }
 
-        private void Initialise(EthECKey key)
+        private void Initialise(CfxECKey key)
         {
+ 
             this.PrivateKey = key.GetPrivateKey();
             this.Hex40Address = key.GetPublicAddress();
             this.Address = CIP37.Hex40ToCIP37(this.Hex40Address, ChainId); 
+  
             InitialiseDefaultTransactionManager();
         }
 

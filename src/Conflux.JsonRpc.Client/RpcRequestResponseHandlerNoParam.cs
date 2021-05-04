@@ -16,7 +16,7 @@ namespace Conflux.JsonRpc.Client
         public string MethodName  => RpcRequestBuilder.MethodName;
         public IClient Client { get; }
 
-        public virtual Task<TResponse> SendRequestAsync(object id)
+        public virtual Task<TResponse> SendRequestAsync(dynamic id)
         {
             if (Client == null) throw new NullReferenceException("RpcRequestHandler Client is null");
             return Client.SendRequestAsync<TResponse>(BuildRequest(id));
@@ -24,7 +24,7 @@ namespace Conflux.JsonRpc.Client
 
         public RpcRequest BuildRequest(object id = null)
         {
-            return RpcRequestBuilder.BuildRequest(id);
+            return RpcRequestBuilder.BuildRequest(id,id);
         }
     }
 

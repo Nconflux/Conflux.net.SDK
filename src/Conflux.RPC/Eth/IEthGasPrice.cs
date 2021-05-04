@@ -3,7 +3,7 @@ using Conflux.RPC.Infrastructure;
 
 namespace Conflux.RPC.Eth
 {
-    public interface IEthGasPrice : IGenericRpcRequestResponseHandlerNoParam<HexBigInteger>
+    public interface IEthEstimateGasAndCollateral :IGenericRpcRequestResponseHandlerNoParam<HexBigInteger>
     {
 
     }

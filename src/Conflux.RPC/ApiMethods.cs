@@ -10,6 +10,7 @@
         cfx_mining,
         cfx_hashrate,
         cfx_gasPrice,
+        cfx_estimateGasAndCollateral,
         cfx_accounts,
         cfx_blockNumber,
         cfx_getBalance,

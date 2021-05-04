@@ -48,6 +48,16 @@ namespace Conflux.API
             var ret = await web3.Cfx.GetEpochNumber.SendRequestAsync();
             return Convert.ToInt32(ret.Value.ToString());
         }
+        public async Task<int> GetGasPrice()
+        {
+            var ret = await web3.Cfx.GasPrice.SendRequestAsync();
+            return Convert.ToInt32(ret.Value.ToString());
+        }
+        public async Task<int> GetGas()
+        {
+            var ret = await web3.Cfx.EstimateGasAndCollateral.SendRequestAsync();
+            return Convert.ToInt32(ret.Value.ToString());
+        }
         //002
         /// <summary>
         /// 
@@ -56,6 +66,7 @@ namespace Conflux.API
         /// <returns></returns>
         public async Task<decimal> GetBalance(string wallet)
         {
+            
             var ret = await web3.Cfx.GetBalance.SendRequestAsync(wallet);
             return ConfluxWeb3.Web3.Convert.FromDrip(ret.Value);
         }
@@ -93,7 +104,7 @@ namespace Conflux.API
         /// <returns></returns>
         public async Task<TransactionReceipt> DeployContract(string byteCode)
         {
-            Contract.BYTECODE = byteCode;
+            Contract.BYTECODE = byteCode.Trim();
             var deploymentMessage = new Contract
             {
                 Nonce = await web3.Cfx.GetNextNonce.SendRequestAsync(address, null),
@@ -104,7 +115,9 @@ namespace Conflux.API
             return await deploymentHandler.SendRequestAndWaitForReceiptAsync(deploymentMessage);
         }
 
+ 
         [Obsolete("Using other async function instead")]
+  
         /// <summary>
         /// Call Contract
         /// </summary>
@@ -123,6 +136,8 @@ namespace Conflux.API
             {
 
                 result = await function.SendTransactionAsync(address, await web3.Cfx.GetEpochNumber.SendRequestAsync(), await web3.Cfx.GetNextNonce.SendRequestAsync(address, null), parameters);
+
+
             }
             else
             {
@@ -203,7 +218,7 @@ namespace Conflux.API
 
         public static string GeneratePrivateKey()
         {
-            var key = Conflux.Signer.EthECKey.GenerateKey();
+            var key = Conflux.Signer.CfxECKey.GenerateKey();
             return BitConverter.ToString(key.GetPrivateKeyAsBytes()).Replace("-", string.Empty);
         }
 

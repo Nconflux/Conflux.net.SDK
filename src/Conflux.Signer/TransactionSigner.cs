@@ -221,10 +221,12 @@ namespace Conflux.Signer
 
         private string SignTransaction(byte[] privateKey, Transaction transaction)
         {
+ 
  //           string s0 = transaction.sign(privateKey, transaction.chainId);
             string s1 = transaction.signV2(privateKey);
         // //   transaction.Sign(new EthECKey(privateKey, true));
             //string s2 = transaction.GetRLPEncoded().ToHex();
+ 
 
      //    string s3 = string.Join("\n\n\n", s0, s1, s2);
             return s1;
@@ -234,7 +236,7 @@ namespace Conflux.Signer
 
         private string SignTransaction(byte[] privateKey, TransactionChainId transaction)
         {
-            transaction.Sign(new EthECKey(privateKey, true));
+            transaction.Sign(new CfxECKey(privateKey, true));
             return transaction.GetRLPEncoded().ToHex();
         }
 

@@ -128,6 +128,7 @@ namespace Conflux.Contracts
             transaction.Nonce = nonce;
             transaction.EpochNumber = epochNumber;
             transaction.StorageLimit = storageLimit;
+
             return transaction;
         }
 
