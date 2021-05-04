@@ -7,37 +7,19 @@ namespace Conflux.Contracts
 {
     public static class ContractMessageHexBigIntegerExtensions
     {
-        public static HexBigInteger GetHexMaximumGas(this ContractMessageBase contractMessage)
-        {
-            return GetDefaultValue(contractMessage.Gas);
-        }
+        /// <summary>
+        /// Convert BigInteger to HexBigInteger, if input is null, return null;
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static HexBigInteger ToHexBigInteger(this BigInteger? input) => input?.ToHexBigInteger();
 
-        public static HexBigInteger GetHexValue(this ContractMessageBase contractMessage)
-        {
-            return GetDefaultValue(contractMessage.AmountToSend);
-        }
-
-        public static HexBigInteger GetHexGasPrice(this ContractMessageBase contractMessage)
-        {
-            return new HexBigInteger("0x9999999");
-            return GetDefaultValue(contractMessage.GasPrice);
-        }
-
-        public static void SetGasPriceFromGwei(this ContractMessageBase contractMessage, decimal gweiAmount)
-        {
-            contractMessage.GasPrice = UnitConversion.Convert.ToWei(gweiAmount, UnitConversion.EthUnit.Gwei);
-        }
-
-        public static HexBigInteger GetHexNonce(this ContractMessageBase contractMessage)
-        {
-            return GetDefaultValue(contractMessage.Nonce);
-        }
-     
-
-        public static HexBigInteger GetDefaultValue(BigInteger? bigInteger)
-        {
-            return bigInteger == null ? null : new HexBigInteger(bigInteger.Value);
-        }
+        /// <summary>
+        /// Convert BigInteger to HexBigInteger
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static HexBigInteger ToHexBigInteger(this BigInteger input) => new HexBigInteger(input);
 
         public static string SetDefaultFromAddressIfNotSet(this ContractMessageBase contractMessage, string defaultFromAdddress)
         {

@@ -17,9 +17,9 @@ namespace Conflux.RPC.TransactionManagers
         IAccount Account { get; }
 
 #if !DOTNET35
-        
+
         Task<string> SendTransactionAsync(TransactionInput transactionInput);
-        Task<HexBigInteger> EstimateGasAsync(CallInput callInput);
+        Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync(CallInput callInput);
         Task<string> SendTransactionAsync(string from, string to, HexBigInteger amount);
         Task<string> SignTransactionAsync(TransactionInput transaction);
         ITransactionReceiptService TransactionReceiptService { get; set; }

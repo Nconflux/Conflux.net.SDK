@@ -13,7 +13,7 @@ namespace Conflux.Contracts
         {
         }
 
-        protected FunctionBuilder FunctionBuilder => (FunctionBuilder) FunctionBuilderBase;
+        protected FunctionBuilder FunctionBuilder => (FunctionBuilder)FunctionBuilderBase;
 
         public CallInput CreateCallInput(params object[] functionInput)
         {
@@ -33,15 +33,19 @@ namespace Conflux.Contracts
 
         public TransactionInput CreateTransactionInput(string from, HexBigInteger epochNumber = null, HexBigInteger nonce = null, params object[] functionInput)
         {
-            return FunctionBuilder.CreateTransactionInput(from, epochNumber, nonce, functionInput);
+            return FunctionBuilder.CreateTransactionInput(from, null, null, null, null, epochNumber, nonce, functionInput);
         }
 
-        
-
-        public TransactionInput CreateTransactionInput(string from, HexBigInteger gas, HexBigInteger gasPrice,
+        public TransactionInput CreateTransactionInput(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
             HexBigInteger value, params object[] functionInput)
         {
-            return FunctionBuilder.CreateTransactionInput(from, gas, gasPrice, value, functionInput);
+            return FunctionBuilder.CreateTransactionInput(from, gas, gasPrice, storage, value, functionInput);
+        }
+
+        public TransactionInput CreateTransactionInput(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
+          HexBigInteger value, HexBigInteger epochNumber, HexBigInteger nonce, params object[] functionInput)
+        {
+            return FunctionBuilder.CreateTransactionInput(from, gas, gasPrice, storage, value, epochNumber, nonce, functionInput);
         }
 
         public TransactionInput CreateTransactionInput(TransactionInput input, params object[] functionInput)
@@ -119,28 +123,43 @@ namespace Conflux.Contracts
             return base.CallAsync(new TReturn(), CreateCallInput(functionInput), blockParameter);
         }
 
-        public Task<HexBigInteger> EstimateGasAsync(params object[] functionInput)
+        public Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync(params object[] functionInput)
         {
-            return EstimateGasFromEncAsync(CreateCallInput(functionInput));
+            return EstimateGasAndCollateralAsync(CreateCallInput(functionInput));
         }
 
-        public Task<HexBigInteger> EstimateGasAsync(string from, HexBigInteger gas,
+        public Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync(string from, HexBigInteger gas,
             HexBigInteger value, params object[] functionInput)
         {
-            return EstimateGasFromEncAsync(CreateCallInput(from, gas, value, functionInput));
+            return EstimateGasAndCollateralAsync(CreateCallInput(from, gas, value, functionInput));
         }
 
-        public Task<string> SendTransactionAsync(string from, HexBigInteger epochNumber = null, HexBigInteger nonce = null, params object[] functionInput)
+        public Task<string> SendTransactionAsync(string from, params object[] functionInput)
         {
-            return base.SendTransactionAsync(CreateTransactionInput(from,epochNumber,nonce, functionInput));
+            return base.SendTransactionAsync(CreateTransactionInput(from, null, null, functionInput));
         }
 
-        
+        public Task<string> SendTransactionAsync(string from, HexBigInteger gasPrice, params object[] functionInput)
+        {
+            return base.SendTransactionAsync(CreateTransactionInput(from, null, gasPrice, null, null, functionInput));
+        }
 
-        public Task<string> SendTransactionAsync(string from, HexBigInteger gas, HexBigInteger gasPrice,
+        public Task<string> SendTransactionAsync(string from, HexBigInteger epochNumber, HexBigInteger nonce, params object[] functionInput)
+        {
+            return base.SendTransactionAsync(CreateTransactionInput(from, epochNumber, nonce, functionInput));
+        }
+
+
+
+        public Task<string> SendTransactionAsync(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
             HexBigInteger value, params object[] functionInput)
         {
-            return base.SendTransactionAsync(CreateTransactionInput(from, gas, gasPrice, value, functionInput));
+            return base.SendTransactionAsync(CreateTransactionInput(from, gas, gasPrice, storage, value, functionInput));
+        }
+        public Task<string> SendTransactionAsync(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
+              HexBigInteger value, HexBigInteger epochNumber, HexBigInteger nonce, params object[] functionInput)
+        {
+            return base.SendTransactionAsync(CreateTransactionInput(from, gas, gasPrice, storage, value, epochNumber, nonce, functionInput));
         }
 
         public Task<string> SendTransactionAsync(TransactionInput input, params object[] functionInput)
@@ -165,6 +184,12 @@ namespace Conflux.Contracts
         {
             return base.SendTransactionAndWaitForReceiptAsync(
                 CreateTransactionInput(from, gas, gasPrice, value, functionInput), receiptRequestCancellationToken);
+        }
+
+        public Task<TransactionReceipt> SendTransactionAndWaitForReceiptAsync(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
+                HexBigInteger value, HexBigInteger epochNumber, HexBigInteger nonce, CancellationTokenSource receiptRequestCancellationToken = null, params object[] functionInput)
+        {
+            return base.SendTransactionAndWaitForReceiptAsync(CreateTransactionInput(from, gas, gasPrice, storage, value, epochNumber, nonce, functionInput), receiptRequestCancellationToken);
         }
 
         public Task<TransactionReceipt> SendTransactionAndWaitForReceiptAsync(TransactionInput input,

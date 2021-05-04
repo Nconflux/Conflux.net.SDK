@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Conflux.Hex.HexTypes;
 using Conflux.JsonRpc.Client;
+using Conflux.RPC.Eth;
 using Conflux.RPC.Eth.DTOs;
 using Conflux.RPC.Personal;
 using Conflux.RPC.TransactionManagers;
@@ -56,12 +57,22 @@ namespace Conflux.Web3.Accounts.Managed
             if (Client == null) throw new NullReferenceException("Client not configured");
             if (transactionInput == null) throw new ArgumentNullException(nameof(transactionInput));
             if (transactionInput.From != Account.Address) throw new Exception("Invalid account used");
-            var gasPrice = await GetGasPriceAsync(transactionInput).ConfigureAwait(false);
-            transactionInput.GasPrice = gasPrice;
+            if (transactionInput.Nonce is null)
+                transactionInput.Nonce = await GetNonceAsync(transactionInput).ConfigureAwait(false);
+            if (transactionInput.EpochNumber is null)
+                transactionInput.EpochNumber = await (new EthGetNextNonce(Client)).SendRequestAsync(Account.Address).ConfigureAwait(false);
+            if (transactionInput.Gas is null || transactionInput.StorageLimit is null)
+            {
+                EstimatedGasAndCollateral estimatedGasAndCollateral = await this.EstimatedGasAndCollateralAsync(transactionInput).ConfigureAwait(false); ;
+                if (transactionInput.Gas is null)
+                    transactionInput.Gas = estimatedGasAndCollateral.GasUsed;
+                if (transactionInput.StorageLimit is null)
+                    transactionInput.StorageLimit = estimatedGasAndCollateral.StorageCollateralized;
+            }
+            if (transactionInput.GasPrice is null)
+                transactionInput.GasPrice = new HexBigInteger(Transaction.DEFAULT_GAS_PRICE);
 
-            SetDefaultGasPriceAndCostIfNotSet(transactionInput);
-            var nonce = await GetNonceAsync(transactionInput).ConfigureAwait(false);
-            if (nonce != null) transactionInput.Nonce = nonce;
+            SetDefaultGasPriceAndCostIfNotSet(transactionInput); 
             var ethSendTransaction = new PersonalSignAndSendTransaction(Client);
             return await ethSendTransaction.SendRequestAsync(transactionInput, ((ManagedAccount)Account).Password)
                 .ConfigureAwait(false);
@@ -70,7 +81,7 @@ namespace Conflux.Web3.Accounts.Managed
         public override Task<string> SendTransactionAsync(string from, string to, HexBigInteger amount)
         {
             if (from != Account.Address) throw new Exception("Invalid account used");
-            var transactionInput = new TransactionInput(null, to, from, null, null, amount);
+            var transactionInput = new TransactionInput(null, to, from, null, null, null, amount);
             return SendTransactionAsync(transactionInput);
         }
 

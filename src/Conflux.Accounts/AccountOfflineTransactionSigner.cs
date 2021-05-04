@@ -24,7 +24,7 @@ namespace Conflux.Web3.Accounts
 
         public string SignTransaction(Account account, TransactionInput transaction, BigInteger? chainId = null)
         {
-            
+
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             if (string.IsNullOrWhiteSpace(transaction.From))
             {
@@ -38,33 +38,12 @@ namespace Conflux.Web3.Accounts
             var nonce = transaction.Nonce;
             if (nonce == null) throw new ArgumentNullException(nameof(transaction), "Transaction nonce has not been set");
 
-            var gasPrice = transaction.GasPrice;
-            var gasLimit = transaction.Gas;
-
-            var value = transaction.Value ?? new HexBigInteger(0);
-
-            string signedTransaction="";
-            if (true)
-            {
-                signedTransaction = _transactionSigner.SignTransaction(account.PrivateKey,
-                    transaction.To,
-                    value.Value, nonce,
-                    gasPrice.Value, gasLimit.Value, transaction.Data, transaction.EpochNumber, transaction.Nonce,chainId);
-      
-                //var actualLength = signedTransaction.Length;
-                //if (targetLength != actualLength)
-                //{
-                //    //ERROR
-                //}
-            }
-            else
-            {
-                signedTransaction = _transactionSigner.SignTransaction(account.PrivateKey, chainId.Value,
-                    transaction.To,
-                    value.Value, nonce,
-                    gasPrice.Value, gasLimit.Value, transaction.Data);
-            }
-
+            string signedTransaction = _transactionSigner.SignTransaction(
+                account.PrivateKey, transaction.To,
+                transaction.Value, transaction.Nonce,
+                transaction.GasPrice, transaction.Gas,
+                transaction.StorageLimit, transaction.Data,
+                transaction.EpochNumber, chainId.Value);
             return signedTransaction;
         }
     }

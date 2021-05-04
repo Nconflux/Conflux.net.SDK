@@ -22,7 +22,11 @@ namespace Conflux.Contracts.CQS
         /// <summary>
         /// The Gas price per unit of Gas
         /// </summary>
-        public BigInteger? GasPrice { get; set; }
+        public BigInteger? GasPrice { get; set; } 
+        /// <summary>
+        /// The Maximum Storage to use for the transaction
+        /// </summary>
+        public BigInteger? Storage { get; set; }
         /// <summary>
         /// The address of the sender
         /// </summary>
@@ -35,7 +39,6 @@ namespace Conflux.Contracts.CQS
         /// so the next nonce for the next transaction will be the total number of transactions for that account
         /// </remarks>
         public BigInteger? Nonce { get; set; }
-        public HexBigInteger EpochNumber { get; set; }
-        public int StorageLimit { get; set; }
+        public BigInteger? EpochNumber { get; set; } 
     }
 }

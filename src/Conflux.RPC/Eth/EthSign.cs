@@ -37,14 +37,14 @@ namespace Conflux.RPC.Eth
         {
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (data == null) throw new ArgumentNullException(nameof(data));
-            return base.SendRequestAsync(id, address.EnsureHexPrefix(), data);
+            return base.SendRequestAsync(id, address, data);
         }
 
         public RpcRequest BuildRequest(string address, string data, object id = null)
         {
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (data == null) throw new ArgumentNullException(nameof(data));
-            return base.BuildRequest(id, address.EnsureHexPrefix(), data);
+            return base.BuildRequest(id, address, data);
         }
     }
 }

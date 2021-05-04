@@ -6,10 +6,8 @@ using Conflux.RPC.TransactionManagers;
 namespace Conflux.Contracts.DeploymentHandlers
 {
 #if !DOTNET35
-    public class
-        DeploymentTransactionReceiptPollHandler<TContractDeploymentMessage> :
-            DeploymentHandlerBase<TContractDeploymentMessage>,
-            IDeploymentTransactionReceiptPollHandler<TContractDeploymentMessage>
+    public class DeploymentTransactionReceiptPollHandler<TContractDeploymentMessage> : 
+        DeploymentHandlerBase<TContractDeploymentMessage>, IDeploymentTransactionReceiptPollHandler<TContractDeploymentMessage>
         where TContractDeploymentMessage : ContractDeploymentMessage, new()
     {
         private IDeploymentTransactionSenderHandler<TContractDeploymentMessage>
@@ -42,4 +40,3 @@ namespace Conflux.Contracts.DeploymentHandlers
 }
 
 
-   

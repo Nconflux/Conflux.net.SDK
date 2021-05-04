@@ -58,7 +58,7 @@ namespace Conflux.Contracts
             HexBigInteger value, object[] values)
         {
             var encodedData = BuildEncodedData(abi, contractByteCode, values);
-            var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, value);
+            var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, null, value, null, null);
             return transaction;
         }
 
@@ -67,7 +67,7 @@ namespace Conflux.Contracts
             HexBigInteger value, HexBigInteger nonce, object[] values)
         {
             var encodedData = BuildEncodedData(abi, contractByteCode, values);
-            var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, value);
+            var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, null, value, null, nonce);
             transaction.Nonce = nonce;
             return transaction;
         }
@@ -116,18 +116,18 @@ namespace Conflux.Contracts
             HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, TConstructorParams inputParams)
         {
             var encodedData = _constructorCallEncoder.EncodeRequest(inputParams, contractByteCode);
-            var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, value);
+            var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, null, value);
             return transaction;
         }
 
         public TransactionInput BuildTransaction<TConstructorParams>(string contractByteCode, string from,
-            HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, HexBigInteger nonce, HexBigInteger epochNumber, TConstructorParams inputParams)
+            HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storageLimit, HexBigInteger value, HexBigInteger nonce, HexBigInteger epochNumber, TConstructorParams inputParams)
         {
             var encodedData = _constructorCallEncoder.EncodeRequest(inputParams, contractByteCode);
-            var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, value);
+            var transaction = new TransactionInput(encodedData, null, from, gas, gasPrice, storageLimit, value, epochNumber, nonce);
             transaction.Nonce = nonce;
             transaction.EpochNumber = epochNumber;
-            transaction.StorageLimit = new HexBigInteger("0x2222");
+            transaction.StorageLimit = storageLimit;
             return transaction;
         }
 
