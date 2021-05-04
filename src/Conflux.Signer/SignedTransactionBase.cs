@@ -131,7 +131,7 @@ namespace Conflux.Signer
 
             byte[] rlpRaw = rlpEncode(raw);
             byte[] rlpRawHash = sha3Keccack.CalculateHash(rlpRaw);      //sha3
-            EthECKey ethECKey = new EthECKey(privateKey, true);
+            CfxECKey ethECKey = new CfxECKey(privateKey, true);
             EthECDSASignature signature = ethECKey.SignAndCalculateV(rlpRawHash);
             string dataWithSign = rlpEncode(rlpRaw, signature).ToHex(true);
             return dataWithSign;

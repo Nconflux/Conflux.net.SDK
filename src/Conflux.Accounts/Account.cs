@@ -32,7 +32,7 @@ namespace Conflux.Web3.Accounts
         public string PrivateKey { get; private set; }
 
  
-        public Account(EthECKey key, uint? chainId = null)
+        public Account(CfxECKey key, uint? chainId = null)
  
         {
             ChainId = chainId;
@@ -52,7 +52,7 @@ namespace Conflux.Web3.Accounts
         }
 
  
-        public Account(EthECKey key, Chain chain) : this(key, (uint)chain)
+        public Account(CfxECKey key, Chain chain) : this(key, (uint)chain)
         {
         }
 

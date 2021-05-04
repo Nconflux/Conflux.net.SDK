@@ -27,7 +27,6 @@
         cfx_sendTransaction,
         cfx_sendRawTransaction,
         cfx_call,
-        cfx_estimateGasAndCollateral,
         cfx_getBlockByHash,
         cfx_getBlockByNumber,
         cfx_getTransactionByHash,

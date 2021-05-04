@@ -104,7 +104,7 @@ namespace Conflux.Signer
             return new[] { nonce, gasPrice, gasLimit, receiveAddress, value, storage, epoch, chainId, data };
         }
 
-        public override void Sign(EthECKey key)
+        public override void Sign(CfxECKey key)
         {
             SimpleRlpSigner.Sign(key);
         }
