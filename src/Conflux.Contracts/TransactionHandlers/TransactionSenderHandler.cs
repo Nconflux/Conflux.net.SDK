@@ -1,13 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Conflux.Contracts.Extensions;
 using Conflux.Hex.HexTypes;
+using Conflux.RPC.Eth.DTOs;
 using Conflux.RPC.TransactionManagers;
 
 namespace Conflux.Contracts.TransactionHandlers
 {
 #if !DOTNET35
     public class TransactionSenderHandler<TFunctionMessage> :
-        TransactionHandlerBase<TFunctionMessage>, 
+        TransactionHandlerBase<TFunctionMessage>,
         ITransactionSenderHandler<TFunctionMessage> where TFunctionMessage : FunctionMessage, new()
     {
         private ITransactionEstimatorHandler<TFunctionMessage> _contractTransactionEstimatorHandler;
@@ -28,16 +29,16 @@ namespace Conflux.Contracts.TransactionHandlers
         {
             if (functionMessage == null) functionMessage = new TFunctionMessage();
             SetEncoderContractAddress(contractAddress);
-            functionMessage.Gas = await GetOrEstimateMaximumGasAsync(functionMessage, contractAddress).ConfigureAwait(false);
+            if (functionMessage.Storage == null || functionMessage.Gas == null)
+            {
+                EstimatedGasAndCollateral estimatedGasAndCollateral = await _contractTransactionEstimatorHandler.EstimateGasAndCollateralAsync(contractAddress, functionMessage).ConfigureAwait(false);
+                if (functionMessage.Gas == null)
+                    functionMessage.Gas = estimatedGasAndCollateral.GasUsed;
+                if (functionMessage.Storage == null)
+                    functionMessage.Storage = estimatedGasAndCollateral.StorageCollateralized;
+            }
             var transactionInput = FunctionMessageEncodingService.CreateTransactionInput(functionMessage);
             return await TransactionManager.SendTransactionAsync(transactionInput).ConfigureAwait(false);
-        }
-
-        protected virtual async Task<HexBigInteger> GetOrEstimateMaximumGasAsync(
-            TFunctionMessage functionMessage, string contractAddress)
-        {
-            return functionMessage.GetHexMaximumGas()
-                   ?? await _contractTransactionEstimatorHandler.EstimateGasAsync(contractAddress, functionMessage).ConfigureAwait(false);
         }
     }
 #endif

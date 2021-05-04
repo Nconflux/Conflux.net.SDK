@@ -1,6 +1,8 @@
 using Conflux.Hex.HexConvertors.Extensions;
 using Conflux.Hex.HexTypes;
+using Conflux.Util;
 using Newtonsoft.Json;
+using System;
 
 namespace Conflux.RPC.Eth.DTOs
 {
@@ -29,19 +31,30 @@ namespace Conflux.RPC.Eth.DTOs
             Value = value;
         }
 
-        public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger value, HexBigInteger epochNumber = null, HexBigInteger nonce = null)
+        public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger value)
             : this(data, addressTo, value)
         {
             From = addressFrom;
             Gas = gas;
-            EpochNumber = epochNumber;
-            Nonce = nonce;
         }
 
         public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value)
             : this(data, addressTo, addressFrom, gas, value)
         {
             GasPrice = gasPrice;
+        }
+
+        public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage, HexBigInteger value)
+         : this(data, addressTo, addressFrom, gas, gasPrice, value)
+        {
+            StorageLimit = storage;
+        }
+
+        public CallInput(string data, string addressTo, string addressFrom, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage, HexBigInteger value, HexBigInteger epochNumber, HexBigInteger nonce)
+         : this(data, addressTo, addressFrom, gas, gasPrice, storage, value)
+        {
+            EpochNumber = epochNumber;
+            Nonce = nonce;
         }
 
         public CallInput(string data, string addressFrom, HexBigInteger gas, HexBigInteger value)
@@ -64,8 +77,8 @@ namespace Conflux.RPC.Eth.DTOs
         [JsonProperty(PropertyName = "from")]
         public string From
         {
-            get { return _from.EnsureHexPrefix(); }
-            set { _from = value; }
+            get { return _from; }
+            set { _from = EnsureCIP37Address(value); }
         }
 
         /// <summary>
@@ -74,10 +87,17 @@ namespace Conflux.RPC.Eth.DTOs
         [JsonProperty(PropertyName = "to")]
         public string To
         {
-            get { return _to.EnsureHexPrefix(); }
-            set { _to = value; }
+            get { return _to; }
+            set { _to = EnsureCIP37Address(value); }
         }
-
+        /// <summary>
+        ///  storageLimit: QUANTITY - (optional, default: 0) Integer of the storage collateral
+        /// </summary>
+        [JsonProperty(PropertyName = "storageLimit")]
+        public HexBigInteger StorageLimit
+        {
+            get; set;
+        }
         /// <summary>
         ///     QUANTITY - (optional, default: 90000) Integer of the gas provided for the transaction execution.It will return
         ///     unused gas.
@@ -106,6 +126,7 @@ namespace Conflux.RPC.Eth.DTOs
             get { return _data.EnsureHexPrefix(); }
             set { _data = value; }
         }
+
         [JsonProperty(PropertyName = "epochNumber")]
         public HexBigInteger EpochNumber
         {
@@ -116,10 +137,16 @@ namespace Conflux.RPC.Eth.DTOs
         {
             get; set;
         }
-        [JsonProperty(PropertyName = "storageLimit")]
-        public HexBigInteger StorageLimit
+
+
+        private static string EnsureCIP37Address(string address)
         {
-            get; set;
+            if (!string.IsNullOrWhiteSpace(address))
+            {
+                if (CIP37.IsHex40Address(address))
+                    throw new Exception("Hex40 address is obslete, using CIP37 standard address.");
+            }
+            return address;
         }
     }
 }

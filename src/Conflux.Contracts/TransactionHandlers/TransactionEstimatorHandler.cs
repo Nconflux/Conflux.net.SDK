@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Conflux.ABI.FunctionEncoding;
 using Conflux.Hex.HexTypes;
+using Conflux.RPC.Eth.DTOs;
 using Conflux.RPC.Eth.Transactions;
 using Conflux.RPC.TransactionManagers;
 
@@ -18,14 +19,14 @@ namespace Conflux.Contracts.TransactionHandlers
 
         }
 
-        public async Task<HexBigInteger> EstimateGasAsync(string contractAddress, TFunctionMessage functionMessage = null)
+        public async Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync(string contractAddress, TFunctionMessage functionMessage = null)
         {
             if (functionMessage == null) functionMessage = new TFunctionMessage();
             SetEncoderContractAddress(contractAddress);
             var callInput = FunctionMessageEncodingService.CreateCallInput(functionMessage);
             try
             {
-                return await TransactionManager.EstimateGasAsync(callInput).ConfigureAwait(false);
+                return await TransactionManager.EstimatedGasAndCollateralAsync(callInput).ConfigureAwait(false);
             }
             catch(Exception)
             {

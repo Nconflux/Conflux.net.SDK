@@ -73,14 +73,14 @@ namespace Conflux.Contracts.ContractHandlers
             return command.SignTransactionAsync(ContractAddress, transactionMesssage);
         }
 
-        public Task<HexBigInteger> EstimateGasAsync<TEthereumContractFunctionMessage>(
+        public Task<EstimatedGasAndCollateral> EstimateGasAndCollateralAsync<TEthereumContractFunctionMessage>(
             TEthereumContractFunctionMessage transactionMesssage = null)
             where TEthereumContractFunctionMessage : FunctionMessage, new()
         {
             if (transactionMesssage == null) transactionMesssage = new TEthereumContractFunctionMessage();
             var command = EthApiContractService.GetContractTransactionHandler<TEthereumContractFunctionMessage>();
             SetAddressFrom(transactionMesssage);
-            return command.EstimateGasAsync(ContractAddress, transactionMesssage);
+            return command.EstimateGasAndCollateralAsync(ContractAddress, transactionMesssage);
         }
 
         public Task<TEthereumFunctionReturn> QueryDeserializingToObjectAsync<TEthereumContractFunctionMessage,

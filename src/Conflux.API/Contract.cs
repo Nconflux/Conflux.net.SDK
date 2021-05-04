@@ -13,8 +13,7 @@ namespace Conflux.API
 
         public static string BYTECODE = " ";
 
-        public Contract() : base(BYTECODE) { }
-
+        public Contract() : base(BYTECODE) { } 
       
     }
 

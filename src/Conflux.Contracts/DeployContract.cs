@@ -30,37 +30,37 @@ namespace Conflux.Contracts
         }
 
 #if !DOTNET35
-        public Task<HexBigInteger> EstimateGasAsync(string abi, string contractByteCode, string from,
+        public Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync(string abi, string contractByteCode, string from,
             params object[] values)
         {
             var callInput = _deployContractTransactionBuilder.BuildTransaction(abi, contractByteCode, from, values);
-            return TransactionManager.EstimateGasAsync(callInput);
+            return TransactionManager.EstimatedGasAndCollateralAsync(callInput);
         }
 
-        public Task<HexBigInteger> EstimateGasAsync<TConstructorParams>(string contractByteCode, string from,
+        public Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync<TConstructorParams>(string contractByteCode, string from,
             TConstructorParams inputParams)
         {
             var callInput = _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, inputParams);
-            return TransactionManager.EstimateGasAsync(callInput);
+            return TransactionManager.EstimatedGasAndCollateralAsync(callInput);
         }
 
-        public Task<HexBigInteger> EstimateGasAsync<TConstructorParams>(string contractByteCode, string from,
+        public Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync<TConstructorParams>(string contractByteCode, string from,
             HexBigInteger gas,
             TConstructorParams inputParams)
         {
             var callInput =
                 _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, gas, inputParams);
-            return TransactionManager.EstimateGasAsync(callInput);
+            return TransactionManager.EstimatedGasAndCollateralAsync(callInput);
         }
 
-        public Task<HexBigInteger> EstimateGasAsync<TConstructorParams>(string contractByteCode, string from,
+        public Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync<TConstructorParams>(string contractByteCode, string from,
             HexBigInteger gas, HexBigInteger value,
             TConstructorParams inputParams)
         {
             var callInput =
                 _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, gas, null, value,
                     inputParams);
-            return TransactionManager.EstimateGasAsync(callInput);
+            return TransactionManager.EstimatedGasAndCollateralAsync(callInput);
         }
 
         public Task<string> SendRequestAsync(string abi, string contractByteCode, string from, HexBigInteger gas,
@@ -119,7 +119,7 @@ namespace Conflux.Contracts
             HexBigInteger gasPrice, HexBigInteger value)
         {
             return TransactionManager.SendTransactionAsync(new TransactionInput(contractByteCode, null, from, gas,
-                gasPrice, value));
+                gasPrice, null, value, null, null));
         }
 
         public Task<string> SendRequestAsync(string contractByteCode, string from, HexBigInteger gas,
@@ -159,11 +159,11 @@ namespace Conflux.Contracts
         }
 
         public Task<string> SendRequestAsync<TConstructorParams>(string contractByteCode, string from,
-            HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, HexBigInteger nonce, TConstructorParams inputParams)
+            HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage, HexBigInteger value, HexBigInteger nonce, TConstructorParams inputParams)
         {
             var transaction =
-                _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, gas, gasPrice, value, nonce,
-                  null,  inputParams);
+                _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, gas, gasPrice, storage, value, nonce,
+                  null, inputParams);
             return TransactionManager.SendTransactionAsync(transaction);
         }
 
@@ -224,7 +224,7 @@ namespace Conflux.Contracts
         {
             _deployContractTransactionBuilder.EnsureByteCodeDoesNotContainPlaceholders(contractByteCode);
             return TransactionManager.TransactionReceiptService.DeployContractAndWaitForReceiptAsync(
-                new TransactionInput(contractByteCode, null, from, gas, gasPrice, value),
+                new TransactionInput(contractByteCode, null, from, gas, gasPrice, null, value),
                 receiptRequestCancellationToken);
         }
 
@@ -278,11 +278,11 @@ namespace Conflux.Contracts
 
         public Task<TransactionReceipt> SendRequestAndWaitForReceiptAsync<TConstructorParams>(string contractByteCode,
             string from,
-            HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger value, HexBigInteger nonce, TConstructorParams inputParams,
+            HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage, HexBigInteger value, HexBigInteger nonce, TConstructorParams inputParams,
             CancellationTokenSource receiptRequestCancellationToken = null)
         {
             var transaction =
-                _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, gas, gasPrice, value, nonce,
+                _deployContractTransactionBuilder.BuildTransaction(contractByteCode, from, gas, gasPrice, storage, value, nonce,
                    null, inputParams);
             return TransactionManager.TransactionReceiptService.DeployContractAndWaitForReceiptAsync(transaction,
                 receiptRequestCancellationToken);

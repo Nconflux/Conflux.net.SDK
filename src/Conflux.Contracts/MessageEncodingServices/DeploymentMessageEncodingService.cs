@@ -26,11 +26,12 @@ namespace Conflux.Contracts.MessageEncodingServices
             var transactionInput = DeployContractTransactionBuilder.BuildTransaction<TContractDeployment>(
                 contractMessage.ByteCode,
                 contractMessage.SetDefaultFromAddressIfNotSet(DefaultAddressFrom),
-                contractMessage.GetHexMaximumGas(),
-                contractMessage.GetHexGasPrice(),
-                contractMessage.GetHexValue(),
-                contractMessage.GetHexNonce(),
-               contractMessage.EpochNumber,
+                contractMessage.Gas.ToHexBigInteger(),
+                contractMessage.GasPrice.ToHexBigInteger(),
+                contractMessage.Storage.ToHexBigInteger(),
+                contractMessage.AmountToSend.ToHexBigInteger(),
+                contractMessage.Nonce.ToHexBigInteger(),
+                contractMessage.EpochNumber.ToHexBigInteger(),
                 contractMessage);
             return transactionInput;
         }
@@ -51,9 +52,9 @@ namespace Conflux.Contracts.MessageEncodingServices
             var transactionInput = DeployContractTransactionBuilder.BuildTransaction<TContractDeployment>(
                 contractMessage.ByteCode,
                 contractMessage.SetDefaultFromAddressIfNotSet(DefaultAddressFrom),
-                contractMessage.GetHexMaximumGas(),
-                contractMessage.GetHexGasPrice(),
-                contractMessage.GetHexValue(),
+                contractMessage.Gas.ToHexBigInteger(),
+                contractMessage.GasPrice.ToHexBigInteger(),
+                contractMessage.AmountToSend.ToHexBigInteger(),
                 contractMessage);
             return transactionInput;
         }
@@ -78,6 +79,7 @@ namespace Conflux.Contracts.MessageEncodingServices
             contractMessageOuput.GasPrice = transactionInput.GasPrice?.Value;
             contractMessageOuput.AmountToSend = transactionInput.Value == null ? 0 : transactionInput.Value.Value;
             contractMessageOuput.Gas = transactionInput.Gas?.Value;
+            //contractMessageOuput.Storage =transactionInput.
             contractMessageOuput.FromAddress = transactionInput.From;
             contractMessageOuput = DecodeInput(contractMessageOuput, transactionInput.Input);
             return contractMessageOuput;

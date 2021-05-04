@@ -9,7 +9,7 @@ namespace Conflux.RPC.Eth.Services
         public EthApiTransactionsService(IClient client) : base(client)
         {
             Call = new EthCall(client);
-            EstimateGas = new EthEstimateGas(client);
+            EstimateGasAndCollateral = new EthEstimatedGasAndCollateral(client);
             GetTransactionByBlockHashAndIndex = new EthGetTransactionByBlockHashAndIndex(client);
             GetTransactionByBlockNumberAndIndex = new EthGetTransactionByBlockNumberAndIndex(client);
             GetTransactionByHash = new EthGetTransactionByHash(client);
@@ -28,7 +28,7 @@ namespace Conflux.RPC.Eth.Services
         public IEthSendRawTransaction SendRawTransaction { get; }
         public IEthSendTransaction SendTransaction { get; }
         public IEthCall Call { get; }
-        public IEthEstimateGas EstimateGas { get; }
+        public IEthEstimatedGasAndCollateral EstimateGasAndCollateral { get; }
 
         public void SetDefaultBlock(BlockParameter blockParameter)
         {

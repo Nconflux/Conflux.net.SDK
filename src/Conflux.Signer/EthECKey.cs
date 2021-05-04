@@ -33,7 +33,7 @@ namespace Conflux.Signer
 
         public CfxECKey(byte[] vch, bool isPrivate, byte prefix)
         {
-            _ecKey = new ECKey(ByteUtil.Merge(new[] {prefix}, vch), isPrivate);
+            _ecKey = new ECKey(ByteUtil.Merge(new[] { prefix }, vch), isPrivate);
         }
 
         internal CfxECKey(ECKey ecKey)
@@ -53,26 +53,9 @@ namespace Conflux.Signer
 
         //Note: Y coordinates can only be forced, so it is assumed 0 and 1 will be the recId (even if implementation allows for 2 and 3)
         internal int CalculateRecId(ECDSASignature signature, byte[] hash)
-        {
-            //var recId = -1;
+        { 
             var thisKey = _ecKey.GetPubKey(false); // compressed
-            return CalculateRecId(signature, hash, thisKey);
-            //for (var i = 0; i < 4; i++)
-            //{
-            //    var rec = ECKey.RecoverFromSignature(i, signature, hash, false);
-            //    if (rec != null)
-            //    {
-            //        var k = rec.GetPubKey(false);
-            //        if (k != null && k.SequenceEqual(thisKey))
-            //        {
-            //            recId = i;
-            //            break;
-            //        }
-            //    }
-            //}
-            //if (recId == -1)
-            //    throw new Exception("Could not construct a recoverable key. This should never happen.");
-            //return recId;
+            return CalculateRecId(signature, hash, thisKey); 
         }
 
         internal static int CalculateRecId(ECDSASignature signature, byte[] hash, byte[] uncompressedPublicKey)
@@ -103,7 +86,7 @@ namespace Conflux.Signer
             var keyGenParam = new KeyGenerationParameters(SecureRandom, 256);
             gen.Init(keyGenParam);
             var keyPair = gen.GenerateKeyPair();
-            var privateBytes = ((ECPrivateKeyParameters) keyPair.Private).D.ToByteArray();
+            var privateBytes = ((ECPrivateKeyParameters)keyPair.Private).D.ToByteArray();
             if (privateBytes.Length != 32)
                 return GenerateKey();
             return new CfxECKey(privateBytes, true);
@@ -169,7 +152,7 @@ namespace Conflux.Signer
 
         public static int GetRecIdFromVChain(BigInteger vChain, BigInteger chainId)
         {
-            return (int) (vChain - chainId * 2 - 35);
+            return (int)(vChain - chainId * 2 - 35);
         }
 
         public static BigInteger GetChainFromVChain(BigInteger vChain)
@@ -219,8 +202,10 @@ namespace Conflux.Signer
         public EthECDSASignature SignAndCalculateV(byte[] hash)
         {
             var signature = _ecKey.Sign(hash);
-            var recId = CalculateRecId(signature, hash);
-            signature.V = new[] {(byte) (recId  )};
+ 
+            var recId = CalculateRecId(signature, hash); 
+            signature.V = new[] { (byte)(recId) };
+ 
             return new EthECDSASignature(signature);
         }
 

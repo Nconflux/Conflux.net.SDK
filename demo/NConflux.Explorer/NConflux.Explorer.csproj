@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DemoContract\Hina-solc-output.json" />
+    <None Remove="DemoContract\Hina.abi" />
+    <None Remove="DemoContract\Hina.bin" />
+    <None Remove="DemoContract\Hina.json" />
+    <None Remove="DemoContract\Hina.sol" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DemoContract\Hina\Compiled\Hina-solc-output.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DemoContract\Hina\Compiled\Hina.abi">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DemoContract\Hina\Compiled\Hina.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DemoContract\Hina\Compiled\Hina.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DemoContract\Hina\Hina.sol">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Conflux.API\Conflux.API.csproj" />
+  </ItemGroup>
+
+</Project>

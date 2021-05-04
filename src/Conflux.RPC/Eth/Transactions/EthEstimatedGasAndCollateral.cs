@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
- 
+
 using Conflux.Hex.HexTypes;
 using Conflux.JsonRpc.Client;
 using Conflux.RPC.Eth.DTOs;
@@ -8,9 +8,9 @@ using Conflux.RPC.Eth.DTOs;
 namespace Conflux.RPC.Eth.Transactions
 {
     /// <Summary>
-    ///     eth_estimateGas
-    ///     Makes a call or transaction, which won't be added to the blockchain and returns the used gas, which can be used for
-    ///     estimating the used gas.
+    ///     cfx_estimateGasAndCollateral
+    ///     Makes a call or transaction, which won't be added to the blockchain and returns the used gas and storage collateral, which can be used for
+    ///     estimating the used gas and collateral.
     ///     Parameters
     ///     See eth_call parameters, expect that all properties are optional.
     ///     Returns
@@ -25,13 +25,13 @@ namespace Conflux.RPC.Eth.Transactions
     ///     "result": "0x5208" // 21000
     ///     }
     /// </Summary>
-    public class EthEstimateGas : RpcRequestResponseHandler<HexBigInteger>, IEthEstimateGas
+    public class EthEstimatedGasAndCollateral : RpcRequestResponseHandler<EstimatedGasAndCollateral>, IEthEstimatedGasAndCollateral
     {
-        public EthEstimateGas(IClient client) : base(client, ApiMethods.cfx_estimateGas.ToString())
+        public EthEstimatedGasAndCollateral(IClient client) : base(client, ApiMethods.cfx_estimateGasAndCollateral.ToString())
         {
         }
 
-        public Task<HexBigInteger> SendRequestAsync(CallInput callInput, object id = null)
+        public Task<EstimatedGasAndCollateral> SendRequestAsync(CallInput callInput, object id = null)
         {
             if (callInput == null) throw new ArgumentNullException(nameof(callInput));
             return SendRequestAsync(id, callInput);
@@ -42,5 +42,6 @@ namespace Conflux.RPC.Eth.Transactions
             if (callInput == null) throw new ArgumentNullException(nameof(callInput));
             return base.BuildRequest(id, callInput);
         }
+
     }
 }

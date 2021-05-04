@@ -4,13 +4,15 @@ using Conflux.RPC.Accounts;
 using Conflux.RPC.NonceServices;
 using Conflux.RPC.TransactionManagers;
 using Conflux.Signer;
-using Conflux.Address;
+
+using Conflux.Util;
+ 
 
 namespace Conflux.Web3.Accounts
 {
     public class Account : IAccount
     {
-        public BigInteger? ChainId { get; }
+        public uint? ChainId { get; } 
 
 #if !PCL
         public static Account LoadFromKeyStoreFile(string filePath, string password)
@@ -20,7 +22,7 @@ namespace Conflux.Web3.Accounts
             return new Account(key);
         }
 #endif
-        public static Account LoadFromKeyStore(string json, string password, BigInteger? chainId = null)
+        public static Account LoadFromKeyStore(string json, string password, uint? chainId = null)
         {
             var keyStoreService = new KeyStoreService();
             var key = keyStoreService.DecryptKeyStoreFromJson(password, json);
@@ -29,49 +31,55 @@ namespace Conflux.Web3.Accounts
 
         public string PrivateKey { get; private set; }
 
-        public Account(CfxECKey key, BigInteger? chainId = null)
+ 
+        public Account(EthECKey key, uint? chainId = null)
+ 
         {
             ChainId = chainId;
             Initialise(key);
         }
 
-        public Account(string privateKey, BigInteger? chainId = null)
+        public Account(string privateKey, uint? chainId = null)
         {
             ChainId = chainId;
             Initialise(new CfxECKey(privateKey));
         }
 
-        public Account(byte[] privateKey, BigInteger? chainId = null)
+        public Account(byte[] privateKey, uint? chainId = null)
         {
             ChainId = chainId;
             Initialise(new CfxECKey(privateKey, true));
         }
 
-        public Account(CfxECKey key, Chain chain) : this(key, (int)chain)
+ 
+        public Account(EthECKey key, Chain chain) : this(key, (uint)chain)
         {
         }
 
-        public Account(string privateKey, Chain chain) : this(privateKey, (int)chain)
+        public Account(string privateKey, Chain chain) : this(privateKey, (uint)chain)
         {
         }
 
-        public Account(byte[] privateKey, Chain chain) : this(privateKey, (int)chain)
+        public Account(byte[] privateKey, Chain chain) : this(privateKey, (uint)chain)
+ 
         {
         }
 
         private void Initialise(CfxECKey key)
         {
-            PrivateKey = key.GetPrivateKey();
-            Address = key.GetPublicAddress();
-            Address = Base32.Encode(Address, NetworkType.cfxtest);
+ 
+            this.PrivateKey = key.GetPrivateKey();
+            this.Hex40Address = key.GetPublicAddress();
+            this.Address = CIP37.Hex40ToCIP37(this.Hex40Address, ChainId); 
+  
             InitialiseDefaultTransactionManager();
         }
 
         protected virtual void InitialiseDefaultTransactionManager()
         {
             TransactionManager = new AccountSignerTransactionManager(null, this, ChainId);
-        }
-
+        } 
+        public string Hex40Address { get; protected set; }
         public string Address { get; protected set; }
         public ITransactionManager TransactionManager { get; protected set; }
         public INonceService NonceService { get; set; }

@@ -48,35 +48,32 @@ namespace Conflux.RPC.TransactionManagers
         {
             return TransactionReceiptService.SendRequestAndWaitForReceiptAsync(transactionInput, tokenSource);
         }
-
-        public virtual Task<HexBigInteger> EstimateGasAsync(CallInput callInput)
+ 
+        public virtual Task<EstimatedGasAndCollateral> EstimatedGasAndCollateralAsync(CallInput callInput)
         {
             if (Client == null) throw new NullReferenceException("Client not configured");
             if (callInput == null) throw new ArgumentNullException(nameof(callInput));
-            var ethEstimateGas = new EthEstimateGasAndCollateral(Client);
-            return ethEstimateGas.SendRequestAsync(new object[]{
-                new{            from=callInput.From ,       to=callInput.From
-                , data=callInput.Data,  gasPrice=callInput.GasPrice,   nonce="0x1000"
-                }
-                          });
-            //var ethEstimateGas = new EthEstimateGas(Client);
-            //return ethEstimateGas.SendRequestAsync(callInput);
+            var ethEstimateGas = new EthEstimatedGasAndCollateral(Client);
+            return ethEstimateGas.SendRequestAsync(callInput);
         }
 
         public abstract Task<string> SendTransactionAsync(TransactionInput transactionInput);
+ 
 
         public virtual Task<string> SendTransactionAsync(string from, string to, HexBigInteger amount)
         {
+ 
             return SendTransactionAsync(new TransactionInput() { From = from, To = to, Value = amount });
+ 
         }
 
-        public async Task<HexBigInteger> GetGasPriceAsync(TransactionInput transactionInput)
-        {
-            //if (transactionInput.GasPrice != null) return transactionInput.GasPrice;
-            //if (DefaultGasPrice >= 0) return new HexBigInteger(DefaultGasPrice);
-            var ethGetGasPrice = new EthGasPrice(Client);
-            return await ethGetGasPrice.SendRequestAsync().ConfigureAwait(false);
-        }
+        //public async Task<HexBigInteger> GetGasPriceAsync(TransactionInput transactionInput)
+        //{
+        //    if (transactionInput.GasPrice != null) return transactionInput.GasPrice;
+        //    if (DefaultGasPrice >= 0) return new HexBigInteger(DefaultGasPrice);
+        //    var ethGetGasPrice = new EthGasPrice(Client);
+        //    return await ethGetGasPrice.SendRequestAsync().ConfigureAwait(false);
+        //}
 
         protected void SetDefaultGasPriceAndCostIfNotSet(TransactionInput transactionInput)
         {

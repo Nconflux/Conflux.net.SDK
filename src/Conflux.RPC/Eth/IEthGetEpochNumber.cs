@@ -10,7 +10,7 @@ namespace Conflux.RPC.Eth
         BlockParameter DefaultBlock { get; set; }
 
         RpcRequest BuildRequest(string address, BlockParameter block, object id = null);
-        Task<HexBigInteger> SendRequestAsync(  object id = null);
+        Task<HexBigInteger> SendRequestAsync(object id = null);
         Task<HexBigInteger> SendRequestAsync(string address, BlockParameter block, object id = null);
     }
 }

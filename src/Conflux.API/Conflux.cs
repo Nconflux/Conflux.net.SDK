@@ -3,6 +3,9 @@ using Conflux.RPC.Eth.DTOs;
 using ConfluxWeb3 = Conflux.Web3;
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Conflux.ABI.FunctionEncoding;
+using System.Linq;
 
 namespace Conflux.API
 {
@@ -24,7 +27,7 @@ namespace Conflux.API
         {
             if (privateKey != null)
             {
-                var chainId = url.Contains("main") ? 1029 : 1;
+                uint chainId = url.Contains("main") ? (uint)1029 : 1;
                 var account = new ConfluxWeb3.Accounts.Account(privateKey, chainId);
                 address = account.Address;
                 web3 = new ConfluxWeb3.Web3(account, url);
@@ -34,6 +37,7 @@ namespace Conflux.API
                 web3 = new ConfluxWeb3.Web3(url);
             }
         }
+
         //001
         /// <summary>
         /// 
@@ -104,27 +108,16 @@ namespace Conflux.API
             var deploymentMessage = new Contract
             {
                 Nonce = await web3.Cfx.GetNextNonce.SendRequestAsync(address, null),
-                EpochNumber = await web3.Cfx.GetEpochNumber.SendRequestAsync(),
-                StorageLimit = 2605,
+                EpochNumber = await web3.Cfx.GetEpochNumber.SendRequestAsync()
             };
 
             var deploymentHandler = web3.Cfx.GetContractDeploymentHandler<Contract>();
             return await deploymentHandler.SendRequestAndWaitForReceiptAsync(deploymentMessage);
         }
 
-        public async Task<string> DeployContract(string abi, string byteCode)
-        {
-            //Contract.BYTECODE = byteCode;
-            //var deploymentMessage = new Contract
-            //{
-            //    Nonce = await web3.Cfx.GetNextNonce.SendRequestAsync(address, null),
-            //    EpochNumber = await web3.Cfx.GetEpochNumber.SendRequestAsync(),
-            //    StorageLimit = 2605,
-            //};
-
-            //var deploymentHandler = web3.Cfx.GetContractDeploymentHandler<Contract>();
-            return await web3.Cfx.DeployContract.SendRequestAsync(abi: abi, contractByteCode: byteCode, from: address, values: null);
-        }
+ 
+        [Obsolete("Using other async function instead")]
+  
         /// <summary>
         /// Call Contract
         /// </summary>
@@ -158,6 +151,69 @@ namespace Conflux.API
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// Call function in a contract and return as an object array
+        /// </summary>
+        /// <param name="abi">Abi of contract</param>
+        /// <param name="contract">Address of contract</param>
+        /// <param name="funcName">Function entrypoint</param>
+        /// <param name="parameters">Parameters</param>
+        /// <returns>An object array of function returns</returns>
+        public async Task<object[]> CallContractAsync(string abi, string contract, string funcName, params object[] parameters)
+        {
+            var myContract = web3.Cfx.GetContract(abi, contract);
+            var function = myContract.GetFunction(funcName);
+            return (await function.CallDecodingToDefaultAsync(parameters)).OrderBy(p => p.Parameter.Order).Select(p => p.Result).ToArray();
+        }
+
+        /// <summary>
+        /// Call function in a contract and return as an object 
+        /// </summary>
+        /// <typeparam name="TReturn">Return object type</typeparam>
+        /// <param name="abi">Abi of contract</param>
+        /// <param name="contract">Address of contract</param>
+        /// <param name="funcName">Function entrypoint</param>
+        /// <param name="parameters">Parameters</param>
+        /// <returns></returns>
+        public async Task<TReturn> CallContractAsync<TReturn>(string abi, string contract, string funcName, params object[] parameters) where TReturn : new()
+        {
+            var myContract = web3.Cfx.GetContract(abi, contract);
+            var function = myContract.GetFunction(funcName);
+            return await function.CallDeserializingToObjectAsync<TReturn>(parameters);
+        }
+
+        /// <summary>
+        /// Call function in a contract and return the first object
+        /// </summary>
+        /// <typeparam name="TReturn">Return object type</typeparam>
+        /// <param name="abi">Abi of contract</param>
+        /// <param name="contract">Address of contract</param>
+        /// <param name="funcName">Function entrypoint</param>
+        /// <param name="parameters">Parameters</param>
+        /// <returns></returns>
+        public async Task<TReturn> CallContractSimpleAsync<TReturn> (string abi, string contract, string funcName, params object[] parameters)  
+        {
+            var myContract = web3.Cfx.GetContract(abi, contract);
+            var function = myContract.GetFunction(funcName);
+            return await function.CallAsync<TReturn>(parameters);
+        }
+
+        /// <summary>
+        /// Call function in a contract and return the first object as a dynamique object
+        /// </summary>
+        /// <typeparam name="TReturn">Return object type</typeparam>
+        /// <param name="abi">Abi of contract</param>
+        /// <param name="contract">Address of contract</param>
+        /// <param name="funcName">Function entrypoint</param>
+        /// <param name="parameters">Parameters</param>
+        /// <returns></returns>
+        public async Task<dynamic> CallContractSimpleAsync(string abi, string contract, string funcName, params object[] parameters)
+        {
+            var myContract = web3.Cfx.GetContract(abi, contract);
+            var function = myContract.GetFunction(funcName);
+            return await function.CallAsync<dynamic>(parameters);
         }
 
         public static string GeneratePrivateKey()

@@ -122,7 +122,7 @@ namespace Conflux.Signer
         public string ToJsonHex()
         {
             var data =
-                $"['{Nonce.ToHex()}','{GasPrice.ToHex()}','{Gas.ToHex()}','{to.ToHex()}','{Value.ToHex()}','{ToHex(Data)}','{ChainId.ToHex()}','{RHash.ToHex()}','{SHash.ToHex()}'";
+                $"['{Nonce.ToHex()}','{GasPrice.ToHex()}','{Gas.ToHex()}','{To.ToHex()}','{Value.ToHex()}','{ToHex(Data)}','{ChainId.ToHex()}','{RHash.ToHex()}','{SHash.ToHex()}'";
 
             if (Signature != null)
                 data = data + $", '{Signature.V.ToHex()}', '{Signature.R.ToHex()}', '{Signature.S.ToHex()}'";

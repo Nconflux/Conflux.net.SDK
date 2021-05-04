@@ -5,9 +5,9 @@ using Conflux.RPC.Eth.DTOs;
 
 namespace Conflux.RPC.Eth.Transactions
 {
-    public interface IEthEstimateGas
+    public interface IEthEstimatedGasAndCollateral
     {
         RpcRequest BuildRequest(CallInput callInput, object id = null);
-        Task<HexBigInteger> SendRequestAsync(CallInput callInput, object id = null);
+        Task<EstimatedGasAndCollateral> SendRequestAsync(CallInput callInput, object id = null);
     }
 }
