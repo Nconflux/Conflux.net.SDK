@@ -27,3 +27,5 @@ The documentation and guides can be found at [NConflux Documentation](https://ww
 * Transaction, RLP and message signing, verification and recovery of accounts.
 * Code generation of smart contracts services.
  
+## Demostration
+The new demostration project can be found in folder 'demo/NConflux.Explorer'.

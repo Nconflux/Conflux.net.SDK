@@ -41,6 +41,8 @@ namespace Conflux.Util
 
         public static byte[] CIP37ToRawBytes(string cip37Addr)
         {
+            if (cip37Addr.IsAnEmptyAddress())
+                return Array.Empty<byte>();
             string[] parts = cip37Addr.ToLower().Split(":");
             if (parts.Length < 2)
                 throw new FormatException("Input format not correct");
@@ -66,11 +68,11 @@ namespace Conflux.Util
             byte[] addressByte = new byte[32];
             Buffer.BlockCopy(address, 0, addressByte, 12, 20);
             return addressByte;
-        } 
+        }
 
         public static string CIP37ToHex40(string cip37Addr)
         {
-            byte[] hex40 = CIP37ToRawBytes(cip37Addr); 
+            byte[] hex40 = CIP37ToRawBytes(cip37Addr);
             return $"0x{BytesToString(hex40)}";
         }
 

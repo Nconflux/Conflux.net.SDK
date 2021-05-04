@@ -1,16 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Numerics;
-using Conflux.Hex.HexTypes;
-using Conflux.ABI.FunctionEncoding.Attributes;
-using Conflux.Web3;
+﻿using Conflux.Contracts.ContractHandlers;
 using Conflux.RPC.Eth.DTOs;
-using Conflux.Contracts.CQS;
-using Conflux.Contracts.ContractHandlers;
-using Conflux.Contracts;
-using System.Threading;
+using Conflux.Web3;
 using NConflux.Explorer.DemoContract.Hina.ContractDefinition;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NConflux.Explorer.DemoContract.Hina
 {

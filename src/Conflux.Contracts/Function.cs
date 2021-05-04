@@ -42,6 +42,12 @@ namespace Conflux.Contracts
             return FunctionBuilder.CreateTransactionInput(from, gas, gasPrice, storage, value, functionInput);
         }
 
+        public TransactionInput CreateTransactionInput(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
+          HexBigInteger value, HexBigInteger epochNumber, HexBigInteger nonce, params object[] functionInput)
+        {
+            return FunctionBuilder.CreateTransactionInput(from, gas, gasPrice, storage, value, epochNumber, nonce, functionInput);
+        }
+
         public TransactionInput CreateTransactionInput(TransactionInput input, params object[] functionInput)
         {
             return FunctionBuilder.CreateTransactionInput(input, functionInput);
@@ -143,12 +149,17 @@ namespace Conflux.Contracts
             return base.SendTransactionAsync(CreateTransactionInput(from, epochNumber, nonce, functionInput));
         }
 
-         
+
 
         public Task<string> SendTransactionAsync(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
             HexBigInteger value, params object[] functionInput)
         {
             return base.SendTransactionAsync(CreateTransactionInput(from, gas, gasPrice, storage, value, functionInput));
+        }
+        public Task<string> SendTransactionAsync(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
+              HexBigInteger value, HexBigInteger epochNumber, HexBigInteger nonce, params object[] functionInput)
+        {
+            return base.SendTransactionAsync(CreateTransactionInput(from, gas, gasPrice, storage, value, epochNumber, nonce, functionInput));
         }
 
         public Task<string> SendTransactionAsync(TransactionInput input, params object[] functionInput)
@@ -173,6 +184,12 @@ namespace Conflux.Contracts
         {
             return base.SendTransactionAndWaitForReceiptAsync(
                 CreateTransactionInput(from, gas, gasPrice, value, functionInput), receiptRequestCancellationToken);
+        }
+
+        public Task<TransactionReceipt> SendTransactionAndWaitForReceiptAsync(string from, HexBigInteger gas, HexBigInteger gasPrice, HexBigInteger storage,
+                HexBigInteger value, HexBigInteger epochNumber, HexBigInteger nonce, CancellationTokenSource receiptRequestCancellationToken = null, params object[] functionInput)
+        {
+            return base.SendTransactionAndWaitForReceiptAsync(CreateTransactionInput(from, gas, gasPrice, storage, value, epochNumber, nonce, functionInput), receiptRequestCancellationToken);
         }
 
         public Task<TransactionReceipt> SendTransactionAndWaitForReceiptAsync(TransactionInput input,
